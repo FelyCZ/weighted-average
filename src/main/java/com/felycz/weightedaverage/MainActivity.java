@@ -1,11 +1,10 @@
-package cz.fely.weightedaverage;
+package com.felycz.weightedaverage;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -20,11 +19,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.felycz.weightedaverage.db.DatabaseAdapter;
+import com.felycz.weightedaverage.utils.ThemeUtil;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-
-import cz.fely.weightedaverage.db.DatabaseAdapter;
-import cz.fely.weightedaverage.utils.ThemeUtil;
 
 public class MainActivity extends AppCompatActivity{
     final String welcomeScreenShownPref = "welcomeScreenShown";
@@ -254,22 +253,18 @@ public class MainActivity extends AppCompatActivity{
     }
 
     @Override
-    public void onBackPressed () {
+    public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
+
+            System.exit(0);
+
             return;
         }
-
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, R.string.backToExit, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Please click BACK again to exit",
+                Toast.LENGTH_SHORT).show();
 
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, 2000);
     }
 
     @Override

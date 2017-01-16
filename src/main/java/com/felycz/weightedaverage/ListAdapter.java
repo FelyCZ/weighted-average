@@ -1,4 +1,4 @@
-package cz.fely.weightedaverage;
+package com.felycz.weightedaverage;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import cz.fely.weightedaverage.db.DatabaseAdapter;
+import com.felycz.weightedaverage.db.DatabaseAdapter;
 
 public class ListAdapter extends CursorAdapter {
     private LayoutInflater mLayoutInflater;

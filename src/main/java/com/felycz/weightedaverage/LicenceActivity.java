@@ -1,4 +1,4 @@
-package cz.fely.weightedaverage;
+package com.felycz.weightedaverage;
 
 import android.app.Activity;
 import android.app.FragmentManager;

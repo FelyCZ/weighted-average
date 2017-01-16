@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<RelativeLayout tools:context="cz.fely.weightedaverage.MainActivity"
+<RelativeLayout tools:context="com.felycz.weightedaverage.MainActivity"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:id="@+id/activity_main"

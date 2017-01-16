@@ -1,11 +1,11 @@
-package cz.fely.weightedaverage.utils;
+package com.felycz.weightedaverage.utils;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 
-import cz.fely.weightedaverage.R;
+import com.felycz.weightedaverage.R;
 
 public final class ThemeUtil extends AppCompatActivity{
     public static void setAppTheme(Activity a) {

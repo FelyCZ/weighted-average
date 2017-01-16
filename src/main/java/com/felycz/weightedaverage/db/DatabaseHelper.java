@@ -1,4 +1,4 @@
-package cz.fely.weightedaverage.db;
+package com.felycz.weightedaverage.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

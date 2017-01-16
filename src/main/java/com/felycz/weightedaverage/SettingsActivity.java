@@ -1,4 +1,4 @@
-package cz.fely.weightedaverage;
+package com.felycz.weightedaverage;
 
 
 import android.content.Intent;
@@ -11,17 +11,13 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+
+import com.felycz.weightedaverage.utils.ThemeUtil;
 
 import java.util.List;
-
-import cz.fely.weightedaverage.utils.ThemeUtil;
 
 public class SettingsActivity extends MainActivity {
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {

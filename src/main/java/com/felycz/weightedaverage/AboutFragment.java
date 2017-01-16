@@ -1,12 +1,10 @@
-package cz.fely.weightedaverage;
+package com.felycz.weightedaverage;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 
 public class AboutFragment extends AppCompatPreferenceActivity {
