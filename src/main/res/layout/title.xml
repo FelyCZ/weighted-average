@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:textSize="20sp"
+        android:text="@string/name"
+        android:gravity="center_vertical"
+        android:layout_height="35dp"
+        android:textStyle="normal|bold"
+        android:focusableInTouchMode="true" />
+
+
+    <TextView
+        android:id="@+id/mark"
+        android:text="@string/mark"
+        android:layout_width="wrap_content"
+        android:layout_weight="0.24"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:gravity="center_vertical"
+        android:layout_height="35dp"
+        android:textStyle="normal|bold" />
+
+    <TextView
+        android:id="@+id/weight"
+        android:text="@string/weight"
+        android:layout_weight="0.25"
+        android:layout_width="wrap_content"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:gravity="center_vertical"
+        android:layout_height="35dp"
+        android:textStyle="normal|bold" />
+
+</LinearLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="105"
+        android:title="@string/action_settings" />
+
+    <item android:title="@string/changelog"
+        android:id="@+id/action_changelog"
+        android:checkable="false"
+        android:orderInCategory="106" />
+
+    <item
+        android:id="@+id/action_feedback"
+        android:orderInCategory="107"
+        android:title="@string/feedback"/>
+
+    <item
+        android:title="@string/aboutAppMenuItem"
+        android:id="@+id/action_about"
+        android:orderInCategory="108" />
+    <item
+        android:id="@+id/action_deletemarks"
+        android:orderInCategory="103"
+        android:title="@string/vymazatZnamky"
+        android:numericShortcut="@string/vymazatZnamky"
+        android:icon="@drawable/remove"
+        tools:ignore="AppCompatResource"
+        android:titleCondensed="@string/vymazatZnamky"
+        app:showAsAction="ifRoom" />
+
+</menu>

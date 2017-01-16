@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ff5722</color>
+    <color name="colorPrimaryDark">#E64A19</color>
+    <color name="colorAccent">#00bfff</color>
+    <color name="textPrimary">#ffffff</color>
+    <!-- AB colors -->
+    <color name="colorPrimaryAB">#00aaff</color>
+    <color name="colorPrimaryDarkAB">#0011ff</color>
+    <color name="colorAccentAB">#ffcc00</color>
+
+    <!-- Other Colors -->
+    <color name="white">#ffffff</color>
+    <color name="black">#000</color>
+    <color name="darkGrey">#787777</color>
+
+    <!-- BA colors -->
+    <color name="colorPrimaryBA">#ffd500</color>
+    <color name="colorPrimaryDarkBA">#ffaa00</color>
+    <color name="colorAccentBA">#2bff00</color>
+</resources>

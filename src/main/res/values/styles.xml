@@ -1,0 +1,32 @@
+<resources>
+    <style name="Default" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="android:colorPrimaryDark">@color/colorPrimaryDarkBA</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:colorPrimary">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:colorBackground">@color/white</item>
+    </style>
+
+    <style name="Dark" parent="Theme.AppCompat">
+        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:colorPrimary">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:colorBackground">@color/darkGrey</item>
+    </style>
+
+    <style name="Light" parent="Theme.AppCompat.Light">
+        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:colorPrimary">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
+
+    <style name="ListStyle" parent="Widget.AppCompat.ListView">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="ToolbarStyle" parent="Theme.AppCompat.Light.NoActionBar">
+
+    </style>
+</resources>
