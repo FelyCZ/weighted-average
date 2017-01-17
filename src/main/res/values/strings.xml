@@ -88,7 +88,7 @@
     <string-array name="themes">
         <item>Původní</item>
         <item>Tmavé</item>
-        <item>Světlé</item>
+        <item>Černé (výhodné pro Amoled)</item>
     </string-array>
     <string-array name="themesValues">
         <item>0</item>
@@ -101,4 +101,8 @@
     <string name="pref_theme_summary">Vybrat styl aplikace</string>
     <string name="pref_theme_title">Styl</string>
     <string name="pref_theme_dialog_title">Vyber styl</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

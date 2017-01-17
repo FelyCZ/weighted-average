@@ -1,8 +1,10 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/generalHeader">
 
     <SwitchPreference
         android:defaultValue="true"
-        android:key="weight"
+        android:key="pref_key_general_weight"
         android:title="@string/weightedEnabled"
         android:summaryOff="@string/weightedEnableSummary"
         android:summaryOn="@string/weightedDisableSummary"/>
@@ -11,8 +13,10 @@
         android:defaultValue="0"
         android:entries="@array/themes"
         android:entryValues="@array/themesValues"
-        android:key="theme"
+        android:key="pref_key_general_theme"
         android:title="@string/pref_theme_title"
         android:summary="@string/needRestart"
         android:dialogTitle="@string/pref_theme_dialog_title"/>
+
+    </PreferenceCategory>
 </PreferenceScreen>

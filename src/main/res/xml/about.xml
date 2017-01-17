@@ -8,8 +8,8 @@
     <header
         android:title="@string/licence"
         android:summary="@string/licenceSummary"/>
-        <intent android:targetPackage="com.felycz.weightedaverage"
-            android:targetClass="com.felycz.weightedaverage.LicenceActivity"
+        <intent android:targetPackage="com.fely.weightedaverage"
+            android:targetClass="cz.fely.weightedaverage.LicenceActivity"
         />
 
 </preference-headers>
