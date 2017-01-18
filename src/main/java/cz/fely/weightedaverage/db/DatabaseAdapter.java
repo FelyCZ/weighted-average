@@ -15,54 +15,27 @@ public class DatabaseAdapter implements BaseColumns{
     private DatabaseHelper mDbHelper;
 
     public DatabaseAdapter(Context context) {
-        this.mDbHelper = new DatabaseHelper(context);
-        this.mDb = this.mDbHelper.getWritableDatabase();
+        mDbHelper = new DatabaseHelper(context);
+        mDb = mDbHelper.getWritableDatabase();
     }
 
-    public Cursor getAllEntries1() {
-        return this.mDb.query(TABLE_NAME,
+    public Cursor getAllEntries() {
+        return mDb.query(TABLE_NAME,
                 new String[]{"_id", COLUMN_NAME, COLUMN_MARK, COLUMN_WEIGHT}, null, null, null, null, null);
     }
 
-   /* public Cursor getAllEntries2() {
-        return this.mDb.query(TABLE_NAME,
-                new String[]{"_id", COLUMN_NAME, COLUMN_MARK, COLUMN_WEIGHT}, null, null, null, null, null);
-    }
-
-    public Cursor getAllEntries3() {
-        return this.mDb.query(TABLE_NAME,
-                new String[]{"_id", COLUMN_NAME, COLUMN_MARK, COLUMN_WEIGHT}, null, null, null, null, null);
-    }
-*/
-    public void addMark1(String name, double mark, double weight) {
+    public void addMark(String name, double mark, double weight) {
         ContentValues values = new ContentValues(3);
         values.put(COLUMN_NAME, name);
         values.put(COLUMN_MARK, Double.valueOf(mark));
         values.put(COLUMN_WEIGHT, Double.valueOf(weight));
-        this.mDb.insert(TABLE_NAME, null, values);
+        mDb.insert(TABLE_NAME, null, values);
     }
-/*
-    public void addMark2(String name, double mark, double weight) {
-        ContentValues values = new ContentValues(3);
-        values.put(COLUMN_NAME, name);
-        values.put(COLUMN_MARK, Double.valueOf(mark));
-        values.put(COLUMN_WEIGHT, Double.valueOf(weight));
-        this.mDb.insert(TABLE_NAME, null, values);
-    }
-
-  /*  public void addMark3(String name, double mark, double weight) {
-        ContentValues values = new ContentValues(3);
-        values.put(COLUMN_NAME, name);
-        values.put(COLUMN_MARK, Double.valueOf(mark));
-        values.put(COLUMN_WEIGHT, Double.valueOf(weight));
-        this.mDb.insert(TABLE_NAME, null, values);
-    }
-*/
     public void deleteMark(long id) {
-        this.mDb.delete(TABLE_NAME, "_id=" + id, null);
+        mDb.delete(TABLE_NAME, "_id=" + id, null);
     }
 
     public void deleteAll() {
-        this.mDb.delete(TABLE_NAME, null, null);
+        mDb.delete(TABLE_NAME, null, null);
     }
 }

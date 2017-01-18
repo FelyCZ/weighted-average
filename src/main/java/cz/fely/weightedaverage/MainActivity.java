@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,10 +20,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.FeedbackManager;
+import net.hockeyapp.android.UpdateManager;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import cz.fely.weightedaverage.db.DatabaseAdapter;
+import cz.fely.weightedaverage.db.DatabaseHelper;
 import cz.fely.weightedaverage.utils.ThemeUtil;
 
 public class MainActivity extends AppCompatActivity{
@@ -34,11 +40,12 @@ public class MainActivity extends AppCompatActivity{
     private Toolbar toolbar;
     private TextView tvAverage;
     private DatabaseAdapter mDbAdapter;
+    private DatabaseHelper mDbHelper;
     private ListView lv;
     double weightsAmount, weightedMarks;
     Cursor cursor;
-    boolean doubleBackToExitPressedOnce = false;
-    public int mTheme = 0;
+    private long lastPressedTime;
+    private static final int PERIOD = 2000;
 
     private void getFields()
     {
@@ -52,20 +59,17 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void updateView(){
-        cursor = this.mDbAdapter.getAllEntries1();
+        cursor = mDbAdapter.getAllEntries();
         startManagingCursor(cursor);
         this.lv.setAdapter(new ListAdapter(this, cursor, 0));
-        cursor.moveToFirst();
         average();
     }
 
     void average() {
-
         weightsAmount = 0.0;
         weightedMarks = 0.0;
         if (cursor.moveToFirst()) {
             do {
-
                 double weight = cursor.getDouble(cursor.getColumnIndex("weight"));
                 double mark = cursor.getDouble(cursor.getColumnIndex("mark"));
                 weightsAmount += weight;
@@ -74,7 +78,8 @@ public class MainActivity extends AppCompatActivity{
                 DecimalFormat formater = new DecimalFormat("#.##");
                 String total = String.valueOf(formater.format(sum));
                 tvAverage.setText(getResources().getString(R.string.prumer)+" "+total);
-            } while (cursor.moveToNext());
+            }
+            while (cursor.moveToNext());
         }
         if ((weightsAmount == 0.0 || weightedMarks == 0.0)) {
             tvAverage.setText(getResources().getString(R.string.prumer)+" "+"0.00");
@@ -103,7 +108,7 @@ public class MainActivity extends AppCompatActivity{
             }
             double mark = Double.parseDouble(m);
             if (id.length == 0) {
-                this.mDbAdapter.addMark1(name, mark, weight);
+                this.mDbAdapter.addMark(name, mark, weight);
                 etName.requestFocus();
             }
             updateView();
@@ -118,19 +123,19 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeUtil.setTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getFields();
-        this.lv.setAdapter(new ListAdapter(this, cursor, 0));
+        ThemeUtil.setTheme(this);
         updateView();
         //Toolbar
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         //Welcome Message
         showWelcomeMessage();
-        listItems = new ArrayList<Columns>();
         checkSettings();
-        ThemeUtil.setAppTheme(this);
+        checkForUpdates();
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -166,20 +171,14 @@ public class MainActivity extends AppCompatActivity{
         // as you specify header parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent settings = new Intent(this, SettingsActivity.class);
             startActivity(settings);
             return true;
         }
         if (id == R.id.action_feedback) {
-            Intent Email = new Intent(Intent.ACTION_SEND);
-            Email.setType("text/email");
-            Email.putExtra(Intent.EXTRA_EMAIL, new String[] { "kubfe@seznam.cz" });
-            Email.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.SubjectFeedback));
-            Email.putExtra(Intent.EXTRA_TEXT, "");
-            startActivity(Intent.createChooser(Email, getResources().getString(R.string.ChooserTitle)));
-            return true;
+            FeedbackManager.register(this);
+            FeedbackManager.showFeedbackActivity(MainActivity.this);
         }
         if (id == R.id.action_deletemarks) {
             AlertDialog.Builder adb;
@@ -251,25 +250,27 @@ public class MainActivity extends AppCompatActivity{
     }
 
     @Override
-    public void onBackPressed() {
-        if (!doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-
-            System.exit(0);
-
-            return;
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            switch (event.getAction()) {
+                case KeyEvent.ACTION_DOWN:
+                    if (event.getDownTime() - lastPressedTime < PERIOD) {
+                        finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(), R.string.backToExit,
+                                Toast.LENGTH_SHORT).show();
+                        lastPressedTime = event.getEventTime();
+                    }
+                    return true;
+            }
         }
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit",
-                Toast.LENGTH_SHORT).show();
-
+        return false;
     }
 
     @Override
     protected void onResume() {
         checkSettings();
-        ThemeUtil.setAppTheme(this);
-        this.recreate();
+        ThemeUtil.reloadTheme(this);
         super.onResume();
     }
 
@@ -285,5 +286,29 @@ public class MainActivity extends AppCompatActivity{
             etWeight.setEnabled(false);
             etWeight.setVisibility(View.INVISIBLE);
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        unregisterManagers();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterManagers();
+    }
+
+    private void checkForCrashes() {
+        CrashManager.register(this);
+    }
+
+    private void checkForUpdates() {
+        UpdateManager.register(this);
+    }
+
+    private void unregisterManagers() {
+        UpdateManager.unregister();
     }
 }

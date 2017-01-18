@@ -27,31 +27,39 @@
     <string name="close">Zavřít</string>
     <string name="illegalArgument">Název nebo známka je prázdná</string>
      <string name="welcome_text">
+         <b>Verze 1.8.S.2.4</b>\n
+         Zavedeno nové číslování verzí\n
+         Opravena databáze známek\n
+         Zaveden výběr designu aplikace\n\n
+
+         <b>Verze E.1.7</b>\n
+         Opraveno \"Nastavení\"\n\n
+
          <b>Verze B.1.6</b>\n
          Opraveny chyby \n
          Přidáno nastvení \n
          Přidána licence \n\n
 
          <b>Verze S.1.5</b> \n
-         Známky se nyní ukládají do databáze \n
-         Byly opraveny bugy a zvýšena kompabilita \n\n
+         Známky se nyní ukládají do databáze\n
+         Byly opraveny bugy a zvýšena kompabilita\n\n
 
         <b>Verze S.1.4</b>\n
-        Již lze vymazat známky \n\n
+        Již lze vymazat známky\n\n
 
         <b>Verze B.1.3</b>\n
-        Výpočet průmeru již funguje \n\n
+        Výpočet průmeru již funguje\n\n
 
         <b>Verze A.1.2</b>\n
-        Vytvořeny nové podmínky pro vlkádání \n\n
+        Vytvořeny nové podmínky pro vlkádání\n\n
 
         <b>Verze B.1.1</b>\n
-        Opravy menších chyb \n\n
+        Opravy menších chyb\n\n
 
         <b>Verze 1.0</b>\n
-        Funkční rozhraní aplikace \n
-        Přidána tabulka všech známek \n
-        Nový design aplikace a nový akční a notifikační bar \n\n
+        Funkční rozhraní aplikace\n
+        Přidána tabulka všech známek\n
+        Nový design aplikace a nový akční a notifikační bar\n\n
     </string>
     <string name="changelog">Novinky</string>
     <string name="title_activity_settings">Nastavení</string>
@@ -86,7 +94,7 @@
 
 
     <string-array name="themes">
-        <item>Původní</item>
+        <item>Světlé</item>
         <item>Tmavé</item>
         <item>Černé (výhodné pro Amoled)</item>
     </string-array>
@@ -96,13 +104,11 @@
         <item>2</item>
     </string-array>
     <string name="needRestart">
-       Vyžaduje restart \nVybrané téma: %s
+       Vyžaduje restart aplikace \nVybrané téma: %s
     </string>
     <string name="pref_theme_summary">Vybrat styl aplikace</string>
     <string name="pref_theme_title">Styl</string>
     <string name="pref_theme_dialog_title">Vyber styl</string>
-    <string name="title_activity_main2">Main2Activity</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="notificationTitle">Aktualizace k dispozici!</string>
+    <string name="notificationMessage">Nová aktualizace čeká na potvrzení</string>
 </resources>

@@ -1,25 +1,36 @@
 package cz.fely.weightedaverage.utils;
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 
 import cz.fely.weightedaverage.R;
 
 public final class ThemeUtil extends AppCompatActivity{
-    public static void setAppTheme(Context context) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        String themeString = sp.getString("pref_key_general_theme", "0");
-        int mTheme = Integer.parseInt(themeString);
-        if (mTheme == 0) {
-            context.setTheme(R.style.Light);
-        }
-        else if(mTheme == 1) {
-            context.setTheme(R.style.Dark);
-        }
-        else if(mTheme == 2){
-            context.setTheme(R.style.Dark_Black);
-        }
+    static int mTheme = 0;
+    private static int[] THEMES = new int[] {
+            R.style.Light,
+            R.style.Dark,
+            R.style.Dark_Black };
+
+    private ThemeUtil() {
+    }
+
+    public static int getSelectTheme(Context ctx) {
+        int theme = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(ctx).getString
+                ("pref_key_general_theme", "0"));
+        return (theme >= 0 && theme < THEMES.length) ? theme : 0;
+    }
+
+    public static void setTheme(Activity activity) {
+        mTheme = getSelectTheme(activity);
+        activity.setTheme(THEMES[mTheme]);
+    }
+
+    public static void reloadTheme(Activity activity) {
+        int theme = getSelectTheme(activity);
+        if (theme != mTheme)
+            activity.recreate();
     }
 }

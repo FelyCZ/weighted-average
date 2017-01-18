@@ -10,7 +10,6 @@ public class LicenceActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         displayLicensesDialogFragment();
-        finish();
     }
     private void displayLicensesDialogFragment() {
         FragmentManager fm = getFragmentManager();

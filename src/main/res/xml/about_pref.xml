@@ -8,8 +8,8 @@
     </Preference>
     <Preference android:title="@string/licence"
         android:summary="@string/licenceSummary">
-    <intent
-        android:action="cz.fely.weightedaverage.SHOW_LICENSES"
+        <intent
+            android:action="cz.fely.weightedaverage.SHOW_LICENSES"
         />
     </Preference>
 </PreferenceScreen>

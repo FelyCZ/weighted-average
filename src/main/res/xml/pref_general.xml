@@ -17,6 +17,5 @@
         android:title="@string/pref_theme_title"
         android:summary="@string/needRestart"
         android:dialogTitle="@string/pref_theme_dialog_title"/>
-
     </PreferenceCategory>
 </PreferenceScreen>

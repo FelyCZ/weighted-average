@@ -70,8 +70,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeUtil.setTheme(this);
         super.onCreate(savedInstanceState);
-        ThemeUtil.setAppTheme(this);
         initToolbar();
     }
 
@@ -87,6 +87,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
 
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 
@@ -103,6 +104,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     }
         @Override
         public void onBuildHeaders(List<Header> target) {
+            ThemeUtil.setTheme(this);
             loadHeadersFromResource(R.xml.header, target);
         }
 
@@ -153,6 +155,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 return super.onOptionsItemSelected(item);
             }
         }
-
-
+    @Override
+    public void onResume (){
+        ThemeUtil.reloadTheme(this);
+        super.onResume();
+    }
 }
