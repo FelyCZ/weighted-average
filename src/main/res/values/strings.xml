@@ -27,34 +27,39 @@
     <string name="close">Zavřít</string>
     <string name="illegalArgument">Název nebo známka je prázdná</string>
      <string name="welcome_text">
+         <b>Verze 1.8.S.2.8</b>\n
+         Opravy chyb\n
+         Přidán \"Auto-updater\"
+
          <b>Verze 1.8.S.2.4</b>\n
          Zavedeno nové číslování verzí\n
-         Opravena databáze známek\n
+         Oprava databáze známek\n
          Zaveden výběr designu aplikace\n\n
 
          <b>Verze E.1.7</b>\n
-         Opraveno \"Nastavení\"\n\n
+         Prava \"Nastavení\"\n\n
 
          <b>Verze B.1.6</b>\n
-         Opraveny chyby \n
+         Oprava chyb \n
          Přidáno nastvení \n
          Přidána licence \n\n
 
          <b>Verze S.1.5</b> \n
          Známky se nyní ukládají do databáze\n
-         Byly opraveny bugy a zvýšena kompabilita\n\n
+         Oprava chyb\n
+         Zvýšena kompabilita\n\n
 
         <b>Verze S.1.4</b>\n
-        Již lze vymazat známky\n\n
+        Přidáno mazání známek\n\n
 
         <b>Verze B.1.3</b>\n
-        Výpočet průmeru již funguje\n\n
+        Přidán výpočet průměru\n\n
 
         <b>Verze A.1.2</b>\n
         Vytvořeny nové podmínky pro vlkádání\n\n
 
         <b>Verze B.1.1</b>\n
-        Opravy menších chyb\n\n
+        Oprava menších chyb\n\n
 
         <b>Verze 1.0</b>\n
         Funkční rozhraní aplikace\n
