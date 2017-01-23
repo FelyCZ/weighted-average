@@ -2,7 +2,8 @@
 =App for calculate grade average
 
 # Changelog
-<b>Version 2.0.S.0.1</b>
+Changes in all versions
+         <b>Version 2.0.S.0.1</b>
          Bugs fixed
          Settings upgrade
          Beginning of translations work
