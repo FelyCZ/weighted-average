@@ -4,47 +4,47 @@
 # Changelog
 Changes in all versions
 
-         <b>Version 2.0.S.0.1</b>
+         Version 2.0.S.0.1
          Bugs fixed
          Settings upgrade
          Beginning of translations work
 
-         <b>Version 1.8.S.2.8</b>
+         Version 1.8.S.2.8
          Bugs od theme selector fixed
          
-         <b>Version 1.8.B.2.4</b>
+         Version 1.8.B.2.4
          New versions names
          Bugs in marks database fixed
          New theme selector
 
-         <b>Version E.1.7</b>
+         Version E.1.7
          Added "Settings"
          Average is format to #.##
 
-         <b>Version B.1.6</b>\n
+         Version B.1.6
          Bugs fixed\n
          Added license \n\n
 
-         <b>Version S.1.5</b> 
+         Version S.1.5
          Marks will be saved in database
          Bugs fixed
          Higher compatibility
 
-        <b>Version S.1.4</b>
-        Added marks deleter
+         Version S.1.4
+         Added marks deleter
 
-        <b>Version B.1.3</b>
-        Average calculating
+         Version B.1.3
+         Average calculating
 
-        <b>Version A.1.2</b>
-        New rules for adding new marks
+         Version A.1.2
+         New rules for adding new marks
 
-        <b>Version B.1.1</b>
-        Small bugs fixed
+         Version B.1.1
+         Small bugs fixed
 
-        <b>Version 1.0</b>
-        Added table of grades
-        New design and notification bar
+         Version 1.0
+         Added table of grades
+         New design and notification bar
 
 
 # Apache license
