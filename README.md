@@ -3,6 +3,7 @@
 
 # Changelog
 Changes in all versions
+
          <b>Version 2.0.S.0.1</b>
          Bugs fixed
          Settings upgrade
