@@ -19,7 +19,8 @@
         android:textSize="16sp"
         android:hint="@string/hintET"
         android:inputType="text"
-        android:ems="10" />
+        android:ems="10"
+        android:imeOptions="actionNext"/>
 
     <EditText
         android:layout_height="40dp"
@@ -33,20 +34,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:textAlignment="center"
-        android:maxLength="2" />
-
-    <EditText
-        android:layout_height="40dp"
-        android:layout_width="80dp"
-        android:id="@+id/etMark"
-        android:layout_toStartOf="@+id/etWeight"
-        android:layout_toLeftOf="@+id/etWeight"
-        android:textSize="16sp"
-        android:hint="@string/mark"
-        android:inputType="numberDecimal"
-        android:layout_alignBottom="@+id/etName"
-        android:layout_alignBaseline="@+id/etName"
-        android:gravity="center_vertical" />
+        android:maxLength="2"
+        android:imeOptions="actionDone"/>
 
 
     <LinearLayout
@@ -129,5 +118,19 @@
     <include
         android:id="@+id/tool_bar"
         layout="@layout/tool_bar"/>
+
+    <EditText
+        android:layout_height="40dp"
+        android:layout_width="80dp"
+        android:id="@+id/etMark"
+        android:textSize="16sp"
+        android:hint="@string/mark"
+        android:inputType="numberDecimal"
+        android:gravity="center_vertical"
+        android:imeOptions="actionNext"
+        android:layout_alignBaseline="@+id/etWeight"
+        android:layout_alignBottom="@+id/etWeight"
+        android:layout_toLeftOf="@+id/etWeight"
+        android:layout_toStartOf="@+id/etWeight"/>
 
 </RelativeLayout>

@@ -8,10 +8,13 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 
+import cz.fely.weightedaverage.utils.ThemeUtil;
+
 public class AboutFragment extends AppCompatPreferenceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeUtil.setTheme(this);
         super.onCreate(savedInstanceState);
         initToolbar();
         PreferenceManager.getDefaultSharedPreferences(this);

@@ -108,8 +108,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             loadHeadersFromResource(R.xml.header, target);
         }
 
-
-        protected boolean isValidFragment(String fragmentName) {
+    protected boolean isValidFragment(String fragmentName) {
             return PreferenceFragment.class.getName().equals(fragmentName)
                     || GeneralPreferenceFragment.class.getName().equals(fragmentName)
                     || NotificationPreferenceFragment.class.getName().equals(fragmentName);
@@ -157,7 +156,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
     @Override
     public void onResume (){
-        ThemeUtil.reloadTheme(this);
         super.onResume();
     }
 }

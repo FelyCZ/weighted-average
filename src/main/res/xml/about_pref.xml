@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
+<PreferenceCategory
+    android:title="@string/aboutCategory">
     <Preference android:title="@string/mainDeveloperTitle"
         android:summary="@string/mainDeveloperSummary"
-        android:icon="@drawable/about"
+                android:icon="@drawable/about"
         >
     </Preference>
     <Preference android:title="@string/licence"
@@ -12,4 +13,10 @@
             android:action="cz.fely.weightedaverage.SHOW_LICENSES"
         />
     </Preference>
+    <Preference
+        android:key="version"
+        android:title="@string/versionTitle"
+        android:summary="@string/versionName">
+    </Preference>
+</PreferenceCategory>
 </PreferenceScreen>

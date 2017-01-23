@@ -97,7 +97,6 @@
     <string name="mainDeveloperSummary">Jakub Ferenčík (Fely)</string>
     <string name="licence">Licence</string>
     <string name="licenceSummary">Klikněte pro zobrazení licence</string>
-    <string name="action_licenses">Open Source Licenses</string>
     <string name="backToExit">Pro ukončení stiskni Zpět ještě jednou</string>
 
 
@@ -119,4 +118,5 @@
     <string name="pref_theme_dialog_title">Vyber styl</string>
     <string name="aboutCategory">O aplikaci</string>
     <string name="versionTitle">Nainstalovaná verze aplikace</string>
+    <string name="action_licenses">Open Source Licenses</string>
 </resources>

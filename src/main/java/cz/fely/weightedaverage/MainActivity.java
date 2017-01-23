@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.FeedbackManager;
+import net.hockeyapp.android.LoginManager;
 import net.hockeyapp.android.UpdateManager;
 
 import java.text.DecimalFormat;
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity{
                 weightsAmount += weight;
                 weightedMarks += mark * weight;
                 double sum = weightedMarks/weightsAmount;
-                DecimalFormat formater = new DecimalFormat("#.##");
+                DecimalFormat formater = new DecimalFormat("#.00");
                 String total = String.valueOf(formater.format(sum));
                 tvAverage.setText(getResources().getString(R.string.prumer)+" "+total);
             }
@@ -136,6 +137,8 @@ public class MainActivity extends AppCompatActivity{
         showWelcomeMessage();
         checkSettings();
         checkForUpdates();
+        LoginManager.register(this, " 2fccbcc477da9ab6b058daf97571ac77", LoginManager.LOGIN_MODE_ANONYMOUS);
+        LoginManager.verifyLogin(this, getIntent());
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -196,7 +199,6 @@ public class MainActivity extends AppCompatActivity{
                 }
             });
             adb.show();
-            return true;
         }
         if (id == R.id.action_changelog){
             showChangelog();
@@ -205,7 +207,6 @@ public class MainActivity extends AppCompatActivity{
         if (id == R.id.action_about){
             Intent i = new Intent(this, AboutFragment.class);
             startActivity(i);
-            return true;
         }
 
 
@@ -231,7 +232,10 @@ public class MainActivity extends AppCompatActivity{
             SharedPreferences.Editor editor = mPrefs.edit();
             editor.putBoolean(welcomeScreenShownPref, true);
             editor.commit();
+            PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean
+                    ("pref_key_general_weight", true).commit();
         }
+        Intent i = new Intent(this, SettingsActivity.class);
     }
 
     private void showChangelog (){
@@ -279,12 +283,12 @@ public class MainActivity extends AppCompatActivity{
 
         //Vážení známek
         boolean weightValue = sp.getBoolean("pref_key_general_weight", false);
-        if (weightValue){
-            etWeight.setEnabled(true);
-            etWeight.setVisibility(View.VISIBLE);
-        } else {
+        if (!weightValue){
             etWeight.setEnabled(false);
             etWeight.setVisibility(View.INVISIBLE);
+        } else {
+            etWeight.setEnabled(true);
+            etWeight.setVisibility(View.VISIBLE);
         }
     }
 
