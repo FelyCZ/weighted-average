@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/pref_sound_vibrate">
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="pref_key_sound_vibrate"
+        android:title="@string/vibrateSwitchTitle"
+        android:summaryOn="@string/vibrateSwitchSummaryOn"
+        android:summaryOff="@string/vibrateSwitchSummaryOff"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

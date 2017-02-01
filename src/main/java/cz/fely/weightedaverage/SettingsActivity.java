@@ -111,7 +111,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     protected boolean isValidFragment(String fragmentName) {
             return PreferenceFragment.class.getName().equals(fragmentName)
                     || GeneralPreferenceFragment.class.getName().equals(fragmentName)
-                    || NotificationPreferenceFragment.class.getName().equals(fragmentName);
+                    || SoundAndVibrateFragment.class.getName().equals(fragmentName);
         }
 
         public static class GeneralPreferenceFragment extends PreferenceFragment {
@@ -134,14 +134,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             }
         }
 
-        public static class NotificationPreferenceFragment extends PreferenceFragment {
+        public static class SoundAndVibrateFragment extends PreferenceFragment {
             @Override
             public void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
-                addPreferencesFromResource(R.xml.pref_notification);
+                addPreferencesFromResource(R.xml.pref_sound_vibrate);
                 setHasOptionsMenu(true);
-
-                bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
             }
 
             @Override

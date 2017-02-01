@@ -53,6 +53,10 @@
     <string name="welcome_title">What\'s new?</string>
     <string name="yes">Yes</string>
     <string name="welcome_text">
+        <b>Version 2.0.S.5.1</b>\n
+         New element in settings\n
+         Automatic updates\n\n
+
          <b>Version 2.0.S.0.1</b>\n
          Bugs fixed\n
          Settings upgrade\n
@@ -108,4 +112,12 @@
     <string name="needRestart">
        Need restart of app \nSelected theme: %s
     </string>
+    <string name="loadingApp">Loading...</string>
+    <string name="pref_sound_vibrate">Sounds and vibrations</string>
+    <string name="vibrateSwitchSummaryOff">Vibrations are disabled</string>
+    <string name="vibrateSwitchSummaryOn">Vibrations are enabled</string>
+    <string name="vibrateSwitchTitle">Vibrations</string>
+    <string name="pref_sound_vibrate_summary">Vibrations and sound settings</string>
+    <string name="copyright">••• Copyright Fely, 2017 •••</string>
+    <string name="developWho">Developed:</string>
 </resources>

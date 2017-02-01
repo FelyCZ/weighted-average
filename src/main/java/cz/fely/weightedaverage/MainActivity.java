@@ -1,15 +1,19 @@
 package cz.fely.weightedaverage;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,9 +28,9 @@ import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.FeedbackManager;
 import net.hockeyapp.android.LoginManager;
 import net.hockeyapp.android.UpdateManager;
+import net.hockeyapp.android.UpdateManagerListener;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 import cz.fely.weightedaverage.db.DatabaseAdapter;
 import cz.fely.weightedaverage.db.DatabaseHelper;
@@ -34,7 +38,6 @@ import cz.fely.weightedaverage.utils.ThemeUtil;
 
 public class MainActivity extends AppCompatActivity{
     final String welcomeScreenShownPref = "welcomeScreenShown";
-    ArrayList<Columns> listItems;
     Button btnAdd;
     SharedPreferences mPrefs;
     private EditText etName, etWeight, etMark;
@@ -50,19 +53,19 @@ public class MainActivity extends AppCompatActivity{
 
     private void getFields()
     {
-        this.mDbAdapter = new DatabaseAdapter(this);
-        this.lv = ((ListView)findViewById(R.id.lvZnamky));
-        this.etName = ((EditText)findViewById(R.id.etName));
-        this.etMark = ((EditText)findViewById(R.id.etMark));
-        this.etWeight = ((EditText)findViewById(R.id.etWeight));
-        this.tvAverage = ((TextView)findViewById(R.id.averageTV));
-        this.btnAdd = ((Button)findViewById(R.id.btnAdd));
+        mDbAdapter = new DatabaseAdapter(this);
+        lv = ((ListView)findViewById(R.id.lvZnamky));
+        etName = ((EditText)findViewById(R.id.btnAddPopUp));
+        etMark = ((EditText)findViewById(R.id.etMarkPopUp));
+        etWeight = ((EditText)findViewById(R.id.etWeightPopUp));
+        tvAverage = ((TextView)findViewById(R.id.averageTV));
+        btnAdd = ((Button)findViewById(R.id.btnAdd));
     }
 
-    private void updateView(){
+    public void updateView(){
         cursor = mDbAdapter.getAllEntries();
         startManagingCursor(cursor);
-        this.lv.setAdapter(new ListAdapter(this, cursor, 0));
+        lv.setAdapter(new ListAdapter(this, cursor, 0));
         average();
     }
 
@@ -88,7 +91,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void addMark(View v) {
-        add(this.etName.getText().toString(), this.etMark.getText().toString(), this.etWeight.getText().toString(), new long[0]);
+        add(etName.getText().toString(), etMark.getText().toString(), etWeight.getText().toString(), new long[0]);
     }
 
     void removeMark(long id) {
@@ -134,11 +137,9 @@ public class MainActivity extends AppCompatActivity{
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         //Welcome Message
-        showWelcomeMessage();
+        firstRun();
         checkSettings();
-        checkForUpdates();
-        LoginManager.register(this, " 2fccbcc477da9ab6b058daf97571ac77", LoginManager.LOGIN_MODE_ANONYMOUS);
-        LoginManager.verifyLogin(this, getIntent());
+        hockeyAppSet();
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -200,57 +201,71 @@ public class MainActivity extends AppCompatActivity{
             });
             adb.show();
         }
-        if (id == R.id.action_changelog){
-            showChangelog();
-        }
 
         if (id == R.id.action_about){
             Intent i = new Intent(this, AboutFragment.class);
             startActivity(i);
         }
 
+        if(id == R.id.action_pop){
+            Intent i = new Intent(this, FloatingWindow.class);
+            startActivity(i);
+            finish();
+        }
+
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void showWelcomeMessage() {
+    private void firstRun() {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         Boolean welcomeScreenShown = mPrefs.getBoolean(welcomeScreenShownPref, false);
-        if (!welcomeScreenShown) {
-            String whatsNewTitle = getResources().getString(R.string.welcome_title);
-            String whatsNewText = getResources().getString(R.string.welcome_text);
-            new AlertDialog.Builder(this)
-                    .setIcon(R.drawable.ic_new)
-                    .setTitle(whatsNewTitle)
-                    .setMessage(whatsNewText)
-                    .setPositiveButton(
-                    R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).show();
+
+        int currentVersionNumber = 0;
+
+        int savedVersionNumber = mPrefs.getInt("version", 0);
+
+        try {
+            PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+            currentVersionNumber = pi.versionCode;
+        } catch (Exception e) {}
+
+        if (currentVersionNumber > savedVersionNumber) {
+            showChangelog();
+
             SharedPreferences.Editor editor = mPrefs.edit();
-            editor.putBoolean(welcomeScreenShownPref, true);
+
+            editor.putInt("version", currentVersionNumber);
             editor.commit();
-            PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean
-                    ("pref_key_general_weight", true).commit();
         }
-        Intent i = new Intent(this, SettingsActivity.class);
+
+        //Settings
+        if (!welcomeScreenShown) {
+            showChangelog();
+            //Settings
+            mPrefs.edit().putBoolean(welcomeScreenShownPref,
+                    true).commit();
+            mPrefs.edit().putBoolean
+                    ("pref_key_general_weight", true).commit();
+            mPrefs.edit().putBoolean
+                    ("pref_key_sound_vibrate", true).commit();
+            mPrefs.edit().putString
+                    ("pref_key_general_theme", "0").commit();
+        }
     }
 
     private void showChangelog (){
-        String whatsNewTitle = getResources().getString(R.string.welcome_title);
-        String whatsNewText = getResources().getString(R.string.welcome_text);
-        new AlertDialog.Builder(this)
-                .setIcon(R.drawable.ic_new)
-                .setTitle(whatsNewTitle)
-                .setMessage(whatsNewText)
-                .setPositiveButton(
-                        R.string.ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        }).show();
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.changelog, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view).setTitle(getResources().getString(R.string.welcome_title))
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.create().show();
     }
 
     @Override
@@ -290,6 +305,9 @@ public class MainActivity extends AppCompatActivity{
             etWeight.setEnabled(true);
             etWeight.setVisibility(View.VISIBLE);
         }
+
+        //Vibrace
+        boolean vibrationsValue = sp.getBoolean("pref_key_sound_vibrate", true);
     }
 
     @Override
@@ -303,16 +321,27 @@ public class MainActivity extends AppCompatActivity{
         super.onDestroy();
         unregisterManagers();
     }
-
-    private void checkForCrashes() {
-        CrashManager.register(this);
-    }
-
-    private void checkForUpdates() {
-        UpdateManager.register(this);
-    }
-
     private void unregisterManagers() {
         UpdateManager.unregister();
+    }
+    private void hockeyAppSet(){
+        LoginManager.register(this, "2fccbcc477da9ab6b058daf97571ac77", LoginManager
+                .LOGIN_MODE_ANONYMOUS);
+        LoginManager.verifyLogin(this, getIntent());
+        CrashManager.register(this);
+        UpdateManager.register(this, "a6f2b12acd1a4e22a763dab9a356879f", new UpdateManagerListener() {
+            @Override
+            public void onUpdateAvailable() {
+                boolean vibrationsValue = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+                        .getBoolean("pref_key_sound_vibrate",
+                        true);
+                if(vibrationsValue){
+                    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    v.vibrate(400);
+                }
+                UpdateManager.register(MainActivity.this);
+                super.onUpdateAvailable();
+            }
+        });
     }
 }

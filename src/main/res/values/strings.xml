@@ -26,6 +26,10 @@
     <string name="close">Zavřít</string>
     <string name="illegalArgument">Název nebo známka je prázdná</string>
      <string name="welcome_text">
+         <b>Verze 2.0.S.5.1</b>\n
+         Nová položka v nastavení\n
+         Automatické aktualizace\n\n
+
          <b>Verze 2.0.S.0.1</b>\n
          Opravy chyb\n
          Vylepšení nastavení\n
@@ -119,4 +123,14 @@
     <string name="pref_theme_dialog_title">Vyber styl</string>
     <string name="aboutCategory">O aplikaci</string>
     <string name="versionTitle">Nainstalovaná verze aplikace</string>
+    <string name="loadingApp">Načítání…</string>
+    <string name="vibrateSwitchTitle">Vibrace</string>
+    <string name="vibrateSwitchSummaryOff">Vibrace jsou vypnuty</string>
+    <string name="vibrateSwitchSummaryOn">Vibrace jsou zapnuty</string>
+    <string name="pref_sound_vibrate">Zvuky a vibrace</string>
+    <string name="pref_sound_vibrate_summary">Nastavení vibrací a zvuku</string>
+    <string name="developWho">Naprogramoval:</string>
+    <string name="copyright">••• Copyright Fely, 2017 •••</string>
+    <string name="hintETPop">Název</string>
+    <string name="popUpShowMenu">Plovoucí okno</string>
 </resources>
