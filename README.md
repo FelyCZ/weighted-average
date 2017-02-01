@@ -4,6 +4,11 @@
 # Changelog
 Changes in all versions
 
+         Version 2.0.S.5.1.
+         Bugs fixed
+         Auto-updater
+         Smaller files
+
          Version 2.0.S.0.1
          Bugs fixed
          Settings upgrade
