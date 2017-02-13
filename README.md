@@ -65,7 +65,7 @@ Changes in all versions
          New design and notification bar
 
 
-# Apache license
+# License
 ## Version 2.0, January 2004
 Copyright (C) 2007 The Android Open Source Project
 
