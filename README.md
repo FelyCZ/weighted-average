@@ -4,6 +4,19 @@
 # Changelog
 Changes in all versions
 
+         Version 2.4.S.2.7
+         Added dialog for editing marks
+         Columns will be deleted after adding mark
+         
+         Version 2.3.S.0.10
+         Bugs fixed
+         Splash screen changed
+
+         Version 2.2.S.1.4
+         Simplified settings
+         Bugs fixed
+         Changed color of themes
+         
          Version 2.0.S.5.1.
          Bugs fixed
          Auto-updater
