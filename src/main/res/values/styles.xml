@@ -8,9 +8,9 @@
     </style>
 
     <style name="Dark" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimaryDT</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkDT</item>
+        <item name="colorAccent">@color/colorAccentDT</item>
         <item name="android:colorForeground">@color/foreground</item>
         <item name="android:windowBackground">@color/foreground</item>
         <item name="android:colorBackground">@color/foreground</item>
@@ -20,8 +20,9 @@
     <style name="Dark.Black" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@color/app_background_black</item>
         <item name="android:colorBackground">@color/app_background_black</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimaryBT</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkBT</item>
+        <item name="colorAccent">@color/colorAccentBT</item>
         <item name="android:colorForeground">@color/app_background_black</item>
         <item name="android:windowDisablePreview">true</item>
     </style>

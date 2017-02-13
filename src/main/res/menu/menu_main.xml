@@ -9,9 +9,6 @@
         android:orderInCategory="105"
         android:title="@string/action_settings" />
 
-    <item android:title="@string/popUpShowMenu"
-          android:id="@+id/action_pop"
-          android:orderInCategory="106"/>
     <item
         android:id="@+id/action_feedback"
         android:orderInCategory="107"

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+        android:text="@string/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvNameDialog"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/etNameDialog"
+        android:hint="@string/name"
+        android:imeOptions="actionNext"
+        android:maxLength="20"
+        android:inputType="text"
+        android:maxLines="1"/>
+
+    <TextView
+        android:text="@string/mark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvMarkDialog"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/etMarkDialog"
+        android:hint="@string/mark"
+        android:inputType="number|numberDecimal"
+        android:imeOptions="actionNext"
+        android:maxLength="3"/>
+
+    <TextView
+        android:text="@string/weight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvWeightDialog"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/etWeightDialog"
+        android:inputType="number"
+        android:hint="@string/weight"
+        android:imeOptions="actionDone"
+        android:maxLength="3"/>
+</LinearLayout>

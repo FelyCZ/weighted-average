@@ -9,11 +9,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String SQL_CREATE_TABLE = "CREATE TABLE Marks (_id INTEGER PRIMARY KEY, name STRING, mark DOUBLE, weight DOUBLE )";
     private static final String SQL_DELETE_TABLE = "DROP TABLE IF EXISTS Marks";
-    private static DatabaseHelper mInstance = null;
-    private DatabaseHelper mDbHelper = null;
-    SQLiteDatabase db = null;
 
-    public DatabaseHelper(Context context) {
+    DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

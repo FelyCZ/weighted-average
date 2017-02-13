@@ -26,6 +26,19 @@
     <string name="close">Zavřít</string>
     <string name="illegalArgument">Název nebo známka je prázdná</string>
      <string name="welcome_text">
+         <b>Verze 2.4.S.2.7</b>\n
+         Přidána možnost úpravy známek\n
+         Po přidání známky se kolonky vymažou\n\n
+
+         <b>Verze 2.3.S.0.10</b>\n
+         Oprava chyb\n
+         Změna načítací obrazovky\n\n
+
+         <b>Verze 2.2.S.1.4</b>\n
+         Zjenodušené nastavení\n
+         Oprava chyb\n
+         Změna barev témat\n\n
+
          <b>Verze 2.0.S.5.1</b>\n
          Nová položka v nastavení\n
          Automatické aktualizace\n\n
@@ -129,6 +142,8 @@
     <string name="vibrateSwitchTitle">Vibrace</string>
     <string name="vibrateSwitchSummaryOff">Vibrace jsou vypnuty</string>
     <string name="pref_sound_vibrate_summary">Nastavení vibrací a zvuku</string>
-    <string name="developWho">Naprogramoval:</string>
-    <string name="copyright">••• Copyright Fely, 2017 •••</string>
+    <string name="illegalArgumentWeight">Váha nesmí být 0</string>
+    <string name="editMark">Upravit známku</string>
+    <string name="save">Uložit</string>
+    <string name="invalidMarkWeight">Známka nebo váha je neplatná</string>
 </resources>

@@ -17,9 +17,9 @@
     <string name="close">Close</string>
     <string name="feedback">Send feedback</string>
     <string name="generalHeader">Main</string>
-    <string name="generalHeaderSummary">Main application settings</string>
+    <string name="generalHeaderSummary">General application settings</string>
     <string name="hintET">Name (f.e. test)</string>
-    <string name="illegalArgument">Name or Mark is empty</string>
+    <string name="illegalArgument">Name or mark is empty</string>
     <string name="licence">License</string>
     <string name="licenceSummary">Click for show license</string>
     <string name="mainDeveloperSummary">Jakub Ferenčík (Fely)</string>
@@ -47,12 +47,25 @@
     <string name="versionTitle">Installed application version</string>
     <string name="vymazatZnamky">Delete marks</string>
     <string name="weight">Weight</string>
-    <string name="weightedDisableSummary">Weight of marks is on</string>
-    <string name="weightedEnableSummary">Weight of marks is off</string>
-    <string name="weightedEnabled">Weight of marks</string>
+    <string name="weightedDisableSummary">Weights of marks is on</string>
+    <string name="weightedEnableSummary">Weights of marks is off</string>
+    <string name="weightedEnabled">Weights of marks</string>
     <string name="welcome_title">What\'s new?</string>
     <string name="yes">Yes</string>
     <string name="welcome_text">
+        <b>Version 2.4.S.2.7</b>\n
+         Added dialog for editing marks\n
+         Columns will be deleted after adding mark\n\n
+
+        <b>Version 2.3.S.0.10</b>\n
+         Bugs fixed\n
+         Splash screen changed\n\n
+
+        <b>Version 2.2.S.1.4</b>\n
+         Simplified settings\n
+         Bugs fixed\n
+         Changed color of themes\n\n
+
         <b>Version 2.0.S.5.1</b>\n
          New element in settings\n
          Automatic updates\n\n
@@ -112,12 +125,12 @@
     <string name="needRestart">
        Need restart of app \nSelected theme: %s
     </string>
-    <string name="loadingApp">Loading...</string>
+    <string name="loadingApp">Loading…</string>
     <string name="pref_sound_vibrate">Sounds and vibrations</string>
     <string name="vibrateSwitchSummaryOff">Vibrations are disabled</string>
     <string name="vibrateSwitchSummaryOn">Vibrations are enabled</string>
     <string name="vibrateSwitchTitle">Vibrations</string>
     <string name="pref_sound_vibrate_summary">Vibrations and sound settings</string>
-    <string name="copyright">••• Copyright Fely, 2017 •••</string>
-    <string name="developWho">Developed:</string>
+    <string name="illegalArgumentWeight">Weight cannot be 0</string>
+    <string name="invalidMarkWeight">Mark or weight is invalid</string>
 </resources>

@@ -1,24 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_gravity="center"
     android:background="@color/foreground">
-
-    <ProgressBar
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="wrap_content"
-        android:id="@+id/pb_splash"
-        android:layout_height="30dp"
-        android:layout_above="@+id/tv_splash"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:max="2500"
-        android:indeterminate="false"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        />
 
     <ImageView
         android:id="@+id/splash"
@@ -27,10 +14,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:contentDescription=""/>
+        tools:ignore="ContentDescription"/>
 
     <TextView
-        android:text="@string/developWho"
+        android:text="@string/app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -44,7 +31,7 @@
         android:textColor="@android:color/darker_gray"/>
 
     <TextView
-        android:text="@string/mainDeveloperSummary"
+        android:text="@string/versionName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView"
@@ -57,31 +44,32 @@
         android:textAlignment="center"
         android:textColor="@android:color/darker_gray"/>
 
-    <TextView
-        android:text="@string/copyright"
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/textView3"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
+        android:id="@+id/pb_splash"
+        android:layout_height="30dp"
+        android:max="2500"
+        android:indeterminate="false"
+        android:layout_above="@+id/tv_splash"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textAlignment="center"
-        android:textColor="@android:color/darker_gray"/>
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
         android:id="@+id/tv_splash"
         android:text="@string/loadingApp"
         android:textSize="14sp"
         android:textColor="@android:color/white"
         android:textAlignment="center"
-        android:layout_above="@+id/textView3"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
+        android:layout_alignParentEnd="true"
+        android:layout_height="30dp"
+        android:gravity="center"/>
 
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package cz.fely.weightedaverage;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,6 +23,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,40 +35,42 @@ import net.hockeyapp.android.UpdateManager;
 import net.hockeyapp.android.UpdateManagerListener;
 
 import java.text.DecimalFormat;
+import java.util.IllegalFormatException;
+import java.util.IllegalFormatFlagsException;
 
 import cz.fely.weightedaverage.db.DatabaseAdapter;
 import cz.fely.weightedaverage.db.DatabaseHelper;
 import cz.fely.weightedaverage.utils.ThemeUtil;
 
 public class MainActivity extends AppCompatActivity{
+    private static final int PERIOD = 2000;
     final String welcomeScreenShownPref = "welcomeScreenShown";
     Button btnAdd;
     SharedPreferences mPrefs;
+    double weightsAmount, weightedMarks;
+    Cursor cursor;
     private EditText etName, etWeight, etMark;
     private Toolbar toolbar;
     private TextView tvAverage;
     private DatabaseAdapter mDbAdapter;
     private DatabaseHelper mDbHelper;
     private ListView lv;
-    double weightsAmount, weightedMarks;
-    Cursor cursor;
     private long lastPressedTime;
-    private static final int PERIOD = 2000;
 
     private void getFields()
     {
         mDbAdapter = new DatabaseAdapter(this);
         lv = ((ListView)findViewById(R.id.lvZnamky));
-        etName = ((EditText)findViewById(R.id.btnAddPopUp));
-        etMark = ((EditText)findViewById(R.id.etMarkPopUp));
-        etWeight = ((EditText)findViewById(R.id.etWeightPopUp));
+        etName = ((EditText)findViewById(R.id.etName));
+        etMark = ((EditText)findViewById(R.id.etMark));
+        etWeight = ((EditText)findViewById(R.id.etWeight));
         tvAverage = ((TextView)findViewById(R.id.averageTV));
         btnAdd = ((Button)findViewById(R.id.btnAdd));
     }
 
     public void updateView(){
         cursor = mDbAdapter.getAllEntries();
-        startManagingCursor(cursor);
+       // startManagingCursor(cursor);
         lv.setAdapter(new ListAdapter(this, cursor, 0));
         average();
     }
@@ -86,41 +92,54 @@ public class MainActivity extends AppCompatActivity{
             while (cursor.moveToNext());
         }
         if ((weightsAmount == 0.0 || weightedMarks == 0.0)) {
-            tvAverage.setText(getResources().getString(R.string.prumer)+" "+"0.00");
+            tvAverage.setText(getResources().getString(R.string.prumer)+" "+"0,00");
         }
     }
 
     public void addMark(View v) {
-        add(etName.getText().toString(), etMark.getText().toString(), etWeight.getText().toString(), new long[0]);
+        addOrUpdateMark(etName.getText().toString(), etMark.getText().toString(), etWeight.getText()
+                .toString(), new long[0]);
     }
 
     void removeMark(long id) {
-        this.mDbAdapter.deleteMark(id);
+        mDbAdapter.deleteMark(id);
         updateView();
     }
 
-    void add(String name, String m, String w, long... id) {
+    void addOrUpdateMark(String name, String m, String w, long... id) {
         try {
             double weight;
+            double mark;
             if (w.equals("")) {
                 weight = 1;
             } else {
                 weight = Double.parseDouble(w);
             }
-            if (name.equals("") || m.equals("") || weight <= (short) 0) {
-                throw new IllegalArgumentException(getResources().getString(R.string.illegalArgument));
+            if (TextUtils.isEmpty(name) || TextUtils.isEmpty(m) || m.equals("0")) {
+                throw new IllegalArgumentException(getResources().getString(R.string
+                            .illegalArgument));
             }
-            double mark = Double.parseDouble(m);
+            else {
+                mark = Double.parseDouble(m);
+                if(mark > 5 || weight == 0){
+                    throw new IllegalArgumentException(getResources().getString(R.string.invalidMarkWeight));
+                }
+            }
             if (id.length == 0) {
-                this.mDbAdapter.addMark(name, mark, weight);
+                mDbAdapter.addMark(name, mark, weight);
                 etName.requestFocus();
+                etName.setText("");
+                etMark.setText("");
+                etWeight.setText("");
+            } else {
+                mDbAdapter.updateMark(name, mark, weight, id[0]);
             }
             updateView();
-        } catch (IllegalArgumentException iae) {
+        } catch (IllegalArgumentException e) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(String.valueOf(e));
             builder.setTitle(R.string.adbError);
-            builder.setMessage(String.valueOf(iae));
-            builder.setNeutralButton(R.string.close, null);
+            builder.setNeutralButton(android.R.string.ok, null);
             builder.show();
         }
     }
@@ -144,7 +163,7 @@ public class MainActivity extends AppCompatActivity{
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.this);
+              /*  AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.this);
                 adb.setTitle(R.string.titleDelete);
                 adb.setIcon(R.drawable.warning);
                 adb.setMessage(R.string.areYouSure);
@@ -156,7 +175,11 @@ public class MainActivity extends AppCompatActivity{
                        updateView();
                    }
                 });
-                adb.show();
+                adb.show(); */
+
+                showEditDialog(((TextView) view.findViewById(R.id.name)).getText().toString(), (
+                        (TextView) view.findViewById(R.id.mark)).getText().toString(),((TextView)
+                        view.findViewById(R.id.weight)).getText().toString(), id);
                 }
         });
     }
@@ -170,9 +193,6 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify header parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
@@ -206,14 +226,6 @@ public class MainActivity extends AppCompatActivity{
             Intent i = new Intent(this, AboutFragment.class);
             startActivity(i);
         }
-
-        if(id == R.id.action_pop){
-            Intent i = new Intent(this, FloatingWindow.class);
-            startActivity(i);
-            finish();
-        }
-
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -236,22 +248,23 @@ public class MainActivity extends AppCompatActivity{
             SharedPreferences.Editor editor = mPrefs.edit();
 
             editor.putInt("version", currentVersionNumber);
-            editor.commit();
+            editor.apply();
         }
 
         //Settings
         if (!welcomeScreenShown) {
-            showChangelog();
             //Settings
             mPrefs.edit().putBoolean(welcomeScreenShownPref,
-                    true).commit();
+                    true).apply();
             mPrefs.edit().putBoolean
-                    ("pref_key_general_weight", true).commit();
+                    ("pref_key_general_weight", true).apply();
             mPrefs.edit().putBoolean
-                    ("pref_key_sound_vibrate", true).commit();
+                    ("pref_key_sound_vibrate", true).apply();
             mPrefs.edit().putString
-                    ("pref_key_general_theme", "0").commit();
+                    ("pref_key_general_theme", "0").apply();
         }
+
+        //Permissions
     }
 
     private void showChangelog (){
@@ -290,6 +303,7 @@ public class MainActivity extends AppCompatActivity{
     protected void onResume() {
         checkSettings();
         ThemeUtil.reloadTheme(this);
+        updateView();
         super.onResume();
     }
 
@@ -324,7 +338,9 @@ public class MainActivity extends AppCompatActivity{
     private void unregisterManagers() {
         UpdateManager.unregister();
     }
-    private void hockeyAppSet(){
+
+
+    public void hockeyAppSet(){
         LoginManager.register(this, "2fccbcc477da9ab6b058daf97571ac77", LoginManager
                 .LOGIN_MODE_ANONYMOUS);
         LoginManager.verifyLogin(this, getIntent());
@@ -334,8 +350,8 @@ public class MainActivity extends AppCompatActivity{
             public void onUpdateAvailable() {
                 boolean vibrationsValue = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
                         .getBoolean("pref_key_sound_vibrate",
-                        true);
-                if(vibrationsValue){
+                                true);
+                if (vibrationsValue) {
                     Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     v.vibrate(400);
                 }
@@ -343,5 +359,42 @@ public class MainActivity extends AppCompatActivity{
                 super.onUpdateAvailable();
             }
         });
+    }
+
+    public void showEditDialog(String name, String mark, String weight, long id)
+    {
+        View view = getLayoutInflater().inflate(R.layout.edit_dialog, null);
+        EditText etNameDialog = (EditText)view.findViewById(R.id.etNameDialog);
+        EditText etMarkDialog = (EditText)view.findViewById(R.id.etMarkDialog);
+        EditText etWeightDialog = (EditText)view.findViewById(R.id.etWeightDialog);
+        etNameDialog.setText(name);
+        etMarkDialog.setText(mark);
+        etWeightDialog.setText(weight);
+        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+        adb.setTitle(R.string.editMark);
+        adb.setPositiveButton(R.string.save, new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int which)
+            {
+                addOrUpdateMark(etNameDialog.getText().toString(), etMarkDialog.getText().toString(),
+                        etWeightDialog.getText().toString(), id);
+            }
+        });
+        adb.setNegativeButton(R.string.titleDelete, new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int which)
+            {
+                removeMark(id);
+                dialog.dismiss();
+            }
+        });
+        adb.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        adb.setView(view);
+        adb.show();
     }
 }

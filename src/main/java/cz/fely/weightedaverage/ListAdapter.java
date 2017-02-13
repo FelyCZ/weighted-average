@@ -10,10 +10,10 @@ import android.widget.TextView;
 
 import cz.fely.weightedaverage.db.DatabaseAdapter;
 
-public class ListAdapter extends CursorAdapter {
+class ListAdapter extends CursorAdapter {
     private LayoutInflater mLayoutInflater;
 
-    public ListAdapter(MainActivity activity, Cursor cursor, int flags) {
+    ListAdapter(MainActivity activity, Cursor cursor, int flags) {
         super(activity, cursor, flags);
         this.mLayoutInflater = LayoutInflater.from(activity);
     }
