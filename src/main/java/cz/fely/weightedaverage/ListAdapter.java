@@ -9,20 +9,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import cz.fely.weightedaverage.db.DatabaseAdapter;
+import me.grantland.widget.AutofitHelper;
 
 class ListAdapter extends CursorAdapter {
     private LayoutInflater mLayoutInflater;
 
     ListAdapter(MainActivity activity, Cursor cursor, int flags) {
         super(activity, cursor, flags);
-        this.mLayoutInflater = LayoutInflater.from(activity);
+        mLayoutInflater = LayoutInflater.from(activity);
     }
 
     public View newView(Context context, Cursor cusor, ViewGroup parent) {
-        return this.mLayoutInflater.inflate(R.layout.colmn_row, parent, false);
+        return mLayoutInflater.inflate(R.layout.colmn_row, parent, false);
     }
 
     public void bindView(View v, Context context, Cursor c) {
+        AutofitHelper.create((TextView) v.findViewById(R.id.name));
         ((TextView) v.findViewById(R.id.name)).setText(c.getString(c.getColumnIndex(DatabaseAdapter.COLUMN_NAME)));
         ((TextView) v.findViewById(R.id.mark)).setText(c.getString(c.getColumnIndex(DatabaseAdapter.COLUMN_MARK)));
         ((TextView) v.findViewById(R.id.weight)).setText(c.getString(c.getColumnIndex(DatabaseAdapter.COLUMN_WEIGHT)));

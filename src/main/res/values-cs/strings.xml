@@ -26,6 +26,9 @@
     <string name="close">Zavřít</string>
     <string name="illegalArgument">Název nebo známka je prázdná</string>
      <string name="welcome_text">
+         <b>Verze 2.4.S.3.2</b>\n
+         Oprava velikosti kolonek výpisu známek\n\n
+
          <b>Verze 2.4.S.2.7</b>\n
          Přidána možnost úpravy známek\n
          Po přidání známky se kolonky vymažou\n\n

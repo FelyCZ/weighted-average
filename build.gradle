@@ -5,10 +5,10 @@ android {
     buildToolsVersion '24.0.2'
     defaultConfig {
         applicationId 'cz.fely.weightedaverage'
-        minSdkVersion 16
+        minSdkVersion 15
         targetSdkVersion 25
-        versionCode 6
-        versionName '2.4.B.2.7'
+        versionCode 7
+        versionName '2.4.B.3.2'
         manifestPlaceholders = [HOCKEYAPP_APP_ID: "a6f2b12acd1a4e22a763dab9a356879f"]
         jackOptions {
             enabled true
@@ -42,5 +42,6 @@ dependencies {
     compile 'com.android.support:preference-v7:25.1.1'
     testCompile 'junit:junit:4.12'
     compile 'net.hockeyapp.android:HockeySDK:4.0.0'
+    compile 'me.grantland:autofittextview:0.2.1'
 }
 

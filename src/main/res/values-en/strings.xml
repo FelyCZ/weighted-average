@@ -53,6 +53,9 @@
     <string name="welcome_title">What\'s new?</string>
     <string name="yes">Yes</string>
     <string name="welcome_text">
+        <b>Version 2.4.S.3.2</b>\n
+         Fixed columns size in list of marks\n\n
+
         <b>Version 2.4.S.2.7</b>\n
          Added dialog for editing marks\n
          Columns will be deleted after adding mark\n\n

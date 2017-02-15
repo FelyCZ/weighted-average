@@ -20,9 +20,9 @@
         android:inputType="text"
         android:imeOptions="actionNext"
         android:layout_height="50dp"
-        android:maxLength="20"
+        android:maxLength="25"
         android:maxLines="1"
-        android:singleLine="true"/>
+        />
 
     <EditText
         android:layout_width="80dp"
@@ -36,7 +36,8 @@
         android:layout_below="@+id/tool_bar"
         android:layout_toLeftOf="@+id/etWeight"
         android:layout_toStartOf="@+id/etWeight"
-        android:maxLength="3"/>
+        android:maxLength="3"
+        android:textAlignment="center"/>
 
     <EditText
         android:layout_width="60dp"
@@ -53,46 +54,6 @@
         android:imeOptions="actionDone"
         android:layout_height="50dp"/>
 
-
-    <LinearLayout
-        android:layout_height="35dp"
-        android:layout_width="match_parent"
-        android:id="@+id/linearl2"
-        android:layout_below="@+id/averageTV">
-
-        <TextView
-            android:layout_height="35dp"
-            android:layout_width="wrap_content"
-            android:id="@+id/name"
-            android:textSize="20sp"
-            android:gravity="center_vertical"
-            android:textStyle="normal|italic"
-            android:text="@string/name"
-            android:layout_weight="1" />
-
-        <TextView
-            android:layout_height="35dp"
-            android:layout_width="wrap_content"
-            android:id="@+id/mark"
-            android:textSize="20sp"
-            android:textAlignment="center"
-            android:gravity="center_vertical"
-            android:textStyle="normal|bold"
-            android:text="@string/mark"
-            android:layout_weight="0.24" />
-
-        <TextView
-            android:layout_height="35dp"
-            android:layout_width="wrap_content"
-            android:id="@+id/weight"
-            android:textSize="20sp"
-            android:textAlignment="center"
-            android:gravity="center_vertical"
-            android:textStyle="normal|bold"
-            android:text="@string/weight"
-            android:layout_weight="0.25" />
-
-    </LinearLayout>
 
     <TextView
         android:layout_height="35dp"
@@ -134,5 +95,47 @@
     <include
         android:id="@+id/tool_bar"
         layout="@layout/tool_bar"/>
+
+    <LinearLayout
+        android:layout_height="35dp"
+        android:layout_width="match_parent"
+        android:id="@+id/linearl2"
+        android:layout_below="@+id/averageTV"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_height="35dp"
+            android:layout_width="0dp"
+            android:textSize="18sp"
+            android:gravity="center_vertical"
+            android:textStyle="normal|italic"
+            android:text="@string/name"
+            android:layout_weight="1"
+            android:id="@+id/name2"/>
+
+        <TextView
+            android:layout_height="35dp"
+            android:layout_width="0dp"
+            android:layout_weight=".3"
+            android:textSize="18sp"
+            android:textAlignment="center"
+            android:gravity="center_vertical"
+            android:textStyle="normal|bold"
+            android:text="@string/mark"
+            android:id="@+id/mark2"/>
+
+        <TextView
+            android:layout_height="35dp"
+            android:layout_width="0dp"
+            android:layout_weight=".25"
+            android:textSize="18sp"
+            android:textAlignment="center"
+            android:gravity="center_vertical"
+            android:textStyle="normal|bold"
+            android:text="@string/weight"
+            android:id="@+id/weight2"/>
+
+    </LinearLayout>
 
 </RelativeLayout>
