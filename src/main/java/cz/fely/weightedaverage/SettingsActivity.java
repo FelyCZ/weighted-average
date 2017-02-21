@@ -2,6 +2,7 @@ package cz.fely.weightedaverage;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -67,6 +68,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                         .getDefaultSharedPreferences(preference.getContext())
                         .getString(preference.getKey(), ""));
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

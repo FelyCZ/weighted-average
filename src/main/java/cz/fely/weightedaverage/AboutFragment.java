@@ -1,11 +1,15 @@
 package cz.fely.weightedaverage;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.preference.Preference;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 
 import cz.fely.weightedaverage.utils.ThemeUtil;
@@ -19,6 +23,25 @@ public class AboutFragment extends AppCompatPreferenceActivity {
         initToolbar();
         PreferenceManager.getDefaultSharedPreferences(this);
         addPreferencesFromResource(R.xml.about_pref);
+
+        Preference changelog = (Preference) findPreference("changelog");
+        changelog.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                LayoutInflater inflater = LayoutInflater.from(AboutFragment.this);
+                View view = inflater.inflate(R.layout.changelog, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(AboutFragment.this);
+                builder.setView(view).setTitle(getResources().getString(R.string.welcome_title))
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                builder.show();
+                return false;
+            }
+        });
     }
     private void initToolbar() {
         Toolbar toolbar;
@@ -47,8 +70,7 @@ public class AboutFragment extends AppCompatPreferenceActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
+        super.onBackPressed();
         finish();
     }
 }

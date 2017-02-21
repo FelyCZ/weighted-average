@@ -131,7 +131,7 @@
         <item>2</item>
     </string-array>
     <string name="needRestart">
-       Vyžaduje restart aplikace \nVybrané téma: %s
+       Vybrané téma: %s\nZměny se projeví později
     </string>
     <string name="pref_theme_summary">Vybrat styl aplikace</string>
     <string name="pref_theme_title">Styl</string>

@@ -8,7 +8,7 @@
         >
     </Preference>
     <Preference android:title="@string/licence"
-        android:summary="@string/licenceSummary">
+        android:summary="@string/show">
         <intent
             android:action="cz.fely.weightedaverage.SHOW_LICENSES"
         />
@@ -17,6 +17,12 @@
         android:key="version"
         android:title="@string/versionTitle"
         android:summary="@string/versionName">
+    </Preference>
+
+    <Preference
+        android:title="@string/changelog"
+        android:key="changelog"
+        android:summary="@string/show">
     </Preference>
 </PreferenceCategory>
 </PreferenceScreen>

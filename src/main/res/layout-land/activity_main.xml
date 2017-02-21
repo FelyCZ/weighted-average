@@ -8,11 +8,21 @@
                 xmlns:android="http://schemas.android.com/apk/res/android">
 
 
+    <View android:id="@+id/fakeView"
+          android:layout_width="0dp"
+          android:layout_height="0dp"
+          android:layout_centerInParent="true"/>
+
     <LinearLayout
         android:layout_height="35dp"
-        android:layout_width="match_parent"
+        android:layout_width="500dp"
         android:id="@+id/linearl2"
-        android:layout_below="@+id/averageTV">
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/image1"
+        android:layout_toEndOf="@+id/image1">
+
 
         <TextView
             android:id="@+id/name"
@@ -24,7 +34,6 @@
             android:text="@string/name"
             android:layout_height="35dp"
             />
-
 
         <TextView
             android:id="@+id/mark"
@@ -47,43 +56,44 @@
             android:textSize="18sp"
             android:gravity="center_vertical"
             android:layout_height="35dp" />
+
     </LinearLayout>
 
     <ListView
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:id="@+id/lvZnamky"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
+        android:dividerHeight="1px"
         android:layout_below="@+id/linearl2"
-        android:dividerHeight="1px" />
+        android:layout_toRightOf="@+id/image1"
+        android:layout_toEndOf="@+id/image1"/>
 
     <Button
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:id="@+id/btnAdd"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/etName"
         android:textSize="18sp"
         android:text="@string/buttonAdd"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:background="@drawable/button_style"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:layout_below="@+id/etWeight"
+        android:layout_alignRight="@+id/fakeView"
+        android:layout_alignEnd="@+id/fakeView"/>
 
     <TextView
         android:layout_height="35dp"
         android:layout_width="wrap_content"
         android:id="@+id/averageTV"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/btnAdd"
         android:textSize="25sp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:gravity="center"
         android:textStyle="normal|bold"
-        android:text="@string/prumer" />
+        android:text="@string/prumer"
+        android:layout_below="@+id/btnAdd"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/fakeView"
+        android:layout_alignEnd="@+id/fakeView"/>
 
     <EditText
         android:layout_height="40dp"
@@ -94,27 +104,28 @@
         android:inputType="text"
         android:ems="10"
         android:imeOptions="actionNext"
+        android:textAlignment="center"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/etMark"
-        android:layout_toStartOf="@+id/etMark"
-        android:textAlignment="center"
-        android:gravity="center"/>
+        android:layout_alignRight="@+id/fakeView"
+        android:layout_alignEnd="@+id/fakeView"/>
 
     <EditText
         android:layout_height="40dp"
         android:layout_width="80dp"
         android:id="@+id/etMark"
-        android:layout_toStartOf="@+id/etWeight"
-        android:layout_toLeftOf="@+id/etWeight"
         android:textSize="16sp"
         android:hint="@string/mark"
         android:inputType="numberDecimal"
-        android:layout_alignBottom="@+id/etName"
-        android:layout_alignBaseline="@+id/etName"
         android:gravity="center_vertical"
         android:textAlignment="center"
-        android:imeOptions="actionNext"/>
+        android:imeOptions="actionNext"
+        android:layout_below="@+id/etName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/fakeView"
+        android:layout_alignEnd="@+id/fakeView"/>
 
     <EditText
         android:layout_height="40dp"
@@ -128,7 +139,26 @@
         android:maxLength="2"
         tools:ignore="UnknownId"
         android:imeOptions="actionDone"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
+        android:layout_below="@+id/etMark"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/lvZnamky"
+        android:layout_toStartOf="@+id/lvZnamky"/>
+
+    <ImageView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:src="@android:drawable/divider_horizontal_dark"
+        android:layout_height="match_parent"
+        android:background="?attr/colorAccent"
+        android:scaleType="fitXY"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        android:layout_toRightOf="@+id/etName"
+        android:layout_width="2dp"
+        tools:ignore="ContentDescription"
+        android:layout_centerInParent="true"
+        android:id="@+id/image1"/>
 
 </RelativeLayout>

@@ -73,7 +73,7 @@ public class SplashScreen extends Activity {
                             Log.e("Splash: ", e.toString());
                         }
                         finally {
-                            Intent i = new Intent(SplashScreen.this, MainActivity.class);
+                            Intent i = new Intent(SplashScreen.this, MainActivityNew.class);
                             i.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             startActivity(i);
                             finish();

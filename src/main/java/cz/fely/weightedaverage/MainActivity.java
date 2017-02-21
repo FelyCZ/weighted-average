@@ -1,6 +1,5 @@
 package cz.fely.weightedaverage;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,8 +22,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,11 +32,8 @@ import net.hockeyapp.android.UpdateManager;
 import net.hockeyapp.android.UpdateManagerListener;
 
 import java.text.DecimalFormat;
-import java.util.IllegalFormatException;
-import java.util.IllegalFormatFlagsException;
 
 import cz.fely.weightedaverage.db.DatabaseAdapter;
-import cz.fely.weightedaverage.db.DatabaseHelper;
 import cz.fely.weightedaverage.utils.ThemeUtil;
 
 public class MainActivity extends AppCompatActivity{
@@ -49,11 +43,10 @@ public class MainActivity extends AppCompatActivity{
     SharedPreferences mPrefs;
     double weightsAmount, weightedMarks;
     Cursor cursor;
-    private EditText etName, etWeight, etMark;
+    EditText etName, etWeight, etMark;
     private Toolbar toolbar;
     private TextView tvAverage;
-    private DatabaseAdapter mDbAdapter;
-    private DatabaseHelper mDbHelper;
+    public DatabaseAdapter mDbAdapter;
     private ListView lv;
     private long lastPressedTime;
 
@@ -70,30 +63,16 @@ public class MainActivity extends AppCompatActivity{
 
     public void updateView(){
         cursor = mDbAdapter.getAllEntries();
-       // startManagingCursor(cursor);
-        lv.setAdapter(new ListAdapter(this, cursor, 0));
+   //     lv.setAdapter(new ListAdapter(MainActivity.this, cursor, 0));
         average();
     }
 
     void average() {
-        weightsAmount = 0.0;
-        weightedMarks = 0.0;
-        if (cursor.moveToFirst()) {
-            do {
-                double weight = cursor.getDouble(cursor.getColumnIndex("weight"));
-                double mark = cursor.getDouble(cursor.getColumnIndex("mark"));
-                weightsAmount += weight;
-                weightedMarks += mark * weight;
-                double sum = weightedMarks/weightsAmount;
-                DecimalFormat formater = new DecimalFormat("#.00");
-                String total = String.valueOf(formater.format(sum));
-                tvAverage.setText(getResources().getString(R.string.prumer)+" "+total);
-            }
-            while (cursor.moveToNext());
-        }
-        if ((weightsAmount == 0.0 || weightedMarks == 0.0)) {
-            tvAverage.setText(getResources().getString(R.string.prumer)+" "+"0,00");
-        }
+        cursor = mDbAdapter.averageFromMarks();
+        double sum =  cursor.getDouble(cursor.getColumnIndex("average"));
+        DecimalFormat formater = new DecimalFormat("0.00");
+        String total = String.valueOf(formater.format(sum));
+        tvAverage.setText(getResources().getString(R.string.prumer)+" "+total);
     }
 
     public void addMark(View v) {
@@ -153,7 +132,7 @@ public class MainActivity extends AppCompatActivity{
         ThemeUtil.setTheme(this);
         updateView();
         //Toolbar
-        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //Welcome Message
         firstRun();
@@ -163,20 +142,6 @@ public class MainActivity extends AppCompatActivity{
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-              /*  AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.this);
-                adb.setTitle(R.string.titleDelete);
-                adb.setIcon(R.drawable.warning);
-                adb.setMessage(R.string.areYouSure);
-                adb.setNegativeButton(R.string.cancel, null);
-                adb.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener(){
-                   @Override
-                    public void onClick (DialogInterface dialogInterface, int which){
-                       removeMark(id);
-                       updateView();
-                   }
-                });
-                adb.show(); */
-
                 showEditDialog(((TextView) view.findViewById(R.id.name)).getText().toString(), (
                         (TextView) view.findViewById(R.id.mark)).getText().toString(),((TextView)
                         view.findViewById(R.id.weight)).getText().toString(), id);
@@ -215,7 +180,7 @@ public class MainActivity extends AppCompatActivity{
             {
                 public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt)
                 {
-                    MainActivity.this.mDbAdapter.deleteAll();
+                    mDbAdapter.deleteAll();
                     MainActivity.this.updateView();
                 }
             });
@@ -240,7 +205,7 @@ public class MainActivity extends AppCompatActivity{
         try {
             PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
             currentVersionNumber = pi.versionCode;
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
 
         if (currentVersionNumber > savedVersionNumber) {
             showChangelog();
@@ -264,10 +229,9 @@ public class MainActivity extends AppCompatActivity{
                     ("pref_key_general_theme", "0").apply();
         }
 
-        //Permissions
     }
 
-    private void showChangelog (){
+    public void showChangelog (){
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.changelog, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -384,7 +348,19 @@ public class MainActivity extends AppCompatActivity{
         {
             public void onClick(DialogInterface dialog, int which)
             {
-                removeMark(id);
+                AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.this);
+                adb.setTitle(R.string.titleDelete);
+                adb.setIcon(R.drawable.warning);
+                adb.setMessage(R.string.areYouSure);
+                adb.setNegativeButton(R.string.cancel, null);
+                adb.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        removeMark(id);
+                        updateView();
+                    }
+                });
+                adb.show();
                 dialog.dismiss();
             }
         });

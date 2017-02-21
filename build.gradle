@@ -42,6 +42,5 @@ dependencies {
     compile 'com.android.support:preference-v7:25.1.1'
     testCompile 'junit:junit:4.12'
     compile 'net.hockeyapp.android:HockeySDK:4.0.0'
-    compile 'me.grantland:autofittextview:0.2.1'
 }
 
