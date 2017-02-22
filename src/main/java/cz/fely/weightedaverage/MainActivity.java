@@ -8,9 +8,14 @@ import android.content.pm.PackageInfo;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.preference.PreferenceManager;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -18,8 +23,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,121 +35,145 @@ import net.hockeyapp.android.UpdateManager;
 import net.hockeyapp.android.UpdateManagerListener;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import cz.fely.weightedaverage.db.DatabaseAdapter;
 import cz.fely.weightedaverage.utils.ThemeUtil;
 
-public class MainActivity extends AppCompatActivity{
-    private static final int PERIOD = 2000;
-    final String welcomeScreenShownPref = "welcomeScreenShown";
-    Button btnAdd;
-    SharedPreferences mPrefs;
-    double weightsAmount, weightedMarks;
-    Cursor cursor;
-    EditText etName, etWeight, etMark;
+public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
-    private TextView tvAverage;
-    public DatabaseAdapter mDbAdapter;
-    private ListView lv;
+    private static TabLayout tabLayout;
+    private ViewPager viewPager;
+    int tabPosition;
+    static DatabaseAdapter mDbAdapterStatic;
+    private static MainActivity man;
+    static ListView lv;
+    static TextView tvAverage;
+    private static final int PERIOD = 2000;
     private long lastPressedTime;
-
-    private void getFields()
-    {
-        mDbAdapter = new DatabaseAdapter(this);
-        lv = ((ListView)findViewById(R.id.lvZnamky));
-        etName = ((EditText)findViewById(R.id.etName));
-        etMark = ((EditText)findViewById(R.id.etMark));
-        etWeight = ((EditText)findViewById(R.id.etWeight));
-        tvAverage = ((TextView)findViewById(R.id.averageTV));
-        btnAdd = ((Button)findViewById(R.id.btnAdd));
-    }
-
-    public void updateView(){
-        cursor = mDbAdapter.getAllEntries();
-   //     lv.setAdapter(new ListAdapter(MainActivity.this, cursor, 0));
-        average();
-    }
-
-    void average() {
-        cursor = mDbAdapter.averageFromMarks();
-        double sum =  cursor.getDouble(cursor.getColumnIndex("average"));
-        DecimalFormat formater = new DecimalFormat("0.00");
-        String total = String.valueOf(formater.format(sum));
-        tvAverage.setText(getResources().getString(R.string.prumer)+" "+total);
-    }
-
-    public void addMark(View v) {
-        addOrUpdateMark(etName.getText().toString(), etMark.getText().toString(), etWeight.getText()
-                .toString(), new long[0]);
-    }
-
-    void removeMark(long id) {
-        mDbAdapter.deleteMark(id);
-        updateView();
-    }
-
-    void addOrUpdateMark(String name, String m, String w, long... id) {
-        try {
-            double weight;
-            double mark;
-            if (w.equals("")) {
-                weight = 1;
-            } else {
-                weight = Double.parseDouble(w);
-            }
-            if (TextUtils.isEmpty(name) || TextUtils.isEmpty(m) || m.equals("0")) {
-                throw new IllegalArgumentException(getResources().getString(R.string
-                            .illegalArgument));
-            }
-            else {
-                mark = Double.parseDouble(m);
-                if(mark > 5 || weight == 0){
-                    throw new IllegalArgumentException(getResources().getString(R.string.invalidMarkWeight));
-                }
-            }
-            if (id.length == 0) {
-                mDbAdapter.addMark(name, mark, weight);
-                etName.requestFocus();
-                etName.setText("");
-                etMark.setText("");
-                etWeight.setText("");
-            } else {
-                mDbAdapter.updateMark(name, mark, weight, id[0]);
-            }
-            updateView();
-        } catch (IllegalArgumentException e) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(String.valueOf(e));
-            builder.setTitle(R.string.adbError);
-            builder.setNeutralButton(android.R.string.ok, null);
-            builder.show();
-        }
-    }
+    final String welcomeScreenShownPref = "welcomeScreenShown";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ThemeUtil.setTheme(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        getFields();
-        ThemeUtil.setTheme(this);
-        updateView();
-        //Toolbar
+        setContentView(R.layout.main_coordinator);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //Welcome Message
-        firstRun();
-        checkSettings();
-        hockeyAppSet();
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+
+        tabPosition = tabLayout.getSelectedTabPosition();
+
+        mDbAdapterStatic = new DatabaseAdapter(this);
+        man = MainActivity.this;
+
+        firstRun();
+        hockeyAppSet();
+        checkSettings();
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                showEditDialog(((TextView) view.findViewById(R.id.name)).getText().toString(), (
-                        (TextView) view.findViewById(R.id.mark)).getText().toString(),((TextView)
-                        view.findViewById(R.id.weight)).getText().toString(), id);
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                View v = null;
+                if(position == 0){
+                    v = SubjectOneFragment.view;
                 }
+                else if(position == 1){
+                    v = SubjectTwoFragment.view;
+                }
+                else if(position == 2) {
+                    v = SubjectThreeFragment.view;
+                }
+                else if(position == 3){
+                    v = SubjectFourFragment.view;
+                }
+                else if(position == 4){
+                    v = SubjectFiveFragment.view;
+                }
+                else if(position == 5){
+                    v = SubjectSixFragment.view;
+                }
+                getViews(v);
+                updateView(position, getApplicationContext());
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
         });
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                tabPosition = tab.getPosition();
+                View v = null;
+                if(tabPosition == 0){
+                    v = SubjectOneFragment.view;
+                }
+                else if(tabPosition == 1){
+                    v = SubjectTwoFragment.view;
+                }
+                else if(tabPosition == 2) {
+                    v = SubjectThreeFragment.view;
+                }
+                else if(tabPosition == 3){
+                    v = SubjectFourFragment.view;
+                }
+                else if(tabPosition == 4){
+                    v = SubjectFiveFragment.view;
+                }
+                else if(tabPosition == 5){
+                    v = SubjectSixFragment.view;
+                }
+                getViews(v);
+                updateView(tabPosition, getApplicationContext());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        String one = PreferenceManager.getDefaultSharedPreferences(this).getString
+                ("pref_key_subject_name_one", getResources().getString(R.string.nameOneDefault));
+        String two = PreferenceManager.getDefaultSharedPreferences(this).getString
+                ("pref_key_subject_name_two", getResources().getString(R.string.nameTwoDefault));
+        String three = PreferenceManager.getDefaultSharedPreferences(this).getString
+                ("pref_key_subject_name_three", getResources().getString(R.string
+                        .nameThreeDefault));
+        String four = PreferenceManager.getDefaultSharedPreferences(this).getString
+                ("pref_key_subject_name_four", getResources().getString(R.string.nameFourDefault));
+        String five = PreferenceManager.getDefaultSharedPreferences(this).getString
+                ("pref_key_subject_name_five", getResources().getString(R.string.nameFiveDefault));
+        String six = PreferenceManager.getDefaultSharedPreferences(this).getString
+                ("pref_key_subject_name_six", getResources().getString(R.string
+                        .nameSixDefault));
+        adapter.addFrag(new SubjectOneFragment(), one);
+        adapter.addFrag(new SubjectTwoFragment(), two);
+        adapter.addFrag(new SubjectThreeFragment(), three);
+        adapter.addFrag(new SubjectFourFragment(), four);
+        adapter.addFrag(new SubjectFiveFragment(), five);
+        adapter.addFrag(new SubjectSixFragment(), six);
+        viewPager.setAdapter(adapter);
     }
 
     @Override
@@ -180,8 +207,30 @@ public class MainActivity extends AppCompatActivity{
             {
                 public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt)
                 {
-                    mDbAdapter.deleteAll();
-                    MainActivity.this.updateView();
+                    if(tabPosition == 0){
+                        mDbAdapterStatic.deleteAll();
+                        updateView(0, getApplicationContext());
+                    }
+                    else if (tabPosition == 1){
+                        mDbAdapterStatic.deleteAll2();
+                        updateView(1, getApplicationContext());
+                    }
+                    else if (tabPosition == 2){
+                        mDbAdapterStatic.deleteAll3();
+                        updateView(2, getApplicationContext());
+                    }
+                    else if(tabPosition == 3){
+                        mDbAdapterStatic.deleteAll4();
+                        updateView(3, getApplicationContext());
+                    }
+                    else if(tabPosition == 4){
+                        mDbAdapterStatic.deleteAll5();
+                        updateView(4, getApplicationContext());
+                    }
+                    else if(tabPosition == 5){
+                        mDbAdapterStatic.deleteAll6();
+                        updateView(5, getApplicationContext());
+                    }
                 }
             });
             adb.show();
@@ -194,8 +243,296 @@ public class MainActivity extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
+    public static void getViews (View v){
+        lv = (ListView) v.findViewById(R.id.lvZnamky);
+        tvAverage = (TextView) v.findViewById(R.id.averageTV);
+    }
+
+    public static void updateView(int positionArg, Context ctx){
+        DatabaseAdapter mDbAdapter = mDbAdapterStatic;
+        Cursor cursor = null;
+
+        if(positionArg == 0){
+            cursor = mDbAdapter.getAllEntries();
+        }
+        else if (positionArg == 1){
+            cursor = mDbAdapter.getAllEntries2();
+        }
+        else if (positionArg == 2){
+            cursor = mDbAdapter.getAllEntries3();
+        }
+        else if(positionArg == 3){
+            cursor = mDbAdapter.getAllEntries4();
+        }
+        else if(positionArg == 4){
+            cursor = mDbAdapter.getAllEntries5();
+        }
+        else if(positionArg == 5){
+            cursor = mDbAdapter.getAllEntries6();
+        }
+        lv.setAdapter(new ListAdapter(man, cursor, 0));
+        average(ctx, positionArg);
+    }
+
+    public static void average(Context ctx, int posArg){
+        Cursor cursor = null;
+        if(posArg == 0){
+            cursor = mDbAdapterStatic.averageFromMarks();
+        }
+        else if(posArg == 1){
+            cursor = mDbAdapterStatic.averageFromMarks2();
+        }
+        else if (posArg == 2){
+            cursor = mDbAdapterStatic.averageFromMarks3();
+        }
+        else if(posArg == 3){
+            cursor = mDbAdapterStatic.averageFromMarks4();
+        }
+        else if(posArg == 4){
+            cursor = mDbAdapterStatic.averageFromMarks5();
+        }
+        else if(posArg == 5){
+            cursor = mDbAdapterStatic.averageFromMarks6();
+        }
+        double sum = cursor.getDouble(cursor.getColumnIndex("average"));
+        DecimalFormat formater = new DecimalFormat("0.00");
+        String total = String.valueOf(formater.format(sum));
+        tvAverage.setText(ctx.getResources().getString(R.string.prumer)+" "+total);
+    }
+
+    public static void addOrUpdateMark(View v, int posArg, Context ctx, String name, String m,
+                                       String w,
+                                        long... id) {
+        EditText etName, etMark, etWeight;
+        etName = (EditText) v.findViewById(R.id.etName);
+        etMark = (EditText) v.findViewById(R.id.etMark);
+        etWeight = (EditText) v.findViewById(R.id.etWeight);
+        try {
+            double weight;
+            double mark;
+            if (w.equals("")) {
+                weight = 1;
+            } else {
+                weight = Double.parseDouble(w);
+            }
+            if (TextUtils.isEmpty(name) || TextUtils.isEmpty(m) || m.equals("0")) {
+                throw new IllegalArgumentException(ctx.getResources().getString(R.string
+                        .illegalArgument));
+            }
+            else {
+                mark = Double.parseDouble(m);
+                if(mark > 5 || weight == 0){
+                    throw new IllegalArgumentException(ctx.getResources().getString(R.string
+                            .invalidMarkWeight));
+                }
+            }
+            if (id.length == 0) {
+                if(posArg == 0){
+                    mDbAdapterStatic.addMark(name, mark, weight);
+                }
+                else if(posArg == 1){
+                    mDbAdapterStatic.addMark2(name, mark, weight);
+                }
+                else if(posArg == 2){
+                    mDbAdapterStatic.addMark3(name, mark, weight);
+                }
+                else if(posArg == 3){
+                    mDbAdapterStatic.addMark4(name, mark, weight);
+                }
+                else if(posArg == 4){
+                    mDbAdapterStatic.addMark5(name, mark, weight);
+                }
+                else if(posArg == 5){
+                    mDbAdapterStatic.addMark6(name, mark, weight);
+                }
+                etName.setText("");
+                etMark.setText("");
+                etWeight.setText("");
+                etName.requestFocus();
+            } else {
+                if(posArg == 0){
+                    mDbAdapterStatic.updateMark(name, mark, weight, id[0]);
+                }
+                else if(posArg == 1){
+                    mDbAdapterStatic.updateMark2(name, mark, weight, id[0]);
+                }
+                else if(posArg == 2){
+                    mDbAdapterStatic.updateMark3(name, mark, weight, id[0]);
+                }
+                else if(posArg == 3){
+                    mDbAdapterStatic.updateMark4(name, mark, weight, id[0]);
+                }
+                else if(posArg == 4){
+                    mDbAdapterStatic.updateMark5(name, mark, weight, id[0]);
+                }
+                else if(posArg == 5){
+                    mDbAdapterStatic.updateMark6(name, mark, weight, id[0]);
+                }
+            }
+            if(posArg == 0){
+                updateView(0, ctx);
+            }
+            else if(posArg == 1){
+                updateView(1, ctx);
+            }
+            else if(posArg == 2){
+                updateView(2, ctx);
+            }
+            else if(posArg == 3){
+                updateView(3, ctx);
+            }
+            else if(posArg == 4){
+                updateView(4, ctx);
+            }
+            else if(posArg == 5){
+                updateView(5, ctx);
+            }
+        } catch (IllegalArgumentException e) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+            builder.setMessage(String.valueOf(e));
+            builder.setTitle(R.string.adbError);
+            builder.setNeutralButton(android.R.string.ok, null);
+            builder.show();
+        }
+    }
+
+    public static void removeMark(int posArg, Context ctx, long id) {
+        if(posArg == 0){
+            mDbAdapterStatic.deleteMark(id);
+            updateView(0, ctx);
+        }
+        else if(posArg == 1){
+            mDbAdapterStatic.deleteMark2(id);
+            updateView(1, ctx);
+        }
+        else if(posArg == 2){
+            mDbAdapterStatic.deleteMark3(id);
+            updateView(2, ctx);
+        }
+        else if(posArg == 3){
+            mDbAdapterStatic.deleteMark4(id);
+            updateView(3, ctx);
+        }
+        else if(posArg == 4){
+            mDbAdapterStatic.deleteMark5(id);
+            updateView(4, ctx);
+        }
+        else if(posArg == 5){
+            mDbAdapterStatic.deleteMark6(id);
+            updateView(5, ctx);
+        }
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFrag(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+    }
+
+    @Override
+    public void onResume(){
+        ThemeUtil.reloadTheme(this);
+        super.onResume();
+    }
+
+    public void checkSettings(){
+        //Name
+
+        String one = PreferenceManager.getDefaultSharedPreferences(this).getString
+                ("pref_key_subject_name_one", getResources().getString(R.string.nameOneDefault));
+        String two = PreferenceManager.getDefaultSharedPreferences(this).getString
+                ("pref_key_subject_name_two", getResources().getString(R.string.nameTwoDefault));
+        String three = PreferenceManager.getDefaultSharedPreferences(this).getString
+                ("pref_key_subject_name_three", getResources().getString(R.string
+                        .nameThreeDefault));
+
+        //Vibrace
+        boolean vibrationsValue = PreferenceManager.getDefaultSharedPreferences(this).getBoolean
+                ("pref_key_sound_vibrate", true);
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        unregisterManagers();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterManagers();
+    }
+    private void unregisterManagers() {
+        UpdateManager.unregister();
+    }
+
+
+    public void hockeyAppSet(){
+        LoginManager.register(this, "2fccbcc477da9ab6b058daf97571ac77", LoginManager
+                .LOGIN_MODE_ANONYMOUS);
+        LoginManager.verifyLogin(this, getIntent());
+        CrashManager.register(this);
+        UpdateManager.register(this, "a6f2b12acd1a4e22a763dab9a356879f", new UpdateManagerListener() {
+            @Override
+            public void onUpdateAvailable() {
+                boolean vibrationsValue = android.preference.PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+                        .getBoolean("pref_key_sound_vibrate",
+                                true);
+                if (vibrationsValue) {
+                    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    v.vibrate(400);
+                }
+                UpdateManager.register(MainActivity.this);
+                super.onUpdateAvailable();
+            }
+        });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            switch (event.getAction()) {
+                case KeyEvent.ACTION_DOWN:
+                    if (event.getDownTime() - lastPressedTime < PERIOD) {
+                        finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(), R.string.backToExit,
+                                Toast.LENGTH_SHORT).show();
+                        lastPressedTime = event.getEventTime();
+                    }
+                    return true;
+            }
+        }
+        return false;
+    }
+
     private void firstRun() {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences mPrefs = android.preference.PreferenceManager
+                .getDefaultSharedPreferences(this);
         Boolean welcomeScreenShown = mPrefs.getBoolean(welcomeScreenShownPref, false);
 
         int currentVersionNumber = 0;
@@ -228,7 +565,6 @@ public class MainActivity extends AppCompatActivity{
             mPrefs.edit().putString
                     ("pref_key_general_theme", "0").apply();
         }
-
     }
 
     public void showChangelog (){
@@ -243,134 +579,5 @@ public class MainActivity extends AppCompatActivity{
                     }
                 });
         builder.create().show();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-            switch (event.getAction()) {
-                case KeyEvent.ACTION_DOWN:
-                    if (event.getDownTime() - lastPressedTime < PERIOD) {
-                        finish();
-                    } else {
-                        Toast.makeText(getApplicationContext(), R.string.backToExit,
-                                Toast.LENGTH_SHORT).show();
-                        lastPressedTime = event.getEventTime();
-                    }
-                    return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    protected void onResume() {
-        checkSettings();
-        ThemeUtil.reloadTheme(this);
-        updateView();
-        super.onResume();
-    }
-
-    private void checkSettings () {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-
-        //Vážení známek
-        boolean weightValue = sp.getBoolean("pref_key_general_weight", false);
-        if (!weightValue){
-            etWeight.setEnabled(false);
-            etWeight.setVisibility(View.INVISIBLE);
-        } else {
-            etWeight.setEnabled(true);
-            etWeight.setVisibility(View.VISIBLE);
-        }
-
-        //Vibrace
-        boolean vibrationsValue = sp.getBoolean("pref_key_sound_vibrate", true);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        unregisterManagers();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unregisterManagers();
-    }
-    private void unregisterManagers() {
-        UpdateManager.unregister();
-    }
-
-
-    public void hockeyAppSet(){
-        LoginManager.register(this, "2fccbcc477da9ab6b058daf97571ac77", LoginManager
-                .LOGIN_MODE_ANONYMOUS);
-        LoginManager.verifyLogin(this, getIntent());
-        CrashManager.register(this);
-        UpdateManager.register(this, "a6f2b12acd1a4e22a763dab9a356879f", new UpdateManagerListener() {
-            @Override
-            public void onUpdateAvailable() {
-                boolean vibrationsValue = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
-                        .getBoolean("pref_key_sound_vibrate",
-                                true);
-                if (vibrationsValue) {
-                    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                    v.vibrate(400);
-                }
-                UpdateManager.register(MainActivity.this);
-                super.onUpdateAvailable();
-            }
-        });
-    }
-
-    public void showEditDialog(String name, String mark, String weight, long id)
-    {
-        View view = getLayoutInflater().inflate(R.layout.edit_dialog, null);
-        EditText etNameDialog = (EditText)view.findViewById(R.id.etNameDialog);
-        EditText etMarkDialog = (EditText)view.findViewById(R.id.etMarkDialog);
-        EditText etWeightDialog = (EditText)view.findViewById(R.id.etWeightDialog);
-        etNameDialog.setText(name);
-        etMarkDialog.setText(mark);
-        etWeightDialog.setText(weight);
-        AlertDialog.Builder adb = new AlertDialog.Builder(this);
-        adb.setTitle(R.string.editMark);
-        adb.setPositiveButton(R.string.save, new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface dialog, int which)
-            {
-                addOrUpdateMark(etNameDialog.getText().toString(), etMarkDialog.getText().toString(),
-                        etWeightDialog.getText().toString(), id);
-            }
-        });
-        adb.setNegativeButton(R.string.titleDelete, new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface dialog, int which)
-            {
-                AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.this);
-                adb.setTitle(R.string.titleDelete);
-                adb.setIcon(R.drawable.warning);
-                adb.setMessage(R.string.areYouSure);
-                adb.setNegativeButton(R.string.cancel, null);
-                adb.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        removeMark(id);
-                        updateView();
-                    }
-                });
-                adb.show();
-                dialog.dismiss();
-            }
-        });
-        adb.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        adb.setView(view);
-        adb.show();
     }
 }

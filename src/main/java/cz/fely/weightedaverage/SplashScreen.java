@@ -1,29 +1,18 @@
 package cz.fely.weightedaverage;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Vibrator;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import net.hockeyapp.android.CrashManager;
-import net.hockeyapp.android.LoginManager;
-import net.hockeyapp.android.UpdateManager;
-import net.hockeyapp.android.UpdateManagerListener;
-
-import java.sql.Time;
-import java.util.Timer;
-
 import cz.fely.weightedaverage.utils.ThemeUtil;
 
 
 public class SplashScreen extends Activity {
-    static final int TIMER_RUNTIME = 2000;
+    static final int TIMER_RUNTIME = 1200;
     boolean mbActive;
     ProgressBar progressBar;
     TextView tvInfo;
@@ -51,7 +40,7 @@ public class SplashScreen extends Activity {
                             int waited = 0;
                             int waitedSec = 0;
                             while(mbActive && (waited < TIMER_RUNTIME)){
-                                if (waited == 1000) {
+                                if (waited == 600) {
                                     sleep(500);
                                     if (mbActive) {
                                         waited += 500;
@@ -73,7 +62,7 @@ public class SplashScreen extends Activity {
                             Log.e("Splash: ", e.toString());
                         }
                         finally {
-                            Intent i = new Intent(SplashScreen.this, MainActivityNew.class);
+                            Intent i = new Intent(SplashScreen.this, MainActivity.class);
                             i.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             startActivity(i);
                             finish();

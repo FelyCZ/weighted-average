@@ -3,8 +3,8 @@ package cz.fely.weightedaverage;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -62,7 +62,7 @@ public class AboutFragment extends AppCompatPreferenceActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, MainActivityOld.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

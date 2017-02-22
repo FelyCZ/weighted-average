@@ -53,6 +53,10 @@
     <string name="welcome_title">What\'s new?</string>
     <string name="yes">Yes</string>
     <string name="welcome_text">
+        <b>Verze 3.0.B.0.10</b>\n
+         Added tabs for more subjects\n
+         New elements in settings\n\n
+
         <b>Version 2.4.S.3.2</b>\n
          Fixed columns size in list of marks\n\n
 
@@ -125,8 +129,8 @@
         <item>1</item>
         <item>2</item>
     </string-array>
-    <string name="needRestart">
-       Need restart of app \nSelected theme: %s
+    <string name="themeSummary">
+       Selected theme: %s \nChanges will be reloaded after while
     </string>
     <string name="loadingApp">Loading…</string>
     <string name="pref_sound_vibrate">Sounds and vibrations</string>
@@ -136,4 +140,12 @@
     <string name="pref_sound_vibrate_summary">Vibrations and sound settings</string>
     <string name="illegalArgumentWeight">Weight cannot be 0</string>
     <string name="invalidMarkWeight">Mark or weight is invalid</string>
+    <string name="changesAfterRestart">Changes will be reloaded after next start of app</string>
+    <string name="editMark">Edit mark</string>
+    <string name="nameFiveDefault">Five</string>
+    <string name="nameOneDefault">One</string>
+    <string name="nameFourDefault">Four</string>
+    <string name="nameSixDefault">Six</string>
+    <string name="nameThreeDefault">Three</string>
+    <string name="nameTwoDefault">Two</string>
 </resources>

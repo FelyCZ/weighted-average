@@ -26,6 +26,10 @@
     <string name="close">Zavřít</string>
     <string name="illegalArgument">Název nebo známka je prázdná</string>
      <string name="welcome_text">
+         <b>Verze 3.0.B.0.10</b>\n
+         Přidány záložky pro více předmětů\n
+         Nové možnosti v nastavení\n\n
+
          <b>Verze 2.4.S.3.2</b>\n
          Oprava velikosti kolonek výpisu známek\n\n
 
@@ -130,8 +134,8 @@
         <item>1</item>
         <item>2</item>
     </string-array>
-    <string name="needRestart">
-       Vybrané téma: %s\nZměny se projeví později
+    <string name="themeSummary">
+        Vybrané téma: %s\nZměny se projeví později
     </string>
     <string name="pref_theme_summary">Vybrat styl aplikace</string>
     <string name="pref_theme_title">Styl</string>
@@ -149,4 +153,11 @@
     <string name="editMark">Upravit známku</string>
     <string name="save">Uložit</string>
     <string name="invalidMarkWeight">Známka nebo váha je neplatná</string>
+    <string name="changesAfterRestart">Změny se projeví po dalším spuštění aplikace</string>
+    <string name="nameFiveDefault">Pět</string>
+    <string name="nameFourDefault">Čtyři</string>
+    <string name="nameOneDefault">Jedna</string>
+    <string name="nameSixDefault">Šest</string>
+    <string name="nameThreeDefault">Tři</string>
+    <string name="nameTwoDefault">Dva</string>
 </resources>

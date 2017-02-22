@@ -26,6 +26,10 @@
     <string name="close">Zavřít</string>
     <string name="illegalArgument">Název nebo známka je prázdná</string>
      <string name="welcome_text">
+         <b>Verze 3.0.B.0.10</b>\n
+         Přidány záložky pro více předmětů\n
+         Nové možnosti v nastavení\n\n
+
          <b>Verze 2.4.S.3.2</b>\n
          Oprava velikosti kolonek výpisu známek\n\n
 
@@ -149,4 +153,18 @@
     <string name="save">Uložit</string>
     <string name="invalidMarkWeight">Známka nebo váha je neplatná</string>
     <string name="show">Klikněte pro zobrazení</string>
+    <string name="subjectPrefsCat">Předměty</string>
+    <string name="changesAfterRestart">Změny se projeví po dalším spuštení aplikace</string>
+    <string name="subjectOneNamePrefs">Název prvního předmětu</string>
+    <string name="subjectTwoNamePrefs">Název druhého předmětu</string>
+    <string name="subjectThreeNamePrefs">Název třetího předmětu</string>
+    <string name="subjectFourNamePrefs">Název čtvrtého předmětu</string>
+    <string name="subjectFiveNamePrefs">Název pátého předmětu</string>
+    <string name="subjectSixNamePrefs">Název šestého předmětu</string>
+    <string name="nameOneDefault">Jedna</string>
+    <string name="nameThreeDefault">Tři</string>
+    <string name="nameTwoDefault">Dva</string>
+    <string name="nameFourDefault">Čtyři</string>
+    <string name="nameFiveDefault">Pět</string>
+    <string name="nameSixDefault">Šest</string>
 </resources>
