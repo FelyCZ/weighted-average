@@ -161,10 +161,30 @@
     <string name="subjectFourNamePrefs">Název čtvrtého předmětu</string>
     <string name="subjectFiveNamePrefs">Název pátého předmětu</string>
     <string name="subjectSixNamePrefs">Název šestého předmětu</string>
+    <string name="subjectSevenNamePrefs">Název sedmého předmětu</string>
+    <string name="subjectEightNamePrefs">Název osmého předmětu</string>
+    <string name="subjectNineNamePrefs">Název devátého předmětu</string>
+    <string name="subjectTenNamePrefs">Název desátého předmětu</string>
     <string name="nameOneDefault">Jedna</string>
     <string name="nameThreeDefault">Tři</string>
     <string name="nameTwoDefault">Dva</string>
     <string name="nameFourDefault">Čtyři</string>
     <string name="nameFiveDefault">Pět</string>
     <string name="nameSixDefault">Šest</string>
+    <string name="nameSevenDefault">Sedm</string>
+    <string name="nameEightDefault">Osm</string>
+    <string name="nameNineDefault">Devět</string>
+    <string name="nameTenDefault">Deset</string>
+    <string name="prefLangTitle">Jazyk</string>
+    <string name="prefSelectLang">Vyber jazyk</string>
+
+    <string-array name="langs">
+        <item>Čeština</item>
+        <item>English</item>
+    </string-array>
+    <string-array name="langsValues">
+        <item>cs</item>
+        <item>en</item>
+    </string-array>
+
 </resources>

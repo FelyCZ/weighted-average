@@ -10,12 +10,18 @@ public class DatabaseAdapter implements BaseColumns{
     public static final String COLUMN_MARK = "mark";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_WEIGHT = "weight";
+
     public static final String TABLE_NAME = "Marks";
     public static final String TABLE_NAME2 = "Marks2";
     public static final String TABLE_NAME3 = "Marks3";
     public static final String TABLE_NAME4 = "Marks4";
     public static final String TABLE_NAME5 = "Marks5";
     public static final String TABLE_NAME6 = "Marks6";
+    public static final String TABLE_NAME7 = "Marks7";
+    public static final String TABLE_NAME8 = "Marks8";
+    public static final String TABLE_NAME9 = "Marks9";
+    public static final String TABLE_NAME10 = "Marks10";
+
     public static SQLiteDatabase mDb;
     private DatabaseHelper mDbHelper;
 
@@ -46,6 +52,22 @@ public class DatabaseAdapter implements BaseColumns{
     }
     public Cursor getAllEntries6() {
         return mDb.query(TABLE_NAME6,
+                new String[]{"_id", COLUMN_NAME, COLUMN_MARK, COLUMN_WEIGHT}, null, null, null, null, null);
+    }
+    public Cursor getAllEntries7() {
+        return mDb.query(TABLE_NAME7,
+                new String[]{"_id", COLUMN_NAME, COLUMN_MARK, COLUMN_WEIGHT}, null, null, null, null, null);
+    }
+    public Cursor getAllEntries8() {
+        return mDb.query(TABLE_NAME8,
+                new String[]{"_id", COLUMN_NAME, COLUMN_MARK, COLUMN_WEIGHT}, null, null, null, null, null);
+    }
+    public Cursor getAllEntries9() {
+        return mDb.query(TABLE_NAME9,
+                new String[]{"_id", COLUMN_NAME, COLUMN_MARK, COLUMN_WEIGHT}, null, null, null, null, null);
+    }
+    public Cursor getAllEntries10() {
+        return mDb.query(TABLE_NAME10,
                 new String[]{"_id", COLUMN_NAME, COLUMN_MARK, COLUMN_WEIGHT}, null, null, null, null, null);
     }
 
@@ -97,6 +119,38 @@ public class DatabaseAdapter implements BaseColumns{
         }
         return cursor;
     }
+    public Cursor averageFromMarks7(){
+        Cursor cursor = mDb.rawQuery("SELECT sum(mark*weight)/sum(weight) AS " +
+                "average FROM Marks7", null);
+        if (cursor != null){
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+    public Cursor averageFromMarks8(){
+        Cursor cursor = mDb.rawQuery("SELECT sum(mark*weight)/sum(weight) AS " +
+                "average FROM Marks8", null);
+        if (cursor != null){
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+    public Cursor averageFromMarks9(){
+        Cursor cursor = mDb.rawQuery("SELECT sum(mark*weight)/sum(weight) AS " +
+                "average FROM Marks9", null);
+        if (cursor != null){
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+    public Cursor averageFromMarks10(){
+        Cursor cursor = mDb.rawQuery("SELECT sum(mark*weight)/sum(weight) AS " +
+                "average FROM Marks10", null);
+        if (cursor != null){
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
 
     public void addMark(String name, double mark, double weight) {
         ContentValues values = new ContentValues(3);
@@ -140,6 +194,34 @@ public class DatabaseAdapter implements BaseColumns{
         values.put(COLUMN_WEIGHT, weight);
         mDb.insert(TABLE_NAME6, null, values);
     }
+    public void addMark7(String name, double mark, double weight) {
+        ContentValues values = new ContentValues(3);
+        values.put(COLUMN_NAME, name);
+        values.put(COLUMN_MARK, mark);
+        values.put(COLUMN_WEIGHT, weight);
+        mDb.insert(TABLE_NAME7, null, values);
+    }
+    public void addMark8(String name, double mark, double weight) {
+        ContentValues values = new ContentValues(3);
+        values.put(COLUMN_NAME, name);
+        values.put(COLUMN_MARK, mark);
+        values.put(COLUMN_WEIGHT, weight);
+        mDb.insert(TABLE_NAME8, null, values);
+    }
+    public void addMark9(String name, double mark, double weight) {
+        ContentValues values = new ContentValues(3);
+        values.put(COLUMN_NAME, name);
+        values.put(COLUMN_MARK, mark);
+        values.put(COLUMN_WEIGHT, weight);
+        mDb.insert(TABLE_NAME9, null, values);
+    }
+    public void addMark10(String name, double mark, double weight) {
+        ContentValues values = new ContentValues(3);
+        values.put(COLUMN_NAME, name);
+        values.put(COLUMN_MARK, mark);
+        values.put(COLUMN_WEIGHT, weight);
+        mDb.insert(TABLE_NAME10, null, values);
+    }
 
     public void deleteMark(long id) {
         mDb.delete(TABLE_NAME, "_id=" + id, null);
@@ -159,6 +241,18 @@ public class DatabaseAdapter implements BaseColumns{
     public void deleteMark6(long id) {
         mDb.delete(TABLE_NAME6, "_id=" + id, null);
     }
+    public void deleteMark7(long id) {
+        mDb.delete(TABLE_NAME7, "_id=" + id, null);
+    }
+    public void deleteMark8(long id) {
+        mDb.delete(TABLE_NAME8, "_id=" + id, null);
+    }
+    public void deleteMark9(long id) {
+        mDb.delete(TABLE_NAME9, "_id=" + id, null);
+    }
+    public void deleteMark10(long id) {
+        mDb.delete(TABLE_NAME10, "_id=" + id, null);
+    }
 
     public void deleteAll() {
         mDb.delete(TABLE_NAME, null, null);
@@ -177,6 +271,18 @@ public class DatabaseAdapter implements BaseColumns{
     }
     public void deleteAll6() {
         mDb.delete(TABLE_NAME6, null, null);
+    }
+    public void deleteAll7() {
+        mDb.delete(TABLE_NAME7, null, null);
+    }
+    public void deleteAll8() {
+        mDb.delete(TABLE_NAME8, null, null);
+    }
+    public void deleteAll9() {
+        mDb.delete(TABLE_NAME9, null, null);
+    }
+    public void deleteAll10() {
+        mDb.delete(TABLE_NAME10, null, null);
     }
 
     public void updateMark(String name, double mark, double weight, long id) {
@@ -220,5 +326,33 @@ public class DatabaseAdapter implements BaseColumns{
         values.put("mark", mark);
         values.put("weight", weight);
         mDb.update(TABLE_NAME6, values, "_id=" + id, null);
+    }
+    public void updateMark7(String name, double mark, double weight, long id) {
+        ContentValues values = new ContentValues(3);
+        values.put("name", name);
+        values.put("mark", mark);
+        values.put("weight", weight);
+        mDb.update(TABLE_NAME7, values, "_id=" + id, null);
+    }
+    public void updateMark8(String name, double mark, double weight, long id) {
+        ContentValues values = new ContentValues(3);
+        values.put("name", name);
+        values.put("mark", mark);
+        values.put("weight", weight);
+        mDb.update(TABLE_NAME8, values, "_id=" + id, null);
+    }
+    public void updateMark9(String name, double mark, double weight, long id) {
+        ContentValues values = new ContentValues(3);
+        values.put("name", name);
+        values.put("mark", mark);
+        values.put("weight", weight);
+        mDb.update(TABLE_NAME9, values, "_id=" + id, null);
+    }
+    public void updateMark10(String name, double mark, double weight, long id) {
+        ContentValues values = new ContentValues(3);
+        values.put("name", name);
+        values.put("mark", mark);
+        values.put("weight", weight);
+        mDb.update(TABLE_NAME10, values, "_id=" + id, null);
     }
 }

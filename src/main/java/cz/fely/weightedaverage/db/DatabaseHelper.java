@@ -19,12 +19,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "KEY, name STRING, mark DOUBLE, weight DOUBLE )";
     private static final String SQL_CREATE_TABLE6 = "CREATE TABLE Marks6 (_id INTEGER PRIMARY " +
             "KEY, name STRING, mark DOUBLE, weight DOUBLE )";
+    private static final String SQL_CREATE_TABLE7 = "CREATE TABLE Marks7 (_id INTEGER PRIMARY " +
+            "KEY, name STRING, mark DOUBLE, weight DOUBLE )";
+    private static final String SQL_CREATE_TABLE8 = "CREATE TABLE Marks8 (_id INTEGER PRIMARY " +
+            "KEY, name STRING, mark DOUBLE, weight DOUBLE )";
+    private static final String SQL_CREATE_TABLE9 = "CREATE TABLE Marks9 (_id INTEGER PRIMARY " +
+            "KEY, name STRING, mark DOUBLE, weight DOUBLE )";
+    private static final String SQL_CREATE_TABLE10 = "CREATE TABLE Marks10 (_id INTEGER PRIMARY " +
+            "KEY, name STRING, mark DOUBLE, weight DOUBLE )";
     private static final String SQL_DELETE_TABLE = "DROP TABLE IF EXISTS Marks";
     private static final String SQL_DELETE_TABLE2 = "DROP TABLE IF EXISTS Marks2";
     private static final String SQL_DELETE_TABLE3 = "DROP TABLE IF EXISTS Marks3";
     private static final String SQL_DELETE_TABLE4 = "DROP TABLE IF EXISTS Marks4";
     private static final String SQL_DELETE_TABLE5 = "DROP TABLE IF EXISTS Marks5";
     private static final String SQL_DELETE_TABLE6 = "DROP TABLE IF EXISTS Marks6";
+    private static final String SQL_DELETE_TABLE7 = "DROP TABLE IF EXISTS Marks7";
+    private static final String SQL_DELETE_TABLE8 = "DROP TABLE IF EXISTS Marks8";
+    private static final String SQL_DELETE_TABLE9 = "DROP TABLE IF EXISTS Marks9";
+    private static final String SQL_DELETE_TABLE10 = "DROP TABLE IF EXISTS Marks10";
 
     DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -37,6 +49,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_TABLE4);
         db.execSQL(SQL_CREATE_TABLE5);
         db.execSQL(SQL_CREATE_TABLE6);
+        db.execSQL(SQL_CREATE_TABLE7);
+        db.execSQL(SQL_CREATE_TABLE8);
+        db.execSQL(SQL_CREATE_TABLE9);
+        db.execSQL(SQL_CREATE_TABLE10);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -46,6 +62,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_DELETE_TABLE4);
         db.execSQL(SQL_DELETE_TABLE5);
         db.execSQL(SQL_DELETE_TABLE6);
+        db.execSQL(SQL_DELETE_TABLE7);
+        db.execSQL(SQL_DELETE_TABLE8);
+        db.execSQL(SQL_DELETE_TABLE9);
+        db.execSQL(SQL_DELETE_TABLE10);
         onCreate(db);
     }
 }

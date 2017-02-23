@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import cz.fely.weightedaverage.utils.PreferencesUtil;
 import cz.fely.weightedaverage.utils.ThemeUtil;
 
 

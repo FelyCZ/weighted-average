@@ -20,6 +20,16 @@
             android:summary="@string/themeSummary"
             android:dialogTitle="@string/pref_theme_dialog_title"
             />
+
+        <ListPreference
+            android:entries="@array/langs"
+            android:entryValues="@array/langsValues"
+            android:key="pref_key_general_lang"
+            android:title="@string/prefLangTitle"
+            android:summary="%s"
+            android:dialogTitle="@string/prefSelectLang"
+            />
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -55,10 +65,10 @@
             />
 
         <EditTextPreference
-            android:title="@string/subjectThreeNamePrefs"
-            android:key="pref_key_subject_name_three"
-            android:defaultValue="@string/nameThreeDefault"
-            />
+        android:title="@string/subjectThreeNamePrefs"
+        android:key="pref_key_subject_name_three"
+        android:defaultValue="@string/nameThreeDefault"
+        />
 
         <EditTextPreference
             android:title="@string/subjectFourNamePrefs"
@@ -76,6 +86,30 @@
             android:title="@string/subjectSixNamePrefs"
             android:key="pref_key_subject_name_six"
             android:defaultValue="@string/nameSixDefault"
+            />
+
+        <EditTextPreference
+            android:title="@string/subjectSevenNamePrefs"
+            android:key="pref_key_subject_name_seven"
+            android:defaultValue="@string/nameSevenDefault"
+            />
+
+        <EditTextPreference
+            android:title="@string/subjectEightNamePrefs"
+            android:key="pref_key_subject_name_eight"
+            android:defaultValue="@string/nameEightDefault"
+            />
+
+        <EditTextPreference
+            android:title="@string/subjectNineNamePrefs"
+            android:key="pref_key_subject_name_nine"
+            android:defaultValue="@string/nameNineDefault"
+            />
+
+        <EditTextPreference
+            android:title="@string/subjectTenNamePrefs"
+            android:key="pref_key_subject_name_ten"
+            android:defaultValue="@string/nameTenDefault"
             />
 
     </PreferenceCategory>

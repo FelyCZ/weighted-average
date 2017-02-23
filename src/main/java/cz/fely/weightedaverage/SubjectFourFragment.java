@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import cz.fely.weightedaverage.utils.PreferencesUtil;
+
 public class SubjectFourFragment extends Fragment{
 
     Button btnAdd;
@@ -36,7 +38,7 @@ public class SubjectFourFragment extends Fragment{
         etWeight = (EditText) view.findViewById(R.id.etWeight);
         tvAverage = (TextView) view.findViewById(R.id.averageTV);
         lv = (ListView) view.findViewById(R.id.lvZnamky);
-        checkSettings();
+        MainActivity.checkSettings(view);
         MainActivity.getViews(view);
         MainActivity.updateView(3, getContext());
 
@@ -99,22 +101,10 @@ public class SubjectFourFragment extends Fragment{
         adb.show();
     }
 
-    public void checkSettings(){
-        SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-
-        //Weight marks
-        boolean weightValue = mPrefs.getBoolean("pref_key_general_weight", true);
-        if(weightValue){
-            etWeight.setVisibility(View.VISIBLE);
-        }
-        else {
-            etWeight.setVisibility(View.INVISIBLE);
-        }
-    }
-
     @Override
     public void onResume() {
         MainActivity.getViews(view);
+        MainActivity.checkSettings(view);
         super.onResume();
     }
 }
