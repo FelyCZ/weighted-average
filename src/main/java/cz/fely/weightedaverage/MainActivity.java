@@ -105,6 +105,18 @@ public class MainActivity extends AppCompatActivity {
                 else if(position == 5){
                     v = SubjectSixFragment.view;
                 }
+                else if(position == 6){
+                    v = SubjectSevenFragment.view;
+                }
+                else if(position == 7){
+                    v = SubjectEightFragment.view;
+                }
+                else if(position == 8){
+                    v = SubjectNineFragment.view;
+                }
+                else if(position == 9){
+                    v = SubjectTenFragment.view;
+                }
                 getViews(v);
                 updateView(position, getApplicationContext());
             }
@@ -141,6 +153,18 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if(tabPosition == 5){
                     v = SubjectSixFragment.view;
+                }
+                else if(tabPosition == 6){
+                    v = SubjectSevenFragment.view;
+                }
+                else if(tabPosition == 7){
+                    v = SubjectEightFragment.view;
+                }
+                else if(tabPosition == 8){
+                    v = SubjectNineFragment.view;
+                }
+                else if(tabPosition == 9){
+                    v = SubjectTenFragment.view;
                 }
                 getViews(v);
                 updateView(tabPosition, getApplicationContext());

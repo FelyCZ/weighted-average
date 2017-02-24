@@ -53,6 +53,10 @@
     <string name="welcome_title">What\'s new?</string>
     <string name="yes">Yes</string>
     <string name="welcome_text">
+        <b>Version 3.1.B.0.10</b>\n
+         Fixed bugs with tabs for subjects\n
+         Now is there 10 tabs for subjects\n\n
+         
         <b>Verze 3.0.B.0.10</b>\n
          Added tabs for more subjects\n
          New elements in settings\n\n

@@ -26,6 +26,10 @@
     <string name="close">Zavřít</string>
     <string name="illegalArgument">Název nebo známka je prázdná</string>
      <string name="welcome_text">
+         <b>Verze 3.1.B.0.10</b>\n
+         Opravy chyb u záložek předmětů\n
+         Počet předmětů zvýšen na 10\n\n
+
          <b>Verze 3.0.B.0.10</b>\n
          Přidány záložky pro více předmětů\n
          Nové možnosti v nastavení\n\n
