@@ -1,4 +1,4 @@
-package cz.fely.weightedaverage;
+package cz.fely.weightedaverage.subjects;
 
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import cz.fely.weightedaverage.MainActivity;
+import cz.fely.weightedaverage.R;
 import cz.fely.weightedaverage.utils.PreferencesUtil;
 
 public class SubjectFourFragment extends Fragment{

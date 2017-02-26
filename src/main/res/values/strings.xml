@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">Průměr známek</string>
     <string name="hintET">Název (např. test)</string>
-    <string name="title_activity_main">Průměr známek</string>
     <string name="action_settings">Nastavení</string>
     <string name="vymazatZnamky">Vymazat známky</string>
     <string name="menuHelp">Nápověda</string>
@@ -18,9 +17,6 @@
     <string name="titleDelete">Smazat</string>
     <string name="titleDeleteAll">Smazat vše</string>
     <string name="yes">Ano</string>
-    <string name="chapu">Už to chápu…</string>
-    <string name="SubjectFeedback">Zpětná vazba - Vážený průměr</string>
-    <string name="ChooserTitle">Odeslat názor přes</string>
     <string name="adbError">Chyba</string>
     <string name="cancel">Zrušit</string>
     <string name="close">Zavřít</string>
@@ -181,6 +177,7 @@
     <string name="nameTenDefault">Deset</string>
     <string name="prefLangTitle">Jazyk</string>
     <string name="prefSelectLang">Vyber jazyk</string>
+    <string name="overView">Přehled</string>
 
     <string-array name="langs">
         <item>Čeština</item>

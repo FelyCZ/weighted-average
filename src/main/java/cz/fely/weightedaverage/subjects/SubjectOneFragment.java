@@ -1,4 +1,4 @@
-package cz.fely.weightedaverage;
+package cz.fely.weightedaverage.subjects;
 
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -15,9 +15,13 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+
+import cz.fely.weightedaverage.MainActivity;
+import cz.fely.weightedaverage.R;
 import cz.fely.weightedaverage.utils.PreferencesUtil;
 
-public class SubjectEightFragment extends Fragment{
+public class SubjectOneFragment extends Fragment {
 
     Button btnAdd;
     EditText etName, etMark, etWeight;
@@ -25,12 +29,11 @@ public class SubjectEightFragment extends Fragment{
     ListView lv;
     public static View view;
 
-    public SubjectEightFragment(){
+    public SubjectOneFragment() {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
-            savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_main, container, false);
         btnAdd = (Button) view.findViewById(R.id.btnAdd);
         etName = (EditText) view.findViewById(R.id.etName);
@@ -40,7 +43,7 @@ public class SubjectEightFragment extends Fragment{
         lv = (ListView) view.findViewById(R.id.lvZnamky);
         MainActivity.checkSettings(view);
         MainActivity.getViews(view);
-        MainActivity.updateView(7, getContext());
+        MainActivity.updateView(0, getContext());
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -48,6 +51,7 @@ public class SubjectEightFragment extends Fragment{
                 showEditDialog(((TextView) view.findViewById(R.id.name)).getText().toString(), (
                         (TextView) view.findViewById(R.id.mark)).getText().toString(), ((TextView)
                         view.findViewById(R.id.weight)).getText().toString(), id);
+
             }
         });
 
@@ -55,7 +59,7 @@ public class SubjectEightFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 MainActivity.getViews(view);
-                MainActivity.addOrUpdateMark(view, 7, getContext(), etName.getText().toString
+                MainActivity.addOrUpdateMark(view, 0, getContext(), etName.getText().toString
                         (), etMark.getText().toString(), etWeight.getText().toString(), new
                         long[0]);
             }
@@ -63,38 +67,47 @@ public class SubjectEightFragment extends Fragment{
         return view;
     }
 
-    public void showEditDialog(String name, String mark, String weight, long id){
+    public void showEditDialog(String name, String mark, String weight, long id) {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         View v = inflater.inflate(R.layout.edit_dialog, null);
-        EditText etNameDialog, etMarkDialog,etWeightDialog;
-        etNameDialog = (EditText) v.findViewById(R.id.etNameDialog);
-        etMarkDialog = (EditText) v.findViewById(R.id.etMarkDialog);
-        etWeightDialog = (EditText) v.findViewById(R.id.etWeightDialog);
+        EditText etNameDialog = (EditText) v.findViewById(R.id.etNameDialog);
+        EditText etMarkDialog = (EditText) v.findViewById(R.id.etMarkDialog);
+        EditText etWeightDialog = (EditText) v.findViewById(R.id.etWeightDialog);
         etNameDialog.setText(name);
         etMarkDialog.setText(mark);
         etWeightDialog.setText(weight);
         AlertDialog.Builder adb = new AlertDialog.Builder(getContext());
         adb.setTitle(R.string.editMark);
         adb.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(DialogInterface dialog, int which)  {
                 MainActivity.getViews(view);
-                MainActivity.addOrUpdateMark(view, 7, getContext(), etNameDialog.getText()
-                        .toString(), etMarkDialog.getText().toString(), etWeightDialog.getText()
-                        .toString(), id);
+                MainActivity.addOrUpdateMark(view, 0, getContext(), etNameDialog.getText()
+                             .toString(), etMarkDialog.getText().toString(), etWeightDialog
+                             .getText().toString(), id);
             }
         });
         adb.setNegativeButton(R.string.titleDelete, new DialogInterface.OnClickListener() {
-            @Override
             public void onClick(DialogInterface dialog, int which) {
-                MainActivity.getViews(view);
-                MainActivity.removeMark(7, getContext(), id);
-                MainActivity.updateView(7, getContext());
+                AlertDialog.Builder adb = new AlertDialog.Builder(getContext());
+                adb.setTitle(R.string.titleDelete);
+                adb.setIcon(R.drawable.warning);
+                adb.setMessage(R.string.areYouSure);
+                adb.setNegativeButton(R.string.cancel, null);
+                adb.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        MainActivity.getViews(view);
+                        MainActivity.removeMark(0, getContext(), id);
+                        MainActivity.updateView(0, getContext());
+                    }
+                });
+                adb.show();
+                dialog.dismiss();
             }
         });
         adb.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
             public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
             }
         });
         adb.setView(v);

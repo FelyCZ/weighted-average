@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <View android:id="@+id/fakeView"
+          android:layout_width="0dp"
+          android:layout_height="0dp"
+          android:layout_centerInParent="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/SubjectOneTitleOverview"
+        android:layout_alignRight="@+id/fakeView"
+        android:layout_alignEnd="@+id/fakeView"
+        android:layout_height="30dp"
+        android:textSize="24sp"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:id="@+id/SubjectOneMarkOverview"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/fakeView"
+        android:layout_toEndOf="@+id/fakeView"
+        android:textStyle="normal|bold"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/SubjectOneTitleOverview"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/SubjectTwoTitleOverview"
+        android:textSize="24sp"
+        android:layout_toLeftOf="@+id/SubjectOneMarkOverview"
+        android:layout_toStartOf="@+id/SubjectOneMarkOverview"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:id="@+id/SubjectThreeTitleOverview"
+        android:layout_below="@+id/SubjectTwoTitleOverview"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:layout_alignRight="@+id/fakeView"
+        android:layout_alignEnd="@+id/fakeView"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:id="@+id/SubjectThreeMarkOverview"
+        android:layout_below="@+id/SubjectTwoMarkOverview"
+        android:layout_toRightOf="@+id/fakeView"
+        android:layout_alignParentRight="true"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:layout_alignParentEnd="true"
+        android:textStyle="normal|bold"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/SubjectSixTitleOverview"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textAlignment="center"
+        android:id="@+id/SubjectSevenTitleOverview"
+        android:textSize="24sp"
+        android:layout_alignRight="@+id/SubjectSixTitleOverview"
+        android:layout_alignEnd="@+id/SubjectSixTitleOverview"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/SubjectEightTitleOverview"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:id="@+id/SubjectNineTitleOverview"
+        android:layout_alignRight="@+id/SubjectEightTitleOverview"
+        android:layout_alignEnd="@+id/SubjectEightTitleOverview"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:textAlignment="center"
+        android:id="@+id/SubjectTenTitleOverview"
+        android:textSize="24sp"
+        android:layout_below="@+id/SubjectNineTitleOverview"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/fakeView"
+        android:layout_toStartOf="@+id/fakeView"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:id="@+id/SubjectFourTitleOverview"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        android:layout_below="@+id/SubjectThreeTitleOverview"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/SubjectThreeMarkOverview"
+        android:layout_toStartOf="@+id/SubjectThreeMarkOverview"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:id="@+id/SubjectFiveTitleOverview"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:layout_below="@+id/SubjectFourTitleOverview"
+        android:layout_alignRight="@+id/fakeView"
+        android:layout_alignEnd="@+id/fakeView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:id="@+id/SubjectEightTitleOverview"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:layout_below="@+id/SubjectSevenTitleOverview"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/SubjectSevenTitleOverview"
+        android:layout_alignEnd="@+id/SubjectSevenTitleOverview"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:textAlignment="center"
+        android:id="@+id/SubjectSixTitleOverview"
+        android:textSize="24sp"
+        android:layout_below="@+id/SubjectFiveTitleOverview"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/fakeView"
+        android:layout_alignEnd="@+id/fakeView"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/SubjectFourMarkOverview"
+        android:layout_alignRight="@+id/SubjectFourMarkOverview"
+        android:layout_alignEnd="@+id/SubjectFourMarkOverview"
+        android:id="@+id/SubjectFiveMarkOverview"
+        android:layout_toRightOf="@+id/fakeView"
+        android:layout_toEndOf="@+id/fakeView"
+        android:textStyle="normal|bold"
+        android:textAlignment="center"
+        android:textSize="24sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:id="@+id/SubjectFourMarkOverview"
+        android:layout_below="@+id/SubjectThreeMarkOverview"
+        android:layout_toRightOf="@+id/fakeView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textStyle="normal|bold"
+        android:textAlignment="center"
+        android:textSize="24sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/SubjectFiveMarkOverview"
+        android:layout_toRightOf="@+id/fakeView"
+        android:id="@+id/SubjectSixMarkOverview"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textStyle="normal|bold"
+        android:textAlignment="center"
+        android:textSize="24sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/SubjectSixMarkOverview"
+        android:layout_toRightOf="@+id/fakeView"
+        android:id="@+id/SubjectSevenMarkOverview"
+        android:layout_above="@+id/SubjectEightTitleOverview"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textAlignment="center"
+        android:textStyle="normal|bold"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/SubjectSevenMarkOverview"
+        android:layout_alignRight="@+id/SubjectSevenMarkOverview"
+        android:layout_alignEnd="@+id/SubjectSevenMarkOverview"
+        android:layout_toRightOf="@+id/fakeView"
+        android:layout_toEndOf="@+id/fakeView"
+        android:textAlignment="center"
+        android:textStyle="normal|bold"
+        android:textSize="24sp"
+        android:id="@+id/SubjectEightMarkOverview"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:id="@+id/SubjectTenMarkOverview"
+        android:layout_below="@+id/SubjectNineTitleOverview"
+        android:layout_toRightOf="@+id/SubjectTenTitleOverview"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textAlignment="center"
+        android:textStyle="normal|bold"
+        android:textSize="24sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:id="@+id/SubjectTwoMarkOverview"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        android:textStyle="normal|bold"
+        android:layout_alignBaseline="@+id/SubjectTwoTitleOverview"
+        android:layout_alignBottom="@+id/SubjectTwoTitleOverview"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/fakeView"
+        android:layout_toEndOf="@+id/fakeView"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:id="@+id/SubjectNineMarkOverview"
+        android:layout_below="@+id/SubjectEightTitleOverview"
+        android:layout_toRightOf="@+id/SubjectNineTitleOverview"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textAlignment="center"
+        android:textStyle="normal|bold"
+        android:textSize="24sp"/>
+</RelativeLayout>

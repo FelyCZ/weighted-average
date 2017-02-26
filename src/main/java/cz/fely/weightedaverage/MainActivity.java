@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -40,8 +39,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.fely.weightedaverage.db.DatabaseAdapter;
-import cz.fely.weightedaverage.db.DatabaseHelper;
-import cz.fely.weightedaverage.utils.LocaleUtils;
+import cz.fely.weightedaverage.subjects.OverviewFragment;
+import cz.fely.weightedaverage.subjects.SubjectEightFragment;
+import cz.fely.weightedaverage.subjects.SubjectFiveFragment;
+import cz.fely.weightedaverage.subjects.SubjectFourFragment;
+import cz.fely.weightedaverage.subjects.SubjectNineFragment;
+import cz.fely.weightedaverage.subjects.SubjectOneFragment;
+import cz.fely.weightedaverage.subjects.SubjectSevenFragment;
+import cz.fely.weightedaverage.subjects.SubjectSixFragment;
+import cz.fely.weightedaverage.subjects.SubjectTenFragment;
+import cz.fely.weightedaverage.subjects.SubjectThreeFragment;
+import cz.fely.weightedaverage.subjects.SubjectTwoFragment;
 import cz.fely.weightedaverage.utils.PreferencesUtil;
 import cz.fely.weightedaverage.utils.ThemeUtil;
 
@@ -50,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private static TabLayout tabLayout;
     private ViewPager viewPager;
     int tabPosition;
-    static DatabaseAdapter mDbAdapterStatic;
+    public static DatabaseAdapter mDbAdapterStatic;
     private static MainActivity man;
     static ListView lv;
     static TextView tvAverage;
@@ -80,44 +88,62 @@ public class MainActivity extends AppCompatActivity {
         man = MainActivity.this;
         context = this;
 
+        if (tabPosition == 0) {
+            MenuItem deleteAll = (MenuItem) findViewById(R.id.action_deletemarks);
+            deleteAll.setVisible(false);
+        }
         firstRun();
         hockeyAppSet();
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                View v = null;
-                if(position == 0){
-                    v = SubjectOneFragment.view;
+                tabPosition = tabLayout.getSelectedTabPosition();
+                View v;
+                switch (position) {
+                    case 0:
+                        break;
+                    case 1:
+                        v = SubjectOneFragment.view;
+                        getViews(v);
+                        break;
+                    case 2:
+                        v = SubjectTwoFragment.view;
+                        getViews(v);
+                        break;
+                    case 3:
+                        v = SubjectThreeFragment.view;
+                        getViews(v);
+                        break;
+                    case 4:
+                        v = SubjectFourFragment.view;
+                        getViews(v);
+                        break;
+                    case 5:
+                        v = SubjectFiveFragment.view;
+                        getViews(v);
+                        break;
+                    case 6:
+                        v = SubjectSixFragment.view;
+                        getViews(v);
+                        break;
+                    case 7:
+                        v = SubjectSevenFragment.view;
+                        getViews(v);
+                        break;
+                    case 8:
+                        v = SubjectEightFragment.view;
+                        getViews(v);
+                        break;
+                    case 9:
+                        v = SubjectNineFragment.view;
+                        getViews(v);
+                        break;
+                    case 10:
+                        v = SubjectTenFragment.view;
+                        getViews(v);
+                        break;
                 }
-                else if(position == 1){
-                    v = SubjectTwoFragment.view;
-                }
-                else if(position == 2) {
-                    v = SubjectThreeFragment.view;
-                }
-                else if(position == 3){
-                    v = SubjectFourFragment.view;
-                }
-                else if(position == 4){
-                    v = SubjectFiveFragment.view;
-                }
-                else if(position == 5){
-                    v = SubjectSixFragment.view;
-                }
-                else if(position == 6){
-                    v = SubjectSevenFragment.view;
-                }
-                else if(position == 7){
-                    v = SubjectEightFragment.view;
-                }
-                else if(position == 8){
-                    v = SubjectNineFragment.view;
-                }
-                else if(position == 9){
-                    v = SubjectTenFragment.view;
-                }
-                getViews(v);
                 updateView(position, getApplicationContext());
             }
 
@@ -135,38 +161,48 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 tabPosition = tab.getPosition();
-                View v = null;
-                if(tabPosition == 0){
+                View v;
+                if (tabPosition == 0) {
+                } else if (tabPosition == 1) {
                     v = SubjectOneFragment.view;
-                }
-                else if(tabPosition == 1){
+                    getViews(v);
+
+                } else if (tabPosition == 2) {
                     v = SubjectTwoFragment.view;
-                }
-                else if(tabPosition == 2) {
+                    getViews(v);
+
+                } else if (tabPosition == 3) {
                     v = SubjectThreeFragment.view;
-                }
-                else if(tabPosition == 3){
+                    getViews(v);
+
+                } else if (tabPosition == 4) {
                     v = SubjectFourFragment.view;
-                }
-                else if(tabPosition == 4){
+                    getViews(v);
+
+                } else if (tabPosition == 5) {
                     v = SubjectFiveFragment.view;
-                }
-                else if(tabPosition == 5){
+                    getViews(v);
+
+                } else if (tabPosition == 6) {
                     v = SubjectSixFragment.view;
-                }
-                else if(tabPosition == 6){
+                    getViews(v);
+
+                } else if (tabPosition == 7) {
                     v = SubjectSevenFragment.view;
-                }
-                else if(tabPosition == 7){
+                    getViews(v);
+
+                } else if (tabPosition == 8) {
                     v = SubjectEightFragment.view;
-                }
-                else if(tabPosition == 8){
+                    getViews(v);
+
+                } else if (tabPosition == 9) {
                     v = SubjectNineFragment.view;
-                }
-                else if(tabPosition == 9){
+                    getViews(v);
+
+                } else if (tabPosition == 10) {
                     v = SubjectTenFragment.view;
+                    getViews(v);
                 }
-                getViews(v);
                 updateView(tabPosition, getApplicationContext());
             }
 
@@ -183,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         PreferencesUtil.getTabNames(this);
+        adapter.addFrag(new OverviewFragment(), PreferencesUtil.overview);
         adapter.addFrag(new SubjectOneFragment(), PreferencesUtil.one);
         adapter.addFrag(new SubjectTwoFragment(), PreferencesUtil.two);
         adapter.addFrag(new SubjectThreeFragment(), PreferencesUtil.three);
@@ -227,45 +264,49 @@ public class MainActivity extends AppCompatActivity {
             {
                 public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt)
                 {
-                    if(tabPosition == 0){
+                    if (tabPosition == 1) {
                         mDbAdapterStatic.deleteAll();
                         updateView(0, getApplicationContext());
-                    }
-                    else if (tabPosition == 1){
+
+                    } else if (tabPosition == 2) {
                         mDbAdapterStatic.deleteAll2();
                         updateView(1, getApplicationContext());
-                    }
-                    else if (tabPosition == 2){
+
+                    } else if (tabPosition == 3) {
                         mDbAdapterStatic.deleteAll3();
                         updateView(2, getApplicationContext());
-                    }
-                    else if(tabPosition == 3){
+
+                    } else if (tabPosition == 4) {
                         mDbAdapterStatic.deleteAll4();
                         updateView(3, getApplicationContext());
-                    }
-                    else if(tabPosition == 4){
+
+                    } else if (tabPosition == 5) {
                         mDbAdapterStatic.deleteAll5();
                         updateView(4, getApplicationContext());
-                    }
-                    else if(tabPosition == 5){
+
+                    } else if (tabPosition == 6) {
                         mDbAdapterStatic.deleteAll6();
                         updateView(5, getApplicationContext());
-                    }
-                    else if (tabPosition == 6){
+
+                    } else if (tabPosition == 7) {
                         mDbAdapterStatic.deleteAll7();
                         updateView(6, getApplicationContext());
-                    }
-                    else if(tabPosition == 7){
+
+                    } else if (tabPosition == 8) {
                         mDbAdapterStatic.deleteAll8();
                         updateView(7, getApplicationContext());
-                    }
-                    else if(tabPosition == 8){
+
+                    } else if (tabPosition == 9) {
                         mDbAdapterStatic.deleteAll9();
                         updateView(8, getApplicationContext());
-                    }
-                    else if(tabPosition == 9){
+
+                    } else if (tabPosition == 10) {
                         mDbAdapterStatic.deleteAll10();
                         updateView(9, getApplicationContext());
+                    }
+                    if(tabPosition != 0){
+                        MenuItem deleteAll = (MenuItem) findViewById(R.id.action_deletemarks);
+                        deleteAll.setVisible(true);
                     }
                 }
             });
@@ -333,9 +374,12 @@ public class MainActivity extends AppCompatActivity {
         }
         lv.setAdapter(new ListAdapter(man, cursor, 0));
         average(ctx, positionArg);
+        OverviewFragment.updateOverView(context);
     }
 
     public static void average(Context ctx, int posArg){
+        SharedPreferences.Editor mPrefsEdit = PreferenceManager.getDefaultSharedPreferences(ctx)
+                .edit();
         Cursor cursor = null;
         if(posArg == 0){
             cursor = mDbAdapterStatic.averageFromMarks();
@@ -688,10 +732,11 @@ public class MainActivity extends AppCompatActivity {
                 });
         builder.create().show();
     }
-
+/*
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleUtils.updateConfig(getApplication(), newConfig);
     }
+    */
 }

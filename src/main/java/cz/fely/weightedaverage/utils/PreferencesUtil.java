@@ -2,24 +2,32 @@ package cz.fely.weightedaverage.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.support.v7.preference.PreferenceManager;
 import android.view.View;
 
-import cz.fely.weightedaverage.R;
-import cz.fely.weightedaverage.SubjectEightFragment;
-import cz.fely.weightedaverage.SubjectFiveFragment;
-import cz.fely.weightedaverage.SubjectFourFragment;
-import cz.fely.weightedaverage.SubjectNineFragment;
-import cz.fely.weightedaverage.SubjectOneFragment;
-import cz.fely.weightedaverage.SubjectSevenFragment;
-import cz.fely.weightedaverage.SubjectSixFragment;
-import cz.fely.weightedaverage.SubjectTenFragment;
-import cz.fely.weightedaverage.SubjectThreeFragment;
-import cz.fely.weightedaverage.SubjectTwoFragment;
+import java.text.DecimalFormat;
 
-public class PreferencesUtil {
+import cz.fely.weightedaverage.MainActivity;
+import cz.fely.weightedaverage.R;
+import cz.fely.weightedaverage.subjects.SubjectEightFragment;
+import cz.fely.weightedaverage.subjects.SubjectFiveFragment;
+import cz.fely.weightedaverage.subjects.SubjectFourFragment;
+import cz.fely.weightedaverage.subjects.SubjectNineFragment;
+import cz.fely.weightedaverage.subjects.SubjectOneFragment;
+import cz.fely.weightedaverage.subjects.SubjectSevenFragment;
+import cz.fely.weightedaverage.subjects.SubjectSixFragment;
+import cz.fely.weightedaverage.subjects.SubjectTenFragment;
+import cz.fely.weightedaverage.subjects.SubjectThreeFragment;
+import cz.fely.weightedaverage.subjects.SubjectTwoFragment;
+
+import static cz.fely.weightedaverage.MainActivity.mDbAdapterStatic;
+
+public final class PreferencesUtil {
     public static SharedPreferences mPrefs;
+    public static String overview;
     public static String one, two, three, four, five, six, seven, eight, nine, ten;
+    public static String oneAvg, twoAvg, threeAvg, fourAvg, fiveAvg, sixAvg, sevenAvg, eightAvg, nineAvg, tenAvg;
 
     public static void reloadPref(Context ctx) {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -59,6 +67,7 @@ public class PreferencesUtil {
     public static void getTabNames(Context ctx){
         mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         //Names
+        overview = ctx.getResources().getString(R.string.overView);
         one = mPrefs.getString("pref_key_subject_name_one", ctx.getResources().getString(R.string
                         .nameOneDefault));
         two = mPrefs.getString("pref_key_subject_name_two", ctx.getResources().getString(R.string
@@ -79,5 +88,53 @@ public class PreferencesUtil {
                 .nameNineDefault));
         ten = mPrefs.getString("pref_key_subject_name_ten", ctx.getResources().getString(R.string
                 .nameTenDefault));
+    }
+
+    public static void getAverages(Context ctx){
+        Cursor cursor;
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        String sum1, sum2, sum3, sum4, sum5, sum6, sum7, sum8, sum9, sum10;
+        DecimalFormat df = new DecimalFormat("0.00");
+
+        cursor = mDbAdapterStatic.averageFromMarks();
+        sum1 = String.valueOf(df.format(cursor.getDouble(cursor.getColumnIndex("average"))));
+
+        cursor = mDbAdapterStatic.averageFromMarks2();
+        sum2 = String.valueOf(df.format(cursor.getDouble(cursor.getColumnIndex("average"))));
+
+        cursor = mDbAdapterStatic.averageFromMarks3();
+        sum3 = String.valueOf(df.format(cursor.getDouble(cursor.getColumnIndex("average"))));
+
+        cursor = mDbAdapterStatic.averageFromMarks4();
+        sum4 = String.valueOf(df.format(cursor.getDouble(cursor.getColumnIndex("average"))));
+
+        cursor = mDbAdapterStatic.averageFromMarks5();
+        sum5 = String.valueOf(df.format(cursor.getDouble(cursor.getColumnIndex("average"))));
+
+        cursor = mDbAdapterStatic.averageFromMarks6();
+        sum6 = String.valueOf(df.format(cursor.getDouble(cursor.getColumnIndex("average"))));
+
+        cursor = mDbAdapterStatic.averageFromMarks7();
+        sum7 = String.valueOf(df.format(cursor.getDouble(cursor.getColumnIndex("average"))));
+
+        cursor = mDbAdapterStatic.averageFromMarks8();
+        sum8 = String.valueOf(df.format(cursor.getDouble(cursor.getColumnIndex("average"))));
+
+        cursor = mDbAdapterStatic.averageFromMarks9();
+        sum9 = String.valueOf(df.format(cursor.getDouble(cursor.getColumnIndex("average"))));
+
+        cursor = mDbAdapterStatic.averageFromMarks10();
+        sum10 = String.valueOf(df.format(cursor.getDouble(cursor.getColumnIndex("average"))));
+
+        oneAvg = sum1;
+        twoAvg = sum2;
+        threeAvg = sum3;
+        fourAvg = sum4;
+        fiveAvg = sum5;
+        sixAvg = sum6;
+        sevenAvg = sum7;
+        eightAvg = sum8;
+        nineAvg = sum9;
+        tenAvg = sum10;
     }
 }

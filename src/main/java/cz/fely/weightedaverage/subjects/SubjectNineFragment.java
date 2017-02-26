@@ -1,4 +1,4 @@
-package cz.fely.weightedaverage;
+package cz.fely.weightedaverage.subjects;
 
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -15,9 +15,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import cz.fely.weightedaverage.MainActivity;
+import cz.fely.weightedaverage.R;
 import cz.fely.weightedaverage.utils.PreferencesUtil;
 
-public class SubjectTwoFragment  extends Fragment{
+public class SubjectNineFragment extends Fragment{
 
     Button btnAdd;
     EditText etName, etMark, etWeight;
@@ -25,7 +27,7 @@ public class SubjectTwoFragment  extends Fragment{
     ListView lv;
     public static View view;
 
-    public SubjectTwoFragment(){
+    public SubjectNineFragment(){
     }
 
     @Override
@@ -40,7 +42,7 @@ public class SubjectTwoFragment  extends Fragment{
         lv = (ListView) view.findViewById(R.id.lvZnamky);
         MainActivity.checkSettings(view);
         MainActivity.getViews(view);
-        MainActivity.updateView(1, getContext());
+        MainActivity.updateView(8, getContext());
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -55,7 +57,7 @@ public class SubjectTwoFragment  extends Fragment{
             @Override
             public void onClick(View v) {
                 MainActivity.getViews(view);
-                MainActivity.addOrUpdateMark(view, 1, getContext(), etName.getText().toString
+                MainActivity.addOrUpdateMark(view, 8, getContext(), etName.getText().toString
                         (), etMark.getText().toString(), etWeight.getText().toString(), new
                         long[0]);
             }
@@ -79,7 +81,7 @@ public class SubjectTwoFragment  extends Fragment{
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 MainActivity.getViews(view);
-                MainActivity.addOrUpdateMark(view, 1, getContext(), etNameDialog.getText()
+                MainActivity.addOrUpdateMark(view, 8, getContext(), etNameDialog.getText()
                         .toString(), etMarkDialog.getText().toString(), etWeightDialog.getText()
                         .toString(), id);
             }
@@ -88,8 +90,8 @@ public class SubjectTwoFragment  extends Fragment{
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 MainActivity.getViews(view);
-                MainActivity.removeMark(1, getContext(), id);
-                MainActivity.updateView(1, getContext());
+                MainActivity.removeMark(8, getContext(), id);
+                MainActivity.updateView(8, getContext());
             }
         });
         adb.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {

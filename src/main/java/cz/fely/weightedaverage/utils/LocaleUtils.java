@@ -8,7 +8,7 @@ import android.view.ContextThemeWrapper;
 
 import java.util.Locale;
 
-public class LocaleUtils {
+public final class LocaleUtils {
 
     private static Locale sLocale;
 
