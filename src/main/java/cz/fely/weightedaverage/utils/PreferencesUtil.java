@@ -8,7 +8,6 @@ import android.view.View;
 
 import java.text.DecimalFormat;
 
-import cz.fely.weightedaverage.MainActivity;
 import cz.fely.weightedaverage.R;
 import cz.fely.weightedaverage.subjects.SubjectEightFragment;
 import cz.fely.weightedaverage.subjects.SubjectFiveFragment;
@@ -24,10 +23,11 @@ import cz.fely.weightedaverage.subjects.SubjectTwoFragment;
 import static cz.fely.weightedaverage.MainActivity.mDbAdapterStatic;
 
 public final class PreferencesUtil {
-    public static SharedPreferences mPrefs;
+    private static SharedPreferences mPrefs;
     public static String overview;
     public static String one, two, three, four, five, six, seven, eight, nine, ten;
     public static String oneAvg, twoAvg, threeAvg, fourAvg, fiveAvg, sixAvg, sevenAvg, eightAvg, nineAvg, tenAvg;
+    public static double sum1, sum2, sum3, sum4, sum5, sum6, sum7, sum8, sum9, sum10;
 
     public static void reloadPref(Context ctx) {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -90,51 +90,58 @@ public final class PreferencesUtil {
                 .nameTenDefault));
     }
 
-    public static void getAverages(Context ctx){
+    public static void getTabAverages(){
         Cursor cursor;
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        String sum1, sum2, sum3, sum4, sum5, sum6, sum7, sum8, sum9, sum10;
-        DecimalFormat df = new DecimalFormat("0.00");
+        DecimalFormat formater;
 
         cursor = mDbAdapterStatic.averageFromMarks();
-        sum1 = String.valueOf(df.format(cursor.getDouble(cursor.getColumnIndex("average"))));
+        sum1 = cursor.getDouble(cursor.getColumnIndex("average"));
+        formater = new DecimalFormat("0.00");
+        oneAvg = String.valueOf(formater.format(sum1));
 
         cursor = mDbAdapterStatic.averageFromMarks2();
-        sum2 = String.valueOf(df.format(cursor.getDouble(cursor.getColumnIndex("average"))));
+        sum2 = cursor.getDouble(cursor.getColumnIndex("average"));
+        formater = new DecimalFormat("0.00");
+        twoAvg = String.valueOf(formater.format(sum2));
 
         cursor = mDbAdapterStatic.averageFromMarks3();
-        sum3 = String.valueOf(df.format(cursor.getDouble(cursor.getColumnIndex("average"))));
+        sum3 = cursor.getDouble(cursor.getColumnIndex("average"));
+        formater = new DecimalFormat("0.00");
+        threeAvg = String.valueOf(formater.format(sum3));
 
         cursor = mDbAdapterStatic.averageFromMarks4();
-        sum4 = String.valueOf(df.format(cursor.getDouble(cursor.getColumnIndex("average"))));
+        sum4 = cursor.getDouble(cursor.getColumnIndex("average"));
+        formater = new DecimalFormat("0.00");
+        fourAvg = String.valueOf(formater.format(sum4));
 
         cursor = mDbAdapterStatic.averageFromMarks5();
-        sum5 = String.valueOf(df.format(cursor.getDouble(cursor.getColumnIndex("average"))));
+        sum5 = cursor.getDouble(cursor.getColumnIndex("average"));
+        formater = new DecimalFormat("0.00");
+        fiveAvg = String.valueOf(formater.format(sum5));
 
         cursor = mDbAdapterStatic.averageFromMarks6();
-        sum6 = String.valueOf(df.format(cursor.getDouble(cursor.getColumnIndex("average"))));
+        sum6 = cursor.getDouble(cursor.getColumnIndex("average"));
+        formater = new DecimalFormat("0.00");
+        sixAvg = String.valueOf(formater.format(sum6));
 
         cursor = mDbAdapterStatic.averageFromMarks7();
-        sum7 = String.valueOf(df.format(cursor.getDouble(cursor.getColumnIndex("average"))));
+        sum7 = cursor.getDouble(cursor.getColumnIndex("average"));
+        formater = new DecimalFormat("0.00");
+        sevenAvg = String.valueOf(formater.format(sum7));
 
         cursor = mDbAdapterStatic.averageFromMarks8();
-        sum8 = String.valueOf(df.format(cursor.getDouble(cursor.getColumnIndex("average"))));
+        sum8 = cursor.getDouble(cursor.getColumnIndex("average"));
+        formater = new DecimalFormat("0.00");
+        eightAvg = String.valueOf(formater.format(sum8));
 
         cursor = mDbAdapterStatic.averageFromMarks9();
-        sum9 = String.valueOf(df.format(cursor.getDouble(cursor.getColumnIndex("average"))));
+        sum9 = cursor.getDouble(cursor.getColumnIndex("average"));
+        formater = new DecimalFormat("0.00");
+        nineAvg = String.valueOf(formater.format(sum9));
 
         cursor = mDbAdapterStatic.averageFromMarks10();
-        sum10 = String.valueOf(df.format(cursor.getDouble(cursor.getColumnIndex("average"))));
-
-        oneAvg = sum1;
-        twoAvg = sum2;
-        threeAvg = sum3;
-        fourAvg = sum4;
-        fiveAvg = sum5;
-        sixAvg = sum6;
-        sevenAvg = sum7;
-        eightAvg = sum8;
-        nineAvg = sum9;
-        tenAvg = sum10;
+        sum10 = cursor.getDouble(cursor.getColumnIndex("average"));
+        formater = new DecimalFormat("0.00");
+        tenAvg = String.valueOf(formater.format(sum10));
     }
 }

@@ -15,83 +15,95 @@
     <string name="ok">OK</string>
     <string name="areYouSure">Vážně chceš provést tuto akci?</string>
     <string name="titleDelete">Smazat</string>
-    <string name="titleDeleteAll">Smazat vše</string>
+    <string name="deleteAllMes">Smazat všechny známky v tomto předmětu</string>
     <string name="yes">Ano</string>
     <string name="adbError">Chyba</string>
     <string name="cancel">Zrušit</string>
     <string name="close">Zavřít</string>
     <string name="illegalArgument">Název nebo známka je prázdná</string>
      <string name="welcome_text">
-         <b>Verze 3.1.B.0.10</b>\n
-         Opravy chyb u záložek předmětů\n
-         Počet předmětů zvýšen na 10\n\n
+         <b>Verze 3.3.S.0.22</b>
+         \nOprava chyb\n\n
 
-         <b>Verze 3.0.B.0.10</b>\n
-         Přidány záložky pro více předmětů\n
-         Nové možnosti v nastavení\n\n
+         <b>Verze 3.2.S.2.9</b>
+         \nOprava kritických chyb aplikace
+         \nOprava chyb přehledu\n\n
 
-         <b>Verze 2.4.S.3.2</b>\n
-         Oprava velikosti kolonek výpisu známek\n\n
+         <b>Verze 3.2.B.1.50</b>
+         \nOpravy chyb
+         \nPřidán přehled průměrů pro lepší orientaci
+         \nMožnost smazat všechna data\n\n
 
-         <b>Verze 2.4.S.2.7</b>\n
-         Přidána možnost úpravy známek\n
-         Po přidání známky se kolonky vymažou\n\n
+         <b>Verze 3.1.B.0.10</b>
+         \nOpravy chyb u záložek předmětů
+         \nPočet předmětů zvýšen na 10\n\n
 
-         <b>Verze 2.3.S.0.10</b>\n
-         Oprava chyb\n
-         Změna načítací obrazovky\n\n
+         <b>Verze 3.0.B.0.10</b>
+         \nPřidány záložky pro více předmětů
+         \nNové možnosti v nastavení\n\n
 
-         <b>Verze 2.2.S.1.4</b>\n
-         Zjenodušené nastavení\n
-         Oprava chyb\n
-         Změna barev témat\n\n
+         <b>Verze 2.4.S.3.2</b>
+         \nOprava velikosti kolonek výpisu známek\n\n
 
-         <b>Verze 2.0.S.5.1</b>\n
-         Nová položka v nastavení\n
-         Automatické aktualizace\n\n
+         <b>Verze 2.4.S.2.7</b>
+         \nPřidána možnost úpravy známek
+         \nPo přidání známky se kolonky vymažou\n\n
 
-         <b>Verze 2.0.S.0.1</b>\n
-         Opravy chyb\n
-         Vylepšení nastavení\n
-         Začátek práce na překladu\n\n
+         <b>Verze 2.3.S.0.10</b>
+         \nOprava chyb
+         \nZměna načítací obrazovky\n\n
 
-         <b>Verze 1.8.S.2.8</b>\n
-         Opravy chyb u výběru designu\n\n
+         <b>Verze 2.2.S.1.4</b>
+         \nZjenodušené nastavení
+         \nOprava chyb
+         \nZměna barev témat\n\n
 
-         <b>Verze 1.8.B.2.4</b>\n
-         Zavedeno nové číslování verzí\n
-         Oprava databáze známek\n
-         Zaveden výběr designu aplikace\n\n
+         <b>Verze 2.0.S.5.1</b>
+         \nNová položka v nastavení
+         \nAutomatické aktualizace\n\n
 
-         <b>Verze E.1.7</b>\n
-         Přidáno \"Nastavení\"\n
-         Výsledek se nyní zaokrouhlí na 2 desetinná místa\n\n
+         <b>Verze 2.0.S.0.1</b>
+         \nOpravy chyb
+         \nVylepšení nastavení
+         \nZačátek práce na překladu\n\n
 
-         <b>Verze B.1.6</b>\n
-         Oprava chyb \n
-         Přidána licence \n\n
+         <b>Verze 1.8.S.2.8</b>
+         \nOpravy chyb u výběru designu\n\n
 
-         <b>Verze S.1.5</b> \n
-         Známky se nyní ukládají do databáze\n
-         Oprava chyb\n
-         Zvýšena kompatibilita\n\n
+         <b>Verze 1.8.B.2.4</b>
+         \nZavedeno nové číslování verzí
+         \nOprava databáze známek
+         \nZaveden výběr designu aplikace\n\n
 
-        <b>Verze S.1.4</b>\n
-        Přidáno mazání známek\n\n
+         <b>Verze E.1.7</b>
+         \nPřidáno \"Nastavení\"
+         \nVýsledek se nyní zaokrouhlí na 2 desetinná místa\n\n
 
-        <b>Verze B.1.3</b>\n
-        Přidán výpočet průměru\n\n
+         <b>Verze B.1.6</b>
+         \nOprava chyb
+         \nPřidána licence \n\n
 
-        <b>Verze A.1.2</b>\n
-        Vytvořeny nové podmínky pro vlkádání\n\n
+         <b>Verze S.1.5</b>
+         \nZnámky se nyní ukládají do databáze
+         \nOprava chyb
+         \nZvýšena kompatibilita\n\n
 
-        <b>Verze B.1.1</b>\n
-        Oprava menších chyb\n\n
+        <b>Verze S.1.4</b>
+        \nPřidáno mazání známek\n\n
 
-        <b>Verze 1.0</b>\n
-        Funkční rozhraní aplikace\n
-        Přidána tabulka všech známek\n
-        Nový design aplikace a nový akční a notifikační bar
+        <b>Verze B.1.3</b>
+        \nPřidán výpočet průměru\n\n
+
+        <b>Verze A.1.2</b>
+        \nVytvořeny nové podmínky pro vlkádání\n\n
+
+        <b>Verze B.1.1</b>
+        \nOprava menších chyb\n\n
+
+        <b>Verze 1.0</b>
+        \nFunkční rozhraní aplikace
+        \nPřidána tabulka všech známek
+        \nNový design aplikace a nový akční a notifikační bar
     </string>
     <string name="changelog">Novinky</string>
     <string name="title_activity_settings">Nastavení</string>
@@ -136,10 +148,9 @@
         <item>2</item>
     </string-array>
     <string name="themeSummary">
-        Vybrané téma: %s\nZměny se projeví později
+        Vybrané téma: %s
     </string>
-    <string name="pref_theme_title">Styl</string>
-    <string name="pref_theme_dialog_title">Vyber styl</string>
+    <string name="pref_theme_title">Téma</string>
     <string name="aboutCategory">O aplikaci</string>
     <string name="versionTitle">Nainstalovaná verze aplikace</string>
     <string name="loadingApp">Načítání…</string>
@@ -154,7 +165,7 @@
     <string name="invalidMarkWeight">Známka nebo váha je neplatná</string>
     <string name="show">Klikněte pro zobrazení</string>
     <string name="subjectPrefsCat">Předměty</string>
-    <string name="changesAfterRestart">Změny se projeví po dalším spuštení aplikace</string>
+    <string name="changesAfterWhile">Změny se projeví na hlavní obrazovce</string>
     <string name="subjectOneNamePrefs">Název prvního předmětu</string>
     <string name="subjectTwoNamePrefs">Název druhého předmětu</string>
     <string name="subjectThreeNamePrefs">Název třetího předmětu</string>
@@ -178,6 +189,11 @@
     <string name="prefLangTitle">Jazyk</string>
     <string name="prefSelectLang">Vyber jazyk</string>
     <string name="overView">Přehled</string>
+    <string name="errorSnackCannotDelete">Přehled není možné smazat!</string>
+    <string name="wipeData">Vymazat všechna data</string>
+    <string name="wipeDataSummary">Obnoví nastavení a data aplikace</string>
+    <string name="titleWipeData">Vymazat data aplikace</string>
+    <string name="processCannotBeUndone">Proces nelze vrátit zpět!</string>
 
     <string-array name="langs">
         <item>Čeština</item>

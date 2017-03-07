@@ -18,18 +18,23 @@
             android:key="pref_key_general_theme"
             android:title="@string/pref_theme_title"
             android:summary="@string/themeSummary"
-            android:dialogTitle="@string/pref_theme_dialog_title"
             />
-
+        <!--
         <ListPreference
             android:entries="@array/langs"
             android:entryValues="@array/langsValues"
             android:key="pref_key_general_lang"
             android:title="@string/prefLangTitle"
             android:summary="%s"
+            android:enabled="false"
             android:dialogTitle="@string/prefSelectLang"
             />
-
+-->
+        <Preference
+            android:title="@string/wipeData"
+            android:summary="@string/wipeDataSummary"
+            android:key="pref_key_general_wipe"
+            />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -47,14 +52,12 @@
     <PreferenceCategory
         android:title="@string/subjectPrefsCat">
 
-        <Preference
-            android:summary="@string/changesAfterRestart"
-            />
-
         <EditTextPreference
             android:title="@string/subjectOneNamePrefs"
             android:key="pref_key_subject_name_one"
             android:defaultValue="@string/nameOneDefault"
+            android:maxLines="2"
+            android:maxLength="25"
             />
 
 
@@ -62,54 +65,72 @@
             android:title="@string/subjectTwoNamePrefs"
             android:key="pref_key_subject_name_two"
             android:defaultValue="@string/nameTwoDefault"
+            android:maxLines="2"
+            android:maxLength="25"
             />
 
         <EditTextPreference
-        android:title="@string/subjectThreeNamePrefs"
-        android:key="pref_key_subject_name_three"
-        android:defaultValue="@string/nameThreeDefault"
+            android:title="@string/subjectThreeNamePrefs"
+            android:key="pref_key_subject_name_three"
+            android:defaultValue="@string/nameThreeDefault"
+            android:maxLines="2"
+            android:maxLength="25"
         />
 
         <EditTextPreference
             android:title="@string/subjectFourNamePrefs"
             android:key="pref_key_subject_name_four"
             android:defaultValue="@string/nameFourDefault"
+            android:maxLines="2"
+            android:maxLength="25"
             />
 
         <EditTextPreference
             android:title="@string/subjectFiveNamePrefs"
             android:key="pref_key_subject_name_five"
             android:defaultValue="@string/nameFiveDefault"
+            android:maxLines="2"
+            android:maxLength="25"
             />
 
         <EditTextPreference
             android:title="@string/subjectSixNamePrefs"
             android:key="pref_key_subject_name_six"
             android:defaultValue="@string/nameSixDefault"
+            android:maxLines="2"
+            android:maxLength="25"
             />
 
         <EditTextPreference
             android:title="@string/subjectSevenNamePrefs"
             android:key="pref_key_subject_name_seven"
             android:defaultValue="@string/nameSevenDefault"
+            android:maxLines="2"
+            android:maxLength="25"
             />
 
         <EditTextPreference
             android:title="@string/subjectEightNamePrefs"
             android:key="pref_key_subject_name_eight"
             android:defaultValue="@string/nameEightDefault"
+            android:maxLines="2"
+            android:maxLength="25"
             />
 
         <EditTextPreference
             android:title="@string/subjectNineNamePrefs"
             android:key="pref_key_subject_name_nine"
             android:defaultValue="@string/nameNineDefault"
+            android:maxLines="2"
+            android:maxLength="25"
             />
 
         <EditTextPreference
             android:title="@string/subjectTenNamePrefs"
             android:key="pref_key_subject_name_ten"
             android:defaultValue="@string/nameTenDefault"
+            android:maxLines="2"
+            android:maxLength="25"
             />
 
     </PreferenceCategory>

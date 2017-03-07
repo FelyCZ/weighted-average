@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- OTHER -->
+    <color name="badMark">#ff0000</color>
+    <color name="okMark">#00dc00</color>
+    <color name="ffMark">#ffae00</color>
+    <color name="neutralMark">?attr/android:textColorTertiary</color>
+    <color name="tableGrey">#ffffb3</color>
+
     <!-- BASE COLORS -->
     <color name="colorPrimary">#ffae22</color>
     <color name="colorPrimaryDark">#e67c19</color>
@@ -16,5 +23,5 @@
     <!-- BLACK THEME -->
     <color name="colorPrimaryBT">#00dc07</color>
     <color name="colorPrimaryDarkBT">#00a000</color>
-    <color name="colorAccentBT">#ff0000</color>
+    <color name="colorAccentBT">#f00</color>
 </resources>

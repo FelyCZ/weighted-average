@@ -2,7 +2,6 @@
 <RelativeLayout android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:id="@+id/activity_main"
-                xmlns:tools="http://schemas.android.com/tools"
                 xmlns:android="http://schemas.android.com/apk/res/android">
 
 
@@ -95,9 +94,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_toLeftOf="@+id/etMark"
+        android:maxLength="25"
         android:layout_toStartOf="@+id/etMark"
-        android:textAlignment="center"
-        android:gravity="center"/>
+        />
 
     <EditText
         android:layout_height="40dp"
@@ -110,9 +109,10 @@
         android:inputType="numberDecimal"
         android:layout_alignBottom="@+id/etName"
         android:layout_alignBaseline="@+id/etName"
-        android:gravity="center_vertical"
         android:textAlignment="center"
-        android:imeOptions="actionNext"/>
+        android:imeOptions="actionNext"
+        android:nextFocusLeft="@id/etName"
+        android:maxLength="3"/>
 
     <EditText
         android:layout_height="40dp"
@@ -123,10 +123,10 @@
         android:inputType="number"
         android:ems="10"
         android:textAlignment="center"
-        android:maxLength="2"
-        tools:ignore="UnknownId"
+        android:maxLength="3"
         android:imeOptions="actionDone"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
+        android:layout_alignParentEnd="true"
+        android:nextFocusLeft="@id/etMark"/>
 
 </RelativeLayout>

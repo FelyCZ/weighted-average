@@ -1,9 +1,7 @@
 package cz.fely.weightedaverage.subjects;
 
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -15,11 +13,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.text.DecimalFormat;
-
 import cz.fely.weightedaverage.MainActivity;
 import cz.fely.weightedaverage.R;
-import cz.fely.weightedaverage.utils.PreferencesUtil;
 
 public class SubjectOneFragment extends Fragment {
 
@@ -43,7 +38,7 @@ public class SubjectOneFragment extends Fragment {
         lv = (ListView) view.findViewById(R.id.lvZnamky);
         MainActivity.checkSettings(view);
         MainActivity.getViews(view);
-        MainActivity.updateView(0, getContext());
+        MainActivity.updateView(1, getContext());
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -55,14 +50,11 @@ public class SubjectOneFragment extends Fragment {
             }
         });
 
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.getViews(view);
-                MainActivity.addOrUpdateMark(view, 0, getContext(), etName.getText().toString
-                        (), etMark.getText().toString(), etWeight.getText().toString(), new
-                        long[0]);
-            }
+        btnAdd.setOnClickListener(v -> {
+            MainActivity.getViews(view);
+            MainActivity.addOrUpdateMark(view, 1, getContext(), etName.getText().toString
+                    (), etMark.getText().toString(), etWeight.getText().toString(), new
+                    long[0]);
         });
         return view;
     }
@@ -78,38 +70,27 @@ public class SubjectOneFragment extends Fragment {
         etWeightDialog.setText(weight);
         AlertDialog.Builder adb = new AlertDialog.Builder(getContext());
         adb.setTitle(R.string.editMark);
-        adb.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which)  {
+        adb.setPositiveButton(R.string.save, (dialog, which) -> {
+            MainActivity.getViews(view);
+            MainActivity.addOrUpdateMark(view, 1, getContext(), etNameDialog.getText()
+                         .toString(), etMarkDialog.getText().toString(), etWeightDialog
+                         .getText().toString(), id);
+        });
+        adb.setNegativeButton(R.string.titleDelete, (dialog, which) -> {
+            AlertDialog.Builder adb1 = new AlertDialog.Builder(getContext());
+            adb1.setTitle(R.string.titleDelete);
+            adb1.setIcon(R.drawable.warning);
+            adb1.setMessage(R.string.areYouSure);
+            adb1.setNegativeButton(R.string.cancel, null);
+            adb1.setPositiveButton(R.string.yes, (dialogInterface, which1) -> {
                 MainActivity.getViews(view);
-                MainActivity.addOrUpdateMark(view, 0, getContext(), etNameDialog.getText()
-                             .toString(), etMarkDialog.getText().toString(), etWeightDialog
-                             .getText().toString(), id);
-            }
+                MainActivity.removeMark(1, getContext(), id);
+                MainActivity.updateView(1, getContext());
+            });
+            adb1.show();
+            dialog.dismiss();
         });
-        adb.setNegativeButton(R.string.titleDelete, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                AlertDialog.Builder adb = new AlertDialog.Builder(getContext());
-                adb.setTitle(R.string.titleDelete);
-                adb.setIcon(R.drawable.warning);
-                adb.setMessage(R.string.areYouSure);
-                adb.setNegativeButton(R.string.cancel, null);
-                adb.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        MainActivity.getViews(view);
-                        MainActivity.removeMark(0, getContext(), id);
-                        MainActivity.updateView(0, getContext());
-                    }
-                });
-                adb.show();
-                dialog.dismiss();
-            }
-        });
-        adb.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        adb.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
         adb.setView(v);
         adb.show();
     }

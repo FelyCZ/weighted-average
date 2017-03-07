@@ -1,13 +1,14 @@
 package cz.fely.weightedaverage;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -36,6 +38,7 @@ import net.hockeyapp.android.UpdateManagerListener;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import cz.fely.weightedaverage.db.DatabaseAdapter;
@@ -53,13 +56,14 @@ import cz.fely.weightedaverage.subjects.SubjectTwoFragment;
 import cz.fely.weightedaverage.utils.PreferencesUtil;
 import cz.fely.weightedaverage.utils.ThemeUtil;
 
+@SuppressWarnings("ALL")
 public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private static TabLayout tabLayout;
     private ViewPager viewPager;
     int tabPosition;
     public static DatabaseAdapter mDbAdapterStatic;
-    private static MainActivity man;
+    public static MainActivity man;
     static ListView lv;
     static TextView tvAverage;
     private static final int PERIOD = 2000;
@@ -82,67 +86,58 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        tabPosition = tabLayout.getSelectedTabPosition();
+        tabPosition = viewPager.getCurrentItem();
 
         mDbAdapterStatic = new DatabaseAdapter(this);
         man = MainActivity.this;
         context = this;
-
-        if (tabPosition == 0) {
-            MenuItem deleteAll = (MenuItem) findViewById(R.id.action_deletemarks);
-            deleteAll.setVisible(false);
-        }
         firstRun();
         hockeyAppSet();
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                tabPosition = tabLayout.getSelectedTabPosition();
+                tabPosition = viewPager.getCurrentItem();
                 View v;
-                switch (position) {
-                    case 0:
-                        break;
-                    case 1:
-                        v = SubjectOneFragment.view;
-                        getViews(v);
-                        break;
-                    case 2:
-                        v = SubjectTwoFragment.view;
-                        getViews(v);
-                        break;
-                    case 3:
-                        v = SubjectThreeFragment.view;
-                        getViews(v);
-                        break;
-                    case 4:
-                        v = SubjectFourFragment.view;
-                        getViews(v);
-                        break;
-                    case 5:
-                        v = SubjectFiveFragment.view;
-                        getViews(v);
-                        break;
-                    case 6:
-                        v = SubjectSixFragment.view;
-                        getViews(v);
-                        break;
-                    case 7:
-                        v = SubjectSevenFragment.view;
-                        getViews(v);
-                        break;
-                    case 8:
-                        v = SubjectEightFragment.view;
-                        getViews(v);
-                        break;
-                    case 9:
-                        v = SubjectNineFragment.view;
-                        getViews(v);
-                        break;
-                    case 10:
-                        v = SubjectTenFragment.view;
-                        getViews(v);
-                        break;
+                if (position == 1) {
+                    v = SubjectOneFragment.view;
+                    getViews(v);
+
+                } else if (position == 2) {
+                    v = SubjectTwoFragment.view;
+                    getViews(v);
+
+                } else if (position == 3) {
+                    v = SubjectThreeFragment.view;
+                    getViews(v);
+
+                } else if (position == 4) {
+                    v = SubjectFourFragment.view;
+                    getViews(v);
+
+                } else if (position == 5) {
+                    v = SubjectFiveFragment.view;
+                    getViews(v);
+
+                } else if (position == 6) {
+                    v = SubjectSixFragment.view;
+                    getViews(v);
+
+                } else if (position == 7) {
+                    v = SubjectSevenFragment.view;
+                    getViews(v);
+
+                } else if (position == 8) {
+                    v = SubjectEightFragment.view;
+                    getViews(v);
+
+                } else if (position == 9) {
+                    v = SubjectNineFragment.view;
+                    getViews(v);
+
+                } else if (position == 10) {
+                    v = SubjectTenFragment.view;
+                    getViews(v);
                 }
                 updateView(position, getApplicationContext());
             }
@@ -157,13 +152,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                tabPosition = tab.getPosition();
+                tabPosition = viewPager.getCurrentItem();
                 View v;
-                if (tabPosition == 0) {
-                } else if (tabPosition == 1) {
+                if (tabPosition == 1) {
                     v = SubjectOneFragment.view;
                     getViews(v);
 
@@ -254,63 +248,64 @@ public class MainActivity extends AppCompatActivity {
             FeedbackManager.showFeedbackActivity(MainActivity.this);
         }
         if (id == R.id.action_deletemarks) {
-            AlertDialog.Builder adb;
-            adb = new AlertDialog.Builder(this);
-            adb.setTitle(R.string.titleDeleteAll);
-            adb.setIcon(R.drawable.warning);
-            adb.setMessage(R.string.areYouSure);
-            adb.setNegativeButton(R.string.cancel, null);
-            adb.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
-            {
-                public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt)
-                {
+            if (tabPosition == 0) {
+                CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id
+                        .coordinator);
+                Snackbar.make(coordinatorLayout, R.string.errorSnackCannotDelete,
+                        Snackbar.LENGTH_LONG)
+                        .show();
+            }
+            else {
+                AlertDialog.Builder adb;
+                adb = new AlertDialog.Builder(this);
+                adb.setTitle(R.string.vymazatZnamky);
+                adb.setIcon(R.drawable.warning);
+                adb.setMessage(R.string.deleteAllMes);
+                adb.setNegativeButton(R.string.cancel, null);
+                adb.setPositiveButton(R.string.yes, (dialog, which) -> {
                     if (tabPosition == 1) {
                         mDbAdapterStatic.deleteAll();
-                        updateView(0, getApplicationContext());
+                        updateView(1, getApplicationContext());
 
                     } else if (tabPosition == 2) {
                         mDbAdapterStatic.deleteAll2();
-                        updateView(1, getApplicationContext());
+                        updateView(2, getApplicationContext());
 
                     } else if (tabPosition == 3) {
                         mDbAdapterStatic.deleteAll3();
-                        updateView(2, getApplicationContext());
+                        updateView(3, getApplicationContext());
 
                     } else if (tabPosition == 4) {
                         mDbAdapterStatic.deleteAll4();
-                        updateView(3, getApplicationContext());
+                        updateView(4, getApplicationContext());
 
                     } else if (tabPosition == 5) {
                         mDbAdapterStatic.deleteAll5();
-                        updateView(4, getApplicationContext());
+                        updateView(5, getApplicationContext());
 
                     } else if (tabPosition == 6) {
                         mDbAdapterStatic.deleteAll6();
-                        updateView(5, getApplicationContext());
+                        updateView(6, getApplicationContext());
 
                     } else if (tabPosition == 7) {
                         mDbAdapterStatic.deleteAll7();
-                        updateView(6, getApplicationContext());
+                        updateView(7, getApplicationContext());
 
                     } else if (tabPosition == 8) {
                         mDbAdapterStatic.deleteAll8();
-                        updateView(7, getApplicationContext());
+                        updateView(8, getApplicationContext());
 
                     } else if (tabPosition == 9) {
                         mDbAdapterStatic.deleteAll9();
-                        updateView(8, getApplicationContext());
+                        updateView(9, getApplicationContext());
 
                     } else if (tabPosition == 10) {
                         mDbAdapterStatic.deleteAll10();
-                        updateView(9, getApplicationContext());
+                        updateView(10, getApplicationContext());
                     }
-                    if(tabPosition != 0){
-                        MenuItem deleteAll = (MenuItem) findViewById(R.id.action_deletemarks);
-                        deleteAll.setVisible(true);
-                    }
-                }
-            });
-            adb.show();
+                });
+                adb.show();
+            }
         }
 
         if (id == R.id.action_about){
@@ -341,74 +336,75 @@ public class MainActivity extends AppCompatActivity {
     public static void updateView(int positionArg, Context ctx){
         DatabaseAdapter mDbAdapter = mDbAdapterStatic;
         Cursor cursor = null;
-
-        if(positionArg == 0){
+        if (positionArg == 0){
+        OverviewFragment.ovf.onAttachFragment(OverviewFragment.ovf);
+        }
+        else if (positionArg == 1) {
             cursor = mDbAdapter.getAllEntries();
-        }
-        else if (positionArg == 1){
+
+        } else if (positionArg == 2) {
             cursor = mDbAdapter.getAllEntries2();
-        }
-        else if (positionArg == 2){
+
+        } else if (positionArg == 3) {
             cursor = mDbAdapter.getAllEntries3();
-        }
-        else if(positionArg == 3){
+
+        } else if (positionArg == 4) {
             cursor = mDbAdapter.getAllEntries4();
-        }
-        else if(positionArg == 4){
+
+        } else if (positionArg == 5) {
             cursor = mDbAdapter.getAllEntries5();
-        }
-        else if(positionArg == 5){
+
+        } else if (positionArg == 6) {
             cursor = mDbAdapter.getAllEntries6();
-        }
-        else if (positionArg == 6){
+
+        } else if (positionArg == 7) {
             cursor = mDbAdapter.getAllEntries7();
-        }
-        else if(positionArg == 7){
+
+        } else if (positionArg == 8) {
             cursor = mDbAdapter.getAllEntries8();
-        }
-        else if(positionArg == 8){
+
+        } else if (positionArg == 9) {
             cursor = mDbAdapter.getAllEntries9();
-        }
-        else if(positionArg == 9){
+
+        } else if (positionArg == 10) {
             cursor = mDbAdapter.getAllEntries10();
         }
         lv.setAdapter(new ListAdapter(man, cursor, 0));
-        average(ctx, positionArg);
-        OverviewFragment.updateOverView(context);
+        if (positionArg != 0) {
+            average(ctx, positionArg);
+        }
     }
 
     public static void average(Context ctx, int posArg){
-        SharedPreferences.Editor mPrefsEdit = PreferenceManager.getDefaultSharedPreferences(ctx)
-                .edit();
         Cursor cursor = null;
-        if(posArg == 0){
+        if(posArg == 1){
             cursor = mDbAdapterStatic.averageFromMarks();
         }
-        else if(posArg == 1){
+        else if(posArg == 2){
             cursor = mDbAdapterStatic.averageFromMarks2();
         }
-        else if (posArg == 2){
+        else if (posArg == 3){
             cursor = mDbAdapterStatic.averageFromMarks3();
         }
-        else if(posArg == 3){
+        else if(posArg == 4){
             cursor = mDbAdapterStatic.averageFromMarks4();
         }
-        else if(posArg == 4){
+        else if(posArg == 5){
             cursor = mDbAdapterStatic.averageFromMarks5();
         }
-        else if(posArg == 5){
+        else if(posArg == 6){
             cursor = mDbAdapterStatic.averageFromMarks6();
         }
-        else if (posArg == 6){
+        else if (posArg == 7){
             cursor = mDbAdapterStatic.averageFromMarks7();
         }
-        else if(posArg == 7){
+        else if(posArg == 8){
             cursor = mDbAdapterStatic.averageFromMarks8();
         }
-        else if(posArg == 8){
+        else if(posArg == 9){
             cursor = mDbAdapterStatic.averageFromMarks9();
         }
-        else if(posArg == 9){
+        else if(posArg == 10){
             cursor = mDbAdapterStatic.averageFromMarks10();
         }
         double sum = cursor.getDouble(cursor.getColumnIndex("average"));
@@ -438,40 +434,40 @@ public class MainActivity extends AppCompatActivity {
             }
             else {
                 mark = Double.parseDouble(m);
-                if(mark > 5 || weight == 0){
+                if(mark > 5 || weight == 0 || mark < 1){
                     throw new IllegalArgumentException(ctx.getResources().getString(R.string
                             .invalidMarkWeight));
                 }
             }
             if (id.length == 0) {
-                if(posArg == 0){
+                if(posArg == 1){
                     mDbAdapterStatic.addMark(name, mark, weight);
                 }
-                else if(posArg == 1){
+                else if(posArg == 2){
                     mDbAdapterStatic.addMark2(name, mark, weight);
                 }
-                else if(posArg == 2){
+                else if(posArg == 3){
                     mDbAdapterStatic.addMark3(name, mark, weight);
                 }
-                else if(posArg == 3){
+                else if(posArg == 4){
                     mDbAdapterStatic.addMark4(name, mark, weight);
                 }
-                else if(posArg == 4){
+                else if(posArg == 5){
                     mDbAdapterStatic.addMark5(name, mark, weight);
                 }
-                else if(posArg == 5){
+                else if(posArg == 6){
                     mDbAdapterStatic.addMark6(name, mark, weight);
                 }
-                else if (posArg == 6){
+                else if (posArg == 7){
                     mDbAdapterStatic.addMark7(name, mark, weight);
                 }
-                else if(posArg == 7){
+                else if(posArg == 8){
                     mDbAdapterStatic.addMark8(name, mark, weight);
                 }
-                else if(posArg == 8){
+                else if(posArg == 9){
                     mDbAdapterStatic.addMark9(name, mark, weight);
                 }
-                else if(posArg == 9){
+                else if(posArg == 10){
                     mDbAdapterStatic.addMark10(name, mark, weight);
                 }
                 etName.setText("");
@@ -479,41 +475,38 @@ public class MainActivity extends AppCompatActivity {
                 etWeight.setText("");
                 etName.requestFocus();
             } else {
-                if(posArg == 0){
+                if(posArg == 1){
                     mDbAdapterStatic.updateMark(name, mark, weight, id[0]);
                 }
-                else if(posArg == 1){
+                else if(posArg == 2){
                     mDbAdapterStatic.updateMark2(name, mark, weight, id[0]);
                 }
-                else if(posArg == 2){
+                else if(posArg == 3){
                     mDbAdapterStatic.updateMark3(name, mark, weight, id[0]);
                 }
-                else if(posArg == 3){
+                else if(posArg == 4){
                     mDbAdapterStatic.updateMark4(name, mark, weight, id[0]);
                 }
-                else if(posArg == 4){
+                else if(posArg == 5){
                     mDbAdapterStatic.updateMark5(name, mark, weight, id[0]);
                 }
-                else if(posArg == 5){
+                else if(posArg == 6){
                     mDbAdapterStatic.updateMark6(name, mark, weight, id[0]);
                 }
-                else if (posArg == 6){
+                else if(posArg == 7){
                     mDbAdapterStatic.updateMark7(name, mark, weight, id[0]);
                 }
-                else if(posArg == 7){
+                else if(posArg == 8){
                     mDbAdapterStatic.updateMark8(name, mark, weight, id[0]);
                 }
-                else if(posArg == 8){
+                else if(posArg == 9){
                     mDbAdapterStatic.updateMark9(name, mark, weight, id[0]);
                 }
-                else if(posArg == 9){
+                else if(posArg == 10){
                     mDbAdapterStatic.updateMark10(name, mark, weight, id[0]);
                 }
             }
-            if(posArg == 0){
-                updateView(0, ctx);
-            }
-            else if(posArg == 1){
+            if(posArg == 1){
                 updateView(1, ctx);
             }
             else if(posArg == 2){
@@ -540,6 +533,9 @@ public class MainActivity extends AppCompatActivity {
             else if(posArg == 9){
                 updateView(9, ctx);
             }
+            else if(posArg == 10){
+                updateView(10, ctx);
+            }
         } catch (IllegalArgumentException e) {
             AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
             builder.setMessage(String.valueOf(e));
@@ -550,45 +546,45 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void removeMark(int posArg, Context ctx, long id) {
-        if(posArg == 0){
+        if(posArg == 1){
             mDbAdapterStatic.deleteMark(id);
-            updateView(0, ctx);
-        }
-        else if(posArg == 1){
-            mDbAdapterStatic.deleteMark2(id);
             updateView(1, ctx);
         }
         else if(posArg == 2){
-            mDbAdapterStatic.deleteMark3(id);
+            mDbAdapterStatic.deleteMark2(id);
             updateView(2, ctx);
         }
         else if(posArg == 3){
-            mDbAdapterStatic.deleteMark4(id);
+            mDbAdapterStatic.deleteMark3(id);
             updateView(3, ctx);
         }
         else if(posArg == 4){
-            mDbAdapterStatic.deleteMark5(id);
+            mDbAdapterStatic.deleteMark4(id);
             updateView(4, ctx);
         }
         else if(posArg == 5){
-            mDbAdapterStatic.deleteMark6(id);
+            mDbAdapterStatic.deleteMark5(id);
             updateView(5, ctx);
         }
-        else if (posArg == 6){
-            mDbAdapterStatic.deleteMark7(id);
+        else if(posArg == 6){
+            mDbAdapterStatic.deleteMark6(id);
             updateView(6, ctx);
         }
-        else if(posArg == 7){
-            mDbAdapterStatic.deleteMark8(id);
+        else if (posArg == 7){
+            mDbAdapterStatic.deleteMark7(id);
             updateView(7, ctx);
         }
         else if(posArg == 8){
-            mDbAdapterStatic.deleteMark9(id);
+            mDbAdapterStatic.deleteMark8(id);
             updateView(8, ctx);
         }
         else if(posArg == 9){
-            mDbAdapterStatic.deleteMark10(id);
+            mDbAdapterStatic.deleteMark9(id);
             updateView(9, ctx);
+        }
+        else if(posArg == 10){
+            mDbAdapterStatic.deleteMark10(id);
+            updateView(10, ctx);
         }
     }
 
@@ -615,6 +611,20 @@ public class MainActivity extends AppCompatActivity {
             mFragmentTitleList.add(title);
         }
 
+        public void changeTitles(){
+            PreferencesUtil.getTabNames(getApplicationContext());
+            tabLayout.getTabAt(1).setText(PreferencesUtil.one);
+            tabLayout.getTabAt(2).setText(PreferencesUtil.two);
+            tabLayout.getTabAt(3).setText(PreferencesUtil.three);
+            tabLayout.getTabAt(4).setText(PreferencesUtil.four);
+            tabLayout.getTabAt(5).setText(PreferencesUtil.five);
+            tabLayout.getTabAt(6).setText(PreferencesUtil.six);
+            tabLayout.getTabAt(7).setText(PreferencesUtil.seven);
+            tabLayout.getTabAt(8).setText(PreferencesUtil.eight);
+            tabLayout.getTabAt(9).setText(PreferencesUtil.nine);
+            tabLayout.getTabAt(10).setText(PreferencesUtil.ten);
+        }
+
         @Override
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
@@ -623,7 +633,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onResume(){
-        ThemeUtil.reloadTheme(this);
+        ThemeUtil.setTheme(this);
+        ViewPagerAdapter adapter = (ViewPagerAdapter) viewPager.getAdapter();
+        adapter.changeTitles();
         super.onResume();
     }
 
@@ -724,12 +736,7 @@ public class MainActivity extends AppCompatActivity {
         View view = inflater.inflate(R.layout.changelog, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(view).setTitle(getResources().getString(R.string.welcome_title))
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
         builder.create().show();
     }
 /*

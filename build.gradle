@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '24.0.2'
+    buildToolsVersion '25.0.2'
     defaultConfig {
         applicationId 'cz.fely.weightedaverage'
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 9
-        versionName '3.1.B.0.10'
+        versionCode 12
+        versionName '3.3.S.0.22'
         manifestPlaceholders = [HOCKEYAPP_APP_ID: "a6f2b12acd1a4e22a763dab9a356879f"]
         jackOptions {
             enabled true
@@ -30,17 +30,18 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
+
 dependencies {
+    compile 'com.android.support:appcompat-v7:25.2.0'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
         exclude group: 'com.google.code.findbugs'
     }
-    compile 'com.android.support:appcompat-v7:25.1.1'
-    compile 'com.android.support:support-v4:25.1.1'
-    compile 'com.android.support:support-vector-drawable:25.1.1'
-    compile 'com.android.support:design:25.1.1'
-    compile 'com.android.support:preference-v7:25.1.1'
+    compile 'com.android.support:support-v4:25.2.0'
+    compile 'com.android.support:support-vector-drawable:25.2.0'
+    compile 'com.android.support:design:25.2.0'
     testCompile 'junit:junit:4.12'
+    androidTestCompile 'com.android.support:support-annotations:25.2.0'
+    compile 'com.android.support:preference-v7:25.2.0'
     compile 'net.hockeyapp.android:HockeySDK:4.0.0'
 }
-
