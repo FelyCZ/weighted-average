@@ -79,37 +79,22 @@
         android:id="@+id/image1"/>
 
     <ScrollView
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_width="fill_parent"
+        android:layout_toLeftOf="@+id/image1"
+        android:layout_toStartOf="@+id/image1">
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
             <View android:id="@+id/fakeView"
                   android:layout_width="0dp"
                   android:layout_height="0dp"
                   android:layout_centerInParent="true"/>
-
-            <EditText
-                android:layout_height="40dp"
-                android:layout_width="wrap_content"
-                android:id="@+id/etName"
-                android:textSize="16sp"
-                android:hint="@string/hintET"
-                android:inputType="text"
-                android:ems="10"
-                android:imeOptions="actionNext"
-                android:maxLength="25"
-                android:textAlignment="center"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignRight="@+id/fakeView"
-                android:layout_alignEnd="@+id/fakeView"/>
 
             <EditText
                 android:layout_height="40dp"
@@ -124,26 +109,8 @@
                 android:layout_below="@+id/etName"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_alignRight="@+id/fakeView"
-                android:layout_alignEnd="@+id/fakeView"/>
-
-            <EditText
-                android:layout_height="40dp"
-                android:layout_width="60dp"
-                android:id="@+id/etWeight"
-                android:textSize="16sp"
-                android:hint="@string/weight"
-                android:inputType="number"
-                android:ems="10"
-                android:textAlignment="center"
-                android:maxLength="3"
-                android:imeOptions="actionSend"
-                android:layout_below="@+id/etMark"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignRight="@+id/fakeView"
-                android:layout_alignEnd="@+id/fakeView"
-                tools:ignore="NotSibling" />
+                android:layout_toLeftOf="@+id/etWeight"
+                android:layout_toStartOf="@+id/etWeight" />
 
             <Button
                 android:layout_height="wrap_content"
@@ -154,10 +121,9 @@
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:background="@drawable/button_style"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:layout_below="@+id/etWeight"
-                android:layout_alignRight="@+id/etWeight"
-                android:layout_alignEnd="@+id/etWeight"
-                android:layout_marginRight="1dp"/>
+                android:layout_below="@+id/etMark"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
             <TextView
                 android:layout_height="35dp"
@@ -170,8 +136,44 @@
                 android:layout_below="@+id/btnAdd"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_alignRight="@+id/fakeView"
-                android:layout_alignEnd="@+id/fakeView"/>
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <EditText
+                android:layout_height="40dp"
+                android:layout_width="60dp"
+                android:id="@+id/etWeight"
+                android:textSize="16sp"
+                android:hint="@string/weight"
+                android:inputType="number"
+                android:ems="10"
+                android:textAlignment="center"
+                android:maxLength="3"
+                tools:ignore="NotSibling"
+                android:layout_above="@+id/btnAdd"
+                android:layout_toRightOf="@+id/fakeView"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:imeOptions="actionDone" />
+
+            <EditText
+                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:id="@+id/etName"
+                android:textSize="16sp"
+                android:hint="@string/hintET"
+                android:inputType="text"
+                android:ems="10"
+                android:maxLength="25"
+                android:textAlignment="center"
+                android:imeOptions="actionNext"
+                android:layout_toRightOf="@+id/etMark"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
         </RelativeLayout>
     </ScrollView>
 

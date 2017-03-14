@@ -25,6 +25,6 @@
         android:icon="@drawable/remove"
         tools:ignore="AppCompatResource"
         android:titleCondensed="@string/vymazatZnamky"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom|withText" />
 
 </menu>

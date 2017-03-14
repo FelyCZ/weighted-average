@@ -24,7 +24,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.accessibility.AccessibilityNodeInfo;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,7 +38,6 @@ import net.hockeyapp.android.UpdateManagerListener;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import cz.fely.weightedaverage.db.DatabaseAdapter;
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private static TabLayout tabLayout;
     private ViewPager viewPager;
-    int tabPosition;
+    static int tabPosition;
     public static DatabaseAdapter mDbAdapterStatic;
     public static MainActivity man;
     static ListView lv;
@@ -157,7 +156,10 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 tabPosition = viewPager.getCurrentItem();
                 View v;
-                if (tabPosition == 1) {
+                if (tabPosition == 0){
+                    OverviewFragment.ovf.onResume();
+                }
+                else if (tabPosition == 1) {
                     v = SubjectOneFragment.view;
                     getViews(v);
 
@@ -197,7 +199,9 @@ public class MainActivity extends AppCompatActivity {
                     v = SubjectTenFragment.view;
                     getViews(v);
                 }
-                updateView(tabPosition, getApplicationContext());
+                if(tabPosition != 0) {
+                    updateView(tabPosition, getApplicationContext());
+                }
             }
 
             @Override
@@ -330,16 +334,26 @@ public class MainActivity extends AppCompatActivity {
         if(v != null) {
             lv = (ListView) v.findViewById(R.id.lvZnamky);
             tvAverage = (TextView) v.findViewById(R.id.averageTV);
+            EditText etName = (EditText) v.findViewById(R.id.etName);
+            EditText etMark = (EditText) v.findViewById(R.id.etMark);
+            etName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    boolean isNext = false;
+                    if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                        etMark.requestFocus();
+                        isNext = true;
+                    }
+                    return isNext;
+                }
+            });
         }
     }
 
     public static void updateView(int positionArg, Context ctx){
         DatabaseAdapter mDbAdapter = mDbAdapterStatic;
         Cursor cursor = null;
-        if (positionArg == 0){
-        OverviewFragment.ovf.onAttachFragment(OverviewFragment.ovf);
-        }
-        else if (positionArg == 1) {
+        if (positionArg == 1) {
             cursor = mDbAdapter.getAllEntries();
 
         } else if (positionArg == 2) {

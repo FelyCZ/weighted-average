@@ -22,6 +22,9 @@
     <string name="close">Zavřít</string>
     <string name="illegalArgument">Název nebo známka je prázdná</string>
      <string name="welcome_text">
+         <b>Verze 3.3.S.0.43</b>
+         \nOptimalizace vodorovného zobrazení\n\n
+
          <b>Verze 3.3.S.0.22</b>
          \nOprava chyb\n\n
 
@@ -194,6 +197,7 @@
     <string name="wipeDataSummary">Obnoví nastavení a data aplikace</string>
     <string name="titleWipeData">Vymazat data aplikace</string>
     <string name="processCannotBeUndone">Proces nelze vrátit zpět!</string>
+    <string name="text">text</string>
 
     <string-array name="langs">
         <item>Čeština</item>
