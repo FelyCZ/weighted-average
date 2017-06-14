@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import cz.fely.weightedaverage.db.DatabaseAdapter;
+import cz.fely.weightedaverage.db.Database;
 
 public class ListAdapter extends CursorAdapter {
     private LayoutInflater mLayoutInflater;
@@ -23,8 +23,8 @@ public class ListAdapter extends CursorAdapter {
     }
 
     public void bindView(View v, Context context, Cursor c) {
-        ((TextView) v.findViewById(R.id.name)).setText(c.getString(c.getColumnIndex(DatabaseAdapter.COLUMN_NAME)));
-        ((TextView) v.findViewById(R.id.mark)).setText(c.getString(c.getColumnIndex(DatabaseAdapter.COLUMN_MARK)));
-        ((TextView) v.findViewById(R.id.weight)).setText(c.getString(c.getColumnIndex(DatabaseAdapter.COLUMN_WEIGHT)));
+        ((TextView) v.findViewById(R.id.name)).setText(c.getString(c.getColumnIndex(Database.COLUMN_NAME)));
+        ((TextView) v.findViewById(R.id.mark)).setText(c.getString(c.getColumnIndex(Database.COLUMN_MARK)));
+        ((TextView) v.findViewById(R.id.weight)).setText(c.getString(c.getColumnIndex(Database.COLUMN_WEIGHT)));
     }
 }

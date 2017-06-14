@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:title="@string/generalHeader">
 
@@ -12,6 +13,20 @@
             />
 
         <ListPreference
+            android:defaultValue="desc"
+            android:title="@string/listPrefOrder"
+            android:summary="%s"
+            android:entries="@array/order"
+            android:entryValues="@array/orderValues"
+            android:key="pref_key_general_order"/>
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:title="@string/autoCompleteTitle"
+            android:key="autoComplete"
+            android:summaryOn="@string/autoCompleteSumOn"
+            android:summaryOff="@string/autoCompleteSumOff"/>
+        <ListPreference
             android:defaultValue="0"
             android:entries="@array/themes"
             android:entryValues="@array/themesValues"
@@ -19,22 +34,7 @@
             android:title="@string/pref_theme_title"
             android:summary="@string/themeSummary"
             />
-        <!--
-        <ListPreference
-            android:entries="@array/langs"
-            android:entryValues="@array/langsValues"
-            android:key="pref_key_general_lang"
-            android:title="@string/prefLangTitle"
-            android:summary="%s"
-            android:enabled="false"
-            android:dialogTitle="@string/prefSelectLang"
-            />
--->
-        <Preference
-            android:title="@string/wipeData"
-            android:summary="@string/wipeDataSummary"
-            android:key="pref_key_general_wipe"
-            />
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -52,85 +52,160 @@
     <PreferenceCategory
         android:title="@string/subjectPrefsCat">
 
-        <EditTextPreference
-            android:title="@string/subjectOneNamePrefs"
-            android:key="pref_key_subject_name_one"
-            android:defaultValue="@string/nameOneDefault"
-            android:maxLines="2"
-            android:maxLength="25"
-            />
+        <PreferenceScreen
+            android:title="@string/prefs_screen_overview_colors"
+            android:key="prefs_screen_overview_colors"
+            android:summary="@string/prefs_screen_overview_colors_summary"
+            android:persistent="false"
+            >
+
+            <com.rarepebble.colorpicker.ColorPreference
+                android:key="myColor"
+                android:defaultValue="@color/okMark"
+                />
+
+            <com.rarepebble.colorpicker.ColorPreference
+                android:key="myColor"
+                android:defaultValue="@color/ffMark"
+                />
+
+            <com.rarepebble.colorpicker.ColorPreference
+                android:key="myColor"
+                android:defaultValue="@color/badMark"
+                />
+
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="prefs_screen_subjects"
+            android:title="@string/prefs_screen_subjects"
+            android:persistent="false"
+            >
+
+            <EditTextPreference
+                android:title="@string/subjectOneNamePrefs"
+                android:key="pref_key_subject_name_one"
+                android:defaultValue="@string/nameOneDefault"
+                android:maxLines="2"
+                android:maxLength="25"
+                />
 
 
-        <EditTextPreference
-            android:title="@string/subjectTwoNamePrefs"
-            android:key="pref_key_subject_name_two"
-            android:defaultValue="@string/nameTwoDefault"
-            android:maxLines="2"
-            android:maxLength="25"
-            />
+            <EditTextPreference
+                android:title="@string/subjectTwoNamePrefs"
+                android:key="pref_key_subject_name_two"
+                android:defaultValue="@string/nameTwoDefault"
+                android:maxLines="2"
+                android:maxLength="25"
+                />
 
-        <EditTextPreference
-            android:title="@string/subjectThreeNamePrefs"
-            android:key="pref_key_subject_name_three"
-            android:defaultValue="@string/nameThreeDefault"
-            android:maxLines="2"
-            android:maxLength="25"
-        />
+            <EditTextPreference
+                android:title="@string/subjectThreeNamePrefs"
+                android:key="pref_key_subject_name_three"
+                android:defaultValue="@string/nameThreeDefault"
+                android:maxLines="2"
+                android:maxLength="25"
+                />
 
-        <EditTextPreference
-            android:title="@string/subjectFourNamePrefs"
-            android:key="pref_key_subject_name_four"
-            android:defaultValue="@string/nameFourDefault"
-            android:maxLines="2"
-            android:maxLength="25"
-            />
+            <EditTextPreference
+                android:title="@string/subjectFourNamePrefs"
+                android:key="pref_key_subject_name_four"
+                android:defaultValue="@string/nameFourDefault"
+                android:maxLines="2"
+                android:maxLength="25"
+                />
 
-        <EditTextPreference
-            android:title="@string/subjectFiveNamePrefs"
-            android:key="pref_key_subject_name_five"
-            android:defaultValue="@string/nameFiveDefault"
-            android:maxLines="2"
-            android:maxLength="25"
-            />
+            <EditTextPreference
+                android:title="@string/subjectFiveNamePrefs"
+                android:key="pref_key_subject_name_five"
+                android:defaultValue="@string/nameFiveDefault"
+                android:maxLines="2"
+                android:maxLength="25"
+                />
 
-        <EditTextPreference
-            android:title="@string/subjectSixNamePrefs"
-            android:key="pref_key_subject_name_six"
-            android:defaultValue="@string/nameSixDefault"
-            android:maxLines="2"
-            android:maxLength="25"
-            />
+            <EditTextPreference
+                android:title="@string/subjectSixNamePrefs"
+                android:key="pref_key_subject_name_six"
+                android:defaultValue="@string/nameSixDefault"
+                android:maxLines="2"
+                android:maxLength="25"
+                />
 
-        <EditTextPreference
-            android:title="@string/subjectSevenNamePrefs"
-            android:key="pref_key_subject_name_seven"
-            android:defaultValue="@string/nameSevenDefault"
-            android:maxLines="2"
-            android:maxLength="25"
-            />
+            <EditTextPreference
+                android:title="@string/subjectSevenNamePrefs"
+                android:key="pref_key_subject_name_seven"
+                android:defaultValue="@string/nameSevenDefault"
+                android:maxLines="2"
+                android:maxLength="25"
+                />
 
-        <EditTextPreference
-            android:title="@string/subjectEightNamePrefs"
-            android:key="pref_key_subject_name_eight"
-            android:defaultValue="@string/nameEightDefault"
-            android:maxLines="2"
-            android:maxLength="25"
-            />
+            <EditTextPreference
+                android:title="@string/subjectEightNamePrefs"
+                android:key="pref_key_subject_name_eight"
+                android:defaultValue="@string/nameEightDefault"
+                android:maxLines="2"
+                android:maxLength="25"
+                />
 
-        <EditTextPreference
-            android:title="@string/subjectNineNamePrefs"
-            android:key="pref_key_subject_name_nine"
-            android:defaultValue="@string/nameNineDefault"
-            android:maxLines="2"
-            android:maxLength="25"
-            />
+            <EditTextPreference
+                android:title="@string/subjectNineNamePrefs"
+                android:key="pref_key_subject_name_nine"
+                android:defaultValue="@string/nameNineDefault"
+                android:maxLines="2"
+                android:maxLength="25"
+                />
 
-        <EditTextPreference
-            android:title="@string/subjectTenNamePrefs"
-            android:key="pref_key_subject_name_ten"
-            android:defaultValue="@string/nameTenDefault"
-            android:maxLines="2"
-            android:maxLength="25"
+            <EditTextPreference
+                android:title="@string/subjectTenNamePrefs"
+                android:key="pref_key_subject_name_ten"
+                android:defaultValue="@string/nameTenDefault"
+                android:maxLines="2"
+                android:maxLength="25"
+                />
+
+            <EditTextPreference
+                android:title="@string/subjectElevenNamePrefs"
+                android:key="pref_key_subject_name_eleven"
+                android:defaultValue="@string/nameElevenDefault"
+                android:maxLines="2"
+                android:maxLength="25"
+                />
+
+            <EditTextPreference
+                android:title="@string/subjectTwelveNamePrefs"
+                android:key="pref_key_subject_name_twelve"
+                android:defaultValue="@string/nameTwelveDefault"
+                android:maxLines="2"
+                android:maxLength="25"
+                />
+
+            <EditTextPreference
+                android:title="@string/subjectTtNamePrefs"
+                android:key="pref_key_subject_name_tt"
+                android:defaultValue="@string/nameTtDefault"
+                android:maxLines="2"
+                android:maxLength="25"
+                />
+
+            <EditTextPreference
+                android:title="@string/subjectFtNamePrefs"
+                android:key="pref_key_subject_name_ft"
+                android:defaultValue="@string/nameFtDefault"
+                android:maxLines="2"
+                android:maxLength="25"
+                />
+
+
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/restore">
+
+        <Preference
+            android:title="@string/wipeData"
+            android:summary="@string/wipeDataSummary"
+            android:key="pref_key_general_wipe"
             />
 
     </PreferenceCategory>

@@ -7,8 +7,8 @@ android {
         applicationId 'cz.fely.weightedaverage'
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 13
-        versionName '3.3.S.0.43'
+        versionCode 15
+        versionName '3.5.B.5.55'
         manifestPlaceholders = [HOCKEYAPP_APP_ID: "a6f2b12acd1a4e22a763dab9a356879f"]
         jackOptions {
             enabled true
@@ -44,4 +44,7 @@ dependencies {
     androidTestCompile 'com.android.support:support-annotations:25.2.0'
     compile 'com.android.support:preference-v7:25.2.0'
     compile 'net.hockeyapp.android:HockeySDK:4.0.0'
+    compile 'agency.tango.android:material-intro-screen:0.0.5'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.rarepebble:colorpicker:2.2.0'
 }

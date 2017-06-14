@@ -3,6 +3,7 @@ package cz.fely.weightedaverage.subjects;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.AutoScrollHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,17 +22,17 @@ import java.util.Arrays;
 import cz.fely.weightedaverage.MainActivity;
 import cz.fely.weightedaverage.R;
 
-public class SubjectTwoFragment extends Fragment {
+public class SubjectElevenFragment extends Fragment {
 
     Button btnAdd;
     EditText etMark, etWeight;
     TextView tvAverage;
-    ListView lv;
+    public static ListView lv;
     public static View view;
-    public static SubjectTwoFragment fragment;
+    public static SubjectElevenFragment fragment;
     AutoCompleteTextView etName;
 
-    public SubjectTwoFragment() {
+    public SubjectElevenFragment() {
     }
 
     @Override
@@ -45,7 +46,7 @@ public class SubjectTwoFragment extends Fragment {
         MainActivity.checkSettings(view);
         MainActivity.getViews(view);
         MainActivity.updateView(MainActivity.tabPosition, getContext());
-        fragment = SubjectTwoFragment.this;
+        fragment = SubjectElevenFragment.this;
         MainActivity.autoCompleteAuth();
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {

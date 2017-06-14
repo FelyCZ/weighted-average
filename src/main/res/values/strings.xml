@@ -21,7 +21,29 @@
     <string name="cancel">Zrušit</string>
     <string name="close">Zavřít</string>
     <string name="illegalArgument">Název nebo známka je prázdná</string>
-     <string name="welcome_text">
+    <string name="markCountTemplate">Počet: </string>
+    <string name="prefs_screen_subjects">Názvy předmětů</string>
+    <string name="restore">Obnovení</string>
+    <string name="welcome_text">
+         <b>Verze 3.5.B.5.55</b>
+        \nNově se ukazují návrhy názvů známek podle již zadaných názvů
+        \nOprava menších chyb
+        \nZměnšena velikost aplikace\n\n
+
+         <b>Verze 3.4.B.4.20</b>
+         \nNová databáze (známky se přesouvají)
+         \nPočet předmětu vzrostl na 14
+         \nÚprava oznámení chyb
+         \nVyčištěn kód pro lepší chod aplikace
+         \nDo nastavení přibyla možnost zvolit si řazení známek (výchozí řazení je sestupně)
+         \nZměna výchozích názvů předmětů (možnost změny v nastavení)
+         \nOpraveny nalezené chyby
+         \nU nově přidaných známek se ukládá i datum přidání (ve formátu: dd.MM.yyyy HH:mm)
+         \nNová načítací obrazovka aplikace (změna pozadí + odebrání načítací lišty)\n\n
+
+         <b>Verze 3.4.E.0.1</b>
+         \n(Developer Preview - informace nejsou k dispozici)\n\n
+
          <b>Verze 3.3.S.0.43</b>
          \nOptimalizace vodorovného zobrazení\n\n
 
@@ -118,27 +140,13 @@
     <string name="weightedEnableSummary">Vážení známek je vypnuto</string>
     <string name="weightedDisableSummary">Vážení známek je zapnuto</string>
     <string name="weightedEnabled">Vážení známek</string>
-
-    <!-- Example settings for Notifications -->
-    <string name="pref_header_notifications">Oznámení</string>
-    <!-- Sound -->
-    <string name="pref_header_sound">Zvuk</string>
-
-    <string name="pref_title_ringtone">Vyzvánení</string>
-    <string name="pref_ringtone_silent">Tichý</string>
-
-    <string name="pref_title_vibrate">Vibrovat</string>
-    <string name="pref_title_vibrate_summary">Vibrovat při oznámení</string>
-    <string name="notificationsStatus">Zobrazovat oznámení</string>
-    <string name="notificationsStatusSummary">Hlavní nastavení oznámení</string>
     <string name="aboutAppMenuItem">O aplikaci</string>
     <string name="mainDeveloperTitle">Hlavní vývojář</string>
     <string name="mainDeveloperSummary">Jakub Ferenčík (Fely)</string>
     <string name="licence">Licence</string>
     <string name="licenceSummary">Klikněte pro zobrazení licence</string>
-    <string name="action_licenses">Open Source Licenses</string>
+    <string name="action_licenses">Licenční ujednání</string>
     <string name="backToExit">Pro ukončení stiskni Zpět ještě jednou</string>
-
 
     <string-array name="themes">
         <item>Světlé</item>
@@ -153,10 +161,12 @@
     <string name="themeSummary">
         Vybrané téma: %s
     </string>
+
+    <string name="prefs_screen_overview_colors">Barvy v přehledu</string>
+    <string name="prefs_screen_overview_colors_summary">Nastavení barev průměrů v celkovém přehledu</string>
     <string name="pref_theme_title">Téma</string>
     <string name="aboutCategory">O aplikaci</string>
     <string name="versionTitle">Nainstalovaná verze aplikace</string>
-    <string name="loadingApp">Načítání…</string>
     <string name="vibrateSwitchTitle">Vibrace</string>
     <string name="vibrateSwitchSummaryOff">Vibrace jsou vypnuty</string>
     <string name="vibrateSwitchSummaryOn">Vibrace jsou zapnuty</string>
@@ -167,7 +177,8 @@
     <string name="save">Uložit</string>
     <string name="invalidMarkWeight">Známka nebo váha je neplatná</string>
     <string name="show">Klikněte pro zobrazení</string>
-    <string name="subjectPrefsCat">Předměty</string>
+    <string name="showOnly">Zobrazit</string>
+    <string name="subjectPrefsCat">Přehled a předměty</string>
     <string name="changesAfterWhile">Změny se projeví na hlavní obrazovce</string>
     <string name="subjectOneNamePrefs">Název prvního předmětu</string>
     <string name="subjectTwoNamePrefs">Název druhého předmětu</string>
@@ -179,18 +190,24 @@
     <string name="subjectEightNamePrefs">Název osmého předmětu</string>
     <string name="subjectNineNamePrefs">Název devátého předmětu</string>
     <string name="subjectTenNamePrefs">Název desátého předmětu</string>
-    <string name="nameOneDefault">Jedna</string>
-    <string name="nameThreeDefault">Tři</string>
-    <string name="nameTwoDefault">Dva</string>
-    <string name="nameFourDefault">Čtyři</string>
-    <string name="nameFiveDefault">Pět</string>
-    <string name="nameSixDefault">Šest</string>
-    <string name="nameSevenDefault">Sedm</string>
-    <string name="nameEightDefault">Osm</string>
-    <string name="nameNineDefault">Devět</string>
-    <string name="nameTenDefault">Deset</string>
-    <string name="prefLangTitle">Jazyk</string>
-    <string name="prefSelectLang">Vyber jazyk</string>
+    <string name="subjectElevenNamePrefs">Název jedenáctého předmětu</string>
+    <string name="subjectTwelveNamePrefs">Název dvanáctého předmětu</string>
+    <string name="subjectTtNamePrefs">Název třináctého předmětu</string>
+    <string name="subjectFtNamePrefs">Název čtrnáctého předmětu</string>
+    <string name="nameOneDefault">Matematika</string>
+    <string name="nameThreeDefault">Čeština</string>
+    <string name="nameTwoDefault">Angličtina</string>
+    <string name="nameFourDefault">Dějepis</string>
+    <string name="nameFiveDefault">Fyzika</string>
+    <string name="nameSixDefault">Biologie</string>
+    <string name="nameSevenDefault">Chemie</string>
+    <string name="nameEightDefault">Zeměpis</string>
+    <string name="nameNineDefault">Občanská výchova</string>
+    <string name="nameTenDefault">Hudební výchova</string>
+    <string name="nameElevenDefault">Informatika</string>
+    <string name="nameTwelveDefault">Němčina</string>
+    <string name="nameTtDefault">Výtvarná výchova</string>
+    <string name="nameFtDefault">Tělesná výchova</string>
     <string name="overView">Přehled</string>
     <string name="errorSnackCannotDelete">Přehled není možné smazat!</string>
     <string name="wipeData">Vymazat všechna data</string>
@@ -198,14 +215,25 @@
     <string name="titleWipeData">Vymazat data aplikace</string>
     <string name="processCannotBeUndone">Proces nelze vrátit zpět!</string>
     <string name="text">text</string>
+    <string name="updateAvailable">Aktualizace k dispozici</string>
+    <string name="updateAvailableMes">Nová verze je k dispozici ke stažění</string>
+    <string name="markAddedWhen">Známka byla přidána</string>
+    <string name="dateTitle">Datum přidání</string>
+    <string name="errorSnackListSizeZero">V tomto předmětu není žádná známka</string>
+    <string name="listPrefOrder">Řazení známek</string>
+    <string name="nullDateException">NullPointerException\\nDatum nenalezeno</string>
+    <string name="progressDialogMes">Probíhá přesun známek do nové databáze</string>
+    <string name="progressDialogTitle">Apliakce se aktualizuje</string>
+    <string name="autoCompleteTitle">Návrhy názvů známek</string>
+    <string name="autoCompleteSumOn">Zobrazování zapnuto</string>
+    <string name="autoCompleteSumOff">Zobrazování vypnuto</string>
 
-    <string-array name="langs">
-        <item>Čeština</item>
-        <item>English</item>
+    <string-array name="order">
+        <item>Sestupně</item>
+        <item>Vzestupně</item>
     </string-array>
-    <string-array name="langsValues">
-        <item>cs</item>
-        <item>en</item>
+    <string-array name="orderValues">
+        <item>desc</item>
+        <item>asc</item>
     </string-array>
-
 </resources>

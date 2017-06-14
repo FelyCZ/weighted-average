@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
-        android:name="cz.fely.weightedaverage.utils.WipeDataUtil"
+        android:name=".utils.WipeDataUtil"
         android:theme="@style/Light">
         <activity
             android:name=".SettingsActivity"
@@ -31,7 +31,8 @@
         <activity
             android:name=".AboutFragment"
             android:label="@string/aboutAppMenuItem" />
-        <activity android:name=".SplashScreen">
+        <activity
+            android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

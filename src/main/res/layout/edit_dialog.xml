@@ -52,4 +52,18 @@
         android:hint="@string/weight"
         android:imeOptions="actionDone"
         android:maxLength="3"/>
+
+    <TextView
+        android:text="@string/dateTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvDateDialog" />
+
+    <TextView
+        android:text="@string/dateTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewDateDialog"
+        android:textSize="18sp" />
+
 </LinearLayout>

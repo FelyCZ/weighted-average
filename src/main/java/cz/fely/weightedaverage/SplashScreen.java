@@ -5,17 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import cz.fely.weightedaverage.utils.ThemeUtil;
 
 
 public class SplashScreen extends Activity {
-    static final int TIMER_RUNTIME = 1200;
+    static final int TIMER_RUNTIME = 2000;
     boolean mbActive;
-    ProgressBar progressBar;
-    TextView tvInfo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,32 +25,17 @@ public class SplashScreen extends Activity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
-        progressBar = (ProgressBar) findViewById(R.id.pb_splash);
-        progressBar.setMax(TIMER_RUNTIME);
         final Thread thread = new Thread(){
             @Override
             public void run(){
-
                         mbActive = true;
                         try {
                             int waited = 0;
-                            int waitedSec = 0;
                             while(mbActive && (waited < TIMER_RUNTIME)){
-                                if (waited == 600) {
-                                    sleep(500);
-                                    if (mbActive) {
-                                        waited += 500;
-                                        waitedSec += 522;
-                                        updateProgress(waited, waitedSec);
-                                    }
-                                }
-                                else{
                                     sleep(100);
                                     if(mbActive) {
                                         waited += 100;
-                                        waitedSec += 122;
-                                        updateProgress(waited, waitedSec);
-                                    }
+
                                 }
                             }
                         }
@@ -72,7 +53,7 @@ public class SplashScreen extends Activity {
         thread.start();
     }
 
+
     public void updateProgress(int waited, int waitedSec) {
-        progressBar.setProgress(waited);
     }
 }

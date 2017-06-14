@@ -2,7 +2,7 @@ package cz.fely.weightedaverage;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.webkit.WebView;
@@ -10,7 +10,7 @@ import android.webkit.WebView;
 import cz.fely.weightedaverage.utils.ThemeUtil;
 
 public class LicenceActivity extends Activity {
-
+    DialogInterface dialogInterface;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         ThemeUtil.setTheme(this);
@@ -22,15 +22,20 @@ public class LicenceActivity extends Activity {
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.action_licenses))
                 .setView(web)
-                .setPositiveButton(R.string.close, (dialog, which) -> {
-                    dialog.dismiss();
-                    Intent i = new Intent(LicenceActivity.this, AboutFragment.class).addFlags
-                            (Intent
-                            .FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(i);
-                    finish();
+                .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialog, int which) {
+                        dialogInterface = dialog;
+                        dialog.dismiss();
+                        LicenceActivity.this.finish();
+                    }
                 })
                 .show();
+    }
 
+    @Override
+    public void onBackPressed(){
+        LicenceActivity.this.finish();
+        super.onBackPressed();
     }
 }

@@ -1,87 +1,134 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<RelativeLayout android:layout_height="match_parent"
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:id="@+id/activity_main"
                 xmlns:android="http://schemas.android.com/apk/res/android">
 
 
     <LinearLayout
-        android:layout_height="35dp"
-        android:layout_width="match_parent"
         android:id="@+id/linearl2"
-        android:layout_below="@+id/averageTV">
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btnAdd">
 
         <TextView
             android:id="@+id/name"
             android:layout_width="0dp"
+            android:layout_height="35dp"
             android:layout_weight="1"
-            android:textSize="18sp"
-            android:textStyle="normal|italic"
             android:gravity="center_vertical"
             android:text="@string/name"
-            android:layout_height="35dp"
-            />
+            android:textSize="18sp"
+            android:textStyle="normal|italic" />
 
 
         <TextView
             android:id="@+id/mark"
-            android:text="@string/mark"
             android:layout_width="0dp"
-            android:layout_weight="0.4"
-            android:textSize="18sp"
-            android:gravity="center_vertical"
             android:layout_height="35dp"
-            android:textStyle="normal|bold"
-            android:textAlignment="center"/>
+            android:layout_weight="0.4"
+            android:gravity="center_vertical"
+            android:text="@string/mark"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="normal|bold" />
 
         <TextView
             android:id="@+id/weight"
-            android:text="@string/weight"
-            android:layout_weight="0.25"
             android:layout_width="0dp"
-            android:textStyle="normal|bold"
+            android:layout_height="35dp"
+            android:layout_weight="0.25"
+            android:gravity="center_vertical"
+            android:text="@string/weight"
             android:textAlignment="center"
             android:textSize="18sp"
-            android:gravity="center_vertical"
-            android:layout_height="35dp" />
+            android:textStyle="normal|bold" />
+
     </LinearLayout>
 
-    <ListView
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:id="@+id/lvZnamky"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/linearl2"
-        android:dividerHeight="1px" />
-
-    <Button
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:id="@+id/btnAdd"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/etName"
-        android:textSize="18sp"
-        android:text="@string/buttonAdd"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:background="@drawable/button_style"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-    <TextView
-        android:layout_height="35dp"
+    <AutoCompleteTextView
+        android:id="@+id/etName"
         android:layout_width="wrap_content"
-        android:id="@+id/averageTV"
-        android:layout_alignParentStart="true"
+        android:layout_height="40dp"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/btnAdd"
-        android:textSize="25sp"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/etMark"
+        android:ems="10"
+        android:hint="@string/hintET"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+        android:maxLength="25"
+        android:textSize="16sp">
+
+        <requestFocus />
+    </AutoCompleteTextView>
+
+    <EditText
+        android:id="@+id/etMark"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_alignBaseline="@+id/etName"
+        android:layout_alignBottom="@+id/etName"
+        android:layout_toLeftOf="@+id/etWeight"
+        android:layout_toStartOf="@+id/etWeight"
+        android:hint="@string/mark"
+        android:imeOptions="actionNext"
+        android:inputType="numberDecimal"
+        android:maxLength="3"
+        android:nextFocusLeft="@id/etName"
+        android:textAlignment="center"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/etWeight"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:gravity="center"
-        android:textStyle="normal|bold"
-        android:text="@string/prumer" />
+        android:ems="10"
+        android:hint="@string/weight"
+        android:imeOptions="actionDone"
+        android:inputType="number"
+        android:maxLength="3"
+        android:nextFocusLeft="@id/etMark"
+        android:textAlignment="center"
+        android:textSize="16sp" />
 
+        <Button
+            android:id="@+id/btnAdd"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/etName"
+            android:background="@drawable/button_style"
+            android:text="@string/buttonAdd"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="18sp" />
+
+    <ListView
+            android:id="@+id/lvZnamky"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="1px"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/space"
+        android:layout_below="@+id/linearl2" />
+
+    <Space
+        android:id="@+id/space"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <!--
     <EditText
         android:layout_height="40dp"
         android:layout_width="wrap_content"
@@ -97,36 +144,6 @@
         android:maxLength="25"
         android:layout_toStartOf="@+id/etMark"
         />
-
-    <EditText
-        android:layout_height="40dp"
-        android:layout_width="80dp"
-        android:id="@+id/etMark"
-        android:layout_toStartOf="@+id/etWeight"
-        android:layout_toLeftOf="@+id/etWeight"
-        android:textSize="16sp"
-        android:hint="@string/mark"
-        android:inputType="numberDecimal"
-        android:layout_alignBottom="@+id/etName"
-        android:layout_alignBaseline="@+id/etName"
-        android:textAlignment="center"
-        android:imeOptions="actionNext"
-        android:nextFocusLeft="@id/etName"
-        android:maxLength="3"/>
-
-    <EditText
-        android:layout_height="40dp"
-        android:layout_width="60dp"
-        android:id="@+id/etWeight"
-        android:textSize="16sp"
-        android:hint="@string/weight"
-        android:inputType="number"
-        android:ems="10"
-        android:textAlignment="center"
-        android:maxLength="3"
-        android:imeOptions="actionDone"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:nextFocusLeft="@id/etMark"/>
+-->
 
 </RelativeLayout>

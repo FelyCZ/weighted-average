@@ -72,7 +72,6 @@
         android:paddingRight="5dp"
         android:paddingBottom="2dp"
         android:paddingTop="2dp"
-        android:layout_toRightOf="@+id/etName"
         android:layout_width="2dp"
         tools:ignore="ContentDescription,NotSibling,RtlHardcoded"
         android:layout_centerInParent="true"
@@ -91,10 +90,42 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
+            <AutoCompleteTextView
+                android:id="@+id/etName"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:hint="@string/hintET"
+                android:maxLength="25"
+                android:ems="10"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:textSize="16sp"
+
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:gravity="center_vertical|center">
+                <requestFocus />
+            </AutoCompleteTextView>
+
             <View android:id="@+id/fakeView"
                   android:layout_width="0dp"
                   android:layout_height="0dp"
                   android:layout_centerInParent="true"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:id="@+id/btnAdd"
+                android:textSize="18sp"
+                android:text="@string/buttonAdd"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:background="@drawable/button_style"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/etMark"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
             <EditText
                 android:layout_height="40dp"
@@ -109,35 +140,8 @@
                 android:layout_below="@+id/etName"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_toLeftOf="@+id/etWeight"
-                android:layout_toStartOf="@+id/etWeight" />
-
-            <Button
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:id="@+id/btnAdd"
-                android:textSize="18sp"
-                android:text="@string/buttonAdd"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:background="@drawable/button_style"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:layout_below="@+id/etMark"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <TextView
-                android:layout_height="35dp"
-                android:layout_width="wrap_content"
-                android:id="@+id/averageTV"
-                android:textSize="25sp"
-                android:gravity="center"
-                android:textStyle="normal|bold"
-                android:text="@string/prumer"
-                android:layout_below="@+id/btnAdd"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_toLeftOf="@+id/fakeView"
+                android:layout_toStartOf="@+id/fakeView" />
 
             <EditText
                 android:layout_height="40dp"
@@ -150,31 +154,13 @@
                 android:textAlignment="center"
                 android:maxLength="3"
                 tools:ignore="NotSibling"
-                android:layout_above="@+id/btnAdd"
-                android:layout_toRightOf="@+id/fakeView"
+                android:imeOptions="actionDone"
+                android:layout_below="@+id/etName"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:imeOptions="actionDone" />
-
-            <EditText
-                android:layout_height="40dp"
-                android:layout_width="wrap_content"
-                android:id="@+id/etName"
-                android:textSize="16sp"
-                android:hint="@string/hintET"
-                android:inputType="text"
-                android:ems="10"
-                android:maxLength="25"
-                android:textAlignment="center"
-                android:imeOptions="actionNext"
-                android:layout_toRightOf="@+id/etMark"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_toRightOf="@+id/fakeView"
+                android:layout_toEndOf="@+id/fakeView" />
 
         </RelativeLayout>
     </ScrollView>
-
 </RelativeLayout>

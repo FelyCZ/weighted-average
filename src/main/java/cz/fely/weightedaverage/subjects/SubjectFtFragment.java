@@ -21,17 +21,17 @@ import java.util.Arrays;
 import cz.fely.weightedaverage.MainActivity;
 import cz.fely.weightedaverage.R;
 
-public class SubjectTwoFragment extends Fragment {
+public class SubjectFtFragment extends Fragment {
 
     Button btnAdd;
     EditText etMark, etWeight;
     TextView tvAverage;
-    ListView lv;
+    public static ListView lv;
     public static View view;
-    public static SubjectTwoFragment fragment;
+    public static SubjectFtFragment fragment;
     AutoCompleteTextView etName;
 
-    public SubjectTwoFragment() {
+    public SubjectFtFragment() {
     }
 
     @Override
@@ -45,7 +45,7 @@ public class SubjectTwoFragment extends Fragment {
         MainActivity.checkSettings(view);
         MainActivity.getViews(view);
         MainActivity.updateView(MainActivity.tabPosition, getContext());
-        fragment = SubjectTwoFragment.this;
+        fragment = SubjectFtFragment.this;
         MainActivity.autoCompleteAuth();
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
