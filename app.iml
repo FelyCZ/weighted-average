@@ -99,7 +99,6 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-v4/25.2.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.2.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/transition/25.2.0/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.rarepebble/colorpicker/2.2.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/net.hockeyapp.android/HockeySDK/4.0.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-safeguard" />
@@ -125,7 +124,6 @@
     <orderEntry type="library" exported="" name="design-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="transition-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="HockeySDK-4.0.0" level="project" />
-    <orderEntry type="library" exported="" name="colorpicker-2.2.0" level="project" />
     <orderEntry type="library" exported="" name="support-core-ui-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="support-core-utils-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="support-fragment-25.2.0" level="project" />

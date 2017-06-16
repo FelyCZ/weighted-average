@@ -162,8 +162,12 @@
         Vybrané téma: %s
     </string>
 
-    <string name="prefs_screen_overview_colors">Barvy v přehledu</string>
-    <string name="prefs_screen_overview_colors_summary">Nastavení barev průměrů v celkovém přehledu</string>
+    <string name="prefs_overview_okmark">Zelený průměr</string>
+    <string name="prefs_overview_okmark_summary">Nastavení rozmezí zeleného průměru</string>
+    <string name="prefs_overview_ffmark">Oranžový průměr</string>
+    <string name="prefs_overview_ffmark_summary">Nastavení rozmezí oranžového průměru</string>
+    <string name="prefs_overview_badmark">Červený průměr</string>
+    <string name="prefs_overview_badmark_summary">Automaticky se nastaví na horší průměry</string>
     <string name="pref_theme_title">Téma</string>
     <string name="aboutCategory">O aplikaci</string>
     <string name="versionTitle">Nainstalovaná verze aplikace</string>
@@ -221,12 +225,16 @@
     <string name="dateTitle">Datum přidání</string>
     <string name="errorSnackListSizeZero">V tomto předmětu není žádná známka</string>
     <string name="listPrefOrder">Řazení známek</string>
-    <string name="nullDateException">NullPointerException\\nDatum nenalezeno</string>
+    <string name="nullDateException">NullPointerException\nDatum nenalezeno</string>
     <string name="progressDialogMes">Probíhá přesun známek do nové databáze</string>
     <string name="progressDialogTitle">Apliakce se aktualizuje</string>
     <string name="autoCompleteTitle">Návrhy názvů známek</string>
     <string name="autoCompleteSumOn">Zobrazování zapnuto</string>
     <string name="autoCompleteSumOff">Zobrazování vypnuto</string>
+    <string name="toast_error_settings_bad_avg">Nelze zvolit větší ani setejný průměr než \"Oranžovém průměru\"!</string>
+    <string name="toast_error_settings_big_avg">Hodnota nemůže být větší než 4!</string>
+    <string name="toast_error_settings_small_avg">Hodnota nemůže být menší ani stejný než \"Zelený průměr\"!</string>
+    <string name="toast_error_settings_zero_avg">Známka nemůže být menší než 1</string>
 
     <string-array name="order">
         <item>Sestupně</item>

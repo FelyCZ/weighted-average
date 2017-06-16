@@ -2,7 +2,6 @@ package cz.fely.weightedaverage.subjects;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -10,10 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import cz.fely.weightedaverage.MainActivity;
 import cz.fely.weightedaverage.R;
+import cz.fely.weightedaverage.SettingsActivity;
 import cz.fely.weightedaverage.utils.ParseUtil;
 
 public class OverviewFragment extends Fragment {
@@ -22,6 +20,10 @@ public class OverviewFragment extends Fragment {
     tv8Title, tv9Title, tv10Title, tv11Title, tv12Title, tv13Title, tv14Title, tv1Mark, tv2Mark,
             tv3Mark, tv4Mark, tv5Mark, tv6Mark, tv7Mark, tv8Mark, tv9Mark,
             tv10Mark, tv11Mark, tv12Mark, tv13Mark, tv14Mark;
+    static Context ctx = MainActivity.context;
+    static int badMark = ContextCompat.getColor(ctx, R.color.badMark);
+    static int ffMark = ContextCompat.getColor(ctx, R.color.ffMark);
+    static int okMark = ContextCompat.getColor(ctx, R.color.okMark);
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
@@ -59,7 +61,37 @@ public class OverviewFragment extends Fragment {
         tv13Mark = (TextView) view.findViewById(R.id.SubjectTtMarkOverview);
         tv14Mark = (TextView) view.findViewById(R.id.SubjectFtMarkOverview);
         setNames(getContext());
-        setAverages(getContext());
+
+        setTextMarks(tv1Mark, 1);
+        setTextMarks(tv2Mark, 2);
+        setTextMarks(tv3Mark, 3);
+        setTextMarks(tv4Mark, 4);
+        setTextMarks(tv5Mark, 5);
+        setTextMarks(tv6Mark, 6);
+        setTextMarks(tv7Mark, 7);
+        setTextMarks(tv8Mark, 8);
+        setTextMarks(tv9Mark, 9);
+        setTextMarks(tv10Mark, 10);
+        setTextMarks(tv11Mark, 11);
+        setTextMarks(tv12Mark, 12);
+        setTextMarks(tv13Mark, 13);
+        setTextMarks(tv14Mark, 14);
+
+        changeColor(tv1Mark, 1);
+        changeColor(tv2Mark, 2);
+        changeColor(tv3Mark, 3);
+        changeColor(tv4Mark, 4);
+        changeColor(tv5Mark, 5);
+        changeColor(tv6Mark, 6);
+        changeColor(tv7Mark, 7);
+        changeColor(tv8Mark, 8);
+        changeColor(tv9Mark, 9);
+        changeColor(tv10Mark, 10);
+        changeColor(tv11Mark, 11);
+        changeColor(tv12Mark, 12);
+        changeColor(tv13Mark, 13);
+        changeColor(tv14Mark, 14);
+
         MainActivity.tabRl.setVisibility(View.INVISIBLE);
         return view;
     }
@@ -84,9 +116,21 @@ public class OverviewFragment extends Fragment {
 
     public static void setAverages (Context ctx){
         ParseUtil.getTabAverages();
-        int badMark = ContextCompat.getColor(ctx, R.color.badMark);
-        int ffMark = ContextCompat.getColor(ctx, R.color.ffMark);
-        int okMark = ContextCompat.getColor(ctx, R.color.okMark);
+
+        tv1Mark.setText(ParseUtil.oneAvg);
+        tv2Mark.setText(ParseUtil.twoAvg);
+        tv3Mark.setText(ParseUtil.threeAvg);
+        tv4Mark.setText(ParseUtil.fourAvg);
+        tv5Mark.setText(ParseUtil.fiveAvg);
+        tv6Mark.setText(ParseUtil.sixAvg);
+        tv7Mark.setText(ParseUtil.sevenAvg);
+        tv8Mark.setText(ParseUtil.eightAvg);
+        tv9Mark.setText(ParseUtil.nineAvg);
+        tv10Mark.setText(ParseUtil.tenAvg);
+        tv11Mark.setText(ParseUtil.elevenAvg);
+        tv12Mark.setText(ParseUtil.twelveAvg);
+        tv13Mark.setText(ParseUtil.ttAvg);
+        tv14Mark.setText(ParseUtil.ftAvg);
 
         if (ParseUtil.sum1 >= 3){
             tv1Mark.setTextColor(badMark);
@@ -271,39 +315,161 @@ public class OverviewFragment extends Fragment {
         }
 
 
-        tv1Mark.setText(ParseUtil.oneAvg);
-        tv2Mark.setText(ParseUtil.twoAvg);
-        tv3Mark.setText(ParseUtil.threeAvg);
-        tv4Mark.setText(ParseUtil.fourAvg);
-        tv5Mark.setText(ParseUtil.fiveAvg);
-        tv6Mark.setText(ParseUtil.sixAvg);
-        tv7Mark.setText(ParseUtil.sevenAvg);
-        tv8Mark.setText(ParseUtil.eightAvg);
-        tv9Mark.setText(ParseUtil.nineAvg);
-        tv10Mark.setText(ParseUtil.tenAvg);
-        tv11Mark.setText(ParseUtil.elevenAvg);
-        tv12Mark.setText(ParseUtil.twelveAvg);
-        tv13Mark.setText(ParseUtil.ttAvg);
-        tv14Mark.setText(ParseUtil.ftAvg);
+
     }
 
-    public static void changeColor(TextView txtView){
-        int average = Integer.parseInt(txtView.getText().toString());
-        if (average == 000) {
-            //TODO Dynamically set color for averages by settings
+    public static void setTextMarks (TextView v, int subject){
+        ParseUtil.getTabAverages();
+        if (subject == 1) {
+            v.setText(ParseUtil.oneAvg);
+        }
+        else if (subject == 2) {
+            v.setText(ParseUtil.twoAvg);
+        }
+        else if (subject == 3) {
+            v.setText(ParseUtil.threeAvg);
+        }
+        else if (subject == 4) {
+            v.setText(ParseUtil.fourAvg);
+        }
+        else if (subject == 5) {
+            v.setText(ParseUtil.fiveAvg);
+        }
+        else if (subject == 6) {
+            v.setText(ParseUtil.sixAvg);
+        }
+        else if (subject == 7) {
+            v.setText(ParseUtil.sevenAvg);
+        }
+        else if (subject == 8) {
+            v.setText(ParseUtil.eightAvg);
+        }
+        else if (subject == 9) {
+            v.setText(ParseUtil.nineAvg);
+        }
+        else if (subject == 10) {
+            v.setText(ParseUtil.tenAvg);
+        }
+        else if (subject == 11) {
+            v.setText(ParseUtil.elevenAvg);
+        }
+        else if (subject == 12) {
+            v.setText(ParseUtil.twelveAvg);
+        }
+        else if (subject == 13) {
+            v.setText(ParseUtil.ttAvg);
+        }
+        else if (subject == 14) {
+            v.setText(ParseUtil.ftAvg);
+        }
+    }
+
+    public static void changeColor(TextView v, int subject){
+        double avg = ParseUtil.avgByIntReturnDouble(subject);
+      /*  if (avg <= SettingsActivity.getAvgFromPreference(SettingsActivity.prefOkMark)
+                && avg != 0) {
+            v.setTextColor(okMark);
+        }
+        else if (avg > SettingsActivity.getAvgFromPreference(SettingsActivity.prefOkMark)
+                && avg <= SettingsActivity.getAvgFromPreference(SettingsActivity.prefFfMark) ){
+            v.setTextColor(ffMark);
+        }
+        else if (avg > SettingsActivity.getAvgFromPreference(SettingsActivity.prefFfMark)){
+            v.setTextColor(badMark);
+        }
+        else {
+            v.setTextColor(v.getTextColors().getDefaultColor());
+        }*/
+
+        // If avg > 3
+        double okMarkNum = SettingsActivity.getAvgFromPreference(SettingsActivity.prefOkMark);
+        double okMarkNum2 = 45 / 100;
+        if (avg > SettingsActivity.getAvgFromPreference(SettingsActivity.prefFfMark)){
+            v.setTextColor(badMark);
+        }
+        // If avg <= 3 && avg > 2.45
+        else if(avg <= SettingsActivity.getAvgFromPreference(SettingsActivity.prefFfMark)
+                && avg > (okMarkNum+okMarkNum2)){
+            v.setTextColor(ffMark);
+        }
+        // If avg <= 2 && != 0
+        else if (avg <= (okMarkNum+okMarkNum2) && avg != 0){
+            v.setTextColor(okMark);
+        }
+        // If avg = 0
+        else{
+            v.setTextColor(v.getTextColors().getDefaultColor());
         }
     }
 
     @Override
     public void onResume() {
-        setAverages(getContext());
+        changeColor(tv1Mark, 1);
+        changeColor(tv2Mark, 2);
+        changeColor(tv3Mark, 3);
+        changeColor(tv4Mark, 4);
+        changeColor(tv5Mark, 5);
+        changeColor(tv6Mark, 6);
+        changeColor(tv7Mark, 7);
+        changeColor(tv8Mark, 8);
+        changeColor(tv9Mark, 9);
+        changeColor(tv10Mark, 10);
+        changeColor(tv11Mark, 11);
+        changeColor(tv12Mark, 12);
+        changeColor(tv13Mark, 13);
+        changeColor(tv14Mark, 14);
+
+        setTextMarks(tv1Mark, 1);
+        setTextMarks(tv2Mark, 2);
+        setTextMarks(tv3Mark, 3);
+        setTextMarks(tv4Mark, 4);
+        setTextMarks(tv5Mark, 5);
+        setTextMarks(tv6Mark, 6);
+        setTextMarks(tv7Mark, 7);
+        setTextMarks(tv8Mark, 8);
+        setTextMarks(tv9Mark, 9);
+        setTextMarks(tv10Mark, 10);
+        setTextMarks(tv11Mark, 11);
+        setTextMarks(tv12Mark, 12);
+        setTextMarks(tv13Mark, 13);
+        setTextMarks(tv14Mark, 14);
+
         setNames(getContext());
         super.onResume();
     }
 
     @Override
     public void onAttachFragment(Fragment childFragment) {
-        setAverages(getContext());
+        changeColor(tv1Mark, 1);
+        changeColor(tv2Mark, 2);
+        changeColor(tv3Mark, 3);
+        changeColor(tv4Mark, 4);
+        changeColor(tv5Mark, 5);
+        changeColor(tv6Mark, 6);
+        changeColor(tv7Mark, 7);
+        changeColor(tv8Mark, 8);
+        changeColor(tv9Mark, 9);
+        changeColor(tv10Mark, 10);
+        changeColor(tv11Mark, 11);
+        changeColor(tv12Mark, 12);
+        changeColor(tv13Mark, 13);
+        changeColor(tv14Mark, 14);
+
+        setTextMarks(tv1Mark, 1);
+        setTextMarks(tv2Mark, 2);
+        setTextMarks(tv3Mark, 3);
+        setTextMarks(tv4Mark, 4);
+        setTextMarks(tv5Mark, 5);
+        setTextMarks(tv6Mark, 6);
+        setTextMarks(tv7Mark, 7);
+        setTextMarks(tv8Mark, 8);
+        setTextMarks(tv9Mark, 9);
+        setTextMarks(tv10Mark, 10);
+        setTextMarks(tv11Mark, 11);
+        setTextMarks(tv12Mark, 12);
+        setTextMarks(tv13Mark, 13);
+        setTextMarks(tv14Mark, 14);
+
         setNames(getContext());
         MainActivity.tabRl.setVisibility(View.INVISIBLE);
         super.onAttachFragment(childFragment);

@@ -3,11 +3,18 @@ package cz.fely.weightedaverage.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.preference.Preference;
+import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.preference.PreferenceManager;
 import android.view.View;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.FieldPosition;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 
 import javax.security.auth.SubjectDomainCombiner;
 
@@ -269,5 +276,109 @@ public final class ParseUtil {
         else {
             return null;
         }
+    }
+
+    public static double avgByIntReturnDouble (int subject){
+        Cursor cursor;
+        Double avg;
+
+        if(subject == 1) {
+            cursor = mDbAdapterStatic.makeAverage(1);
+            sum1 = cursor.getDouble(cursor.getColumnIndex("average"));
+            avg = new BigDecimal(sum1).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            return avg;
+        }
+
+        else if(subject == 2) {
+            cursor = mDbAdapterStatic.makeAverage(2);
+            sum2 = cursor.getDouble(cursor.getColumnIndex("average"));
+            avg = new BigDecimal(sum2).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            return avg;
+        }
+
+        else if(subject == 3) {
+            cursor = mDbAdapterStatic.makeAverage(3);
+            sum3 = cursor.getDouble(cursor.getColumnIndex("average"));
+            avg = new BigDecimal(sum3).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            return avg;
+        }
+
+        else if(subject == 4) {
+            cursor = mDbAdapterStatic.makeAverage(4);
+            sum4 = cursor.getDouble(cursor.getColumnIndex("average"));
+            avg = new BigDecimal(sum4).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            return avg;
+        }
+
+        else if(subject == 5) {
+            cursor = mDbAdapterStatic.makeAverage(5);
+            sum5 = cursor.getDouble(cursor.getColumnIndex("average"));
+            avg = new BigDecimal(sum5).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            return avg;
+        }
+
+        else if(subject == 6) {
+            cursor = mDbAdapterStatic.makeAverage(6);
+            sum6 = cursor.getDouble(cursor.getColumnIndex("average"));
+            avg = new BigDecimal(sum6).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            return avg;
+        }
+
+        else if(subject == 7) {
+            cursor = mDbAdapterStatic.makeAverage(7);
+            sum7 = cursor.getDouble(cursor.getColumnIndex("average"));
+            avg = new BigDecimal(sum7).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            return avg;
+        }
+
+        else if(subject == 8) {
+            cursor = mDbAdapterStatic.makeAverage(8);
+            sum8 = cursor.getDouble(cursor.getColumnIndex("average"));
+            avg = new BigDecimal(sum8).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            return avg;
+        }
+
+        else if(subject == 9) {
+            cursor = mDbAdapterStatic.makeAverage(9);
+            sum9 = cursor.getDouble(cursor.getColumnIndex("average"));
+            avg = new BigDecimal(sum9).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            return avg;
+        }
+
+        else if(subject == 10) {
+            cursor = mDbAdapterStatic.makeAverage(10);
+            sum10 = cursor.getDouble(cursor.getColumnIndex("average"));
+            avg = new BigDecimal(sum10).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            return avg;
+        }
+
+        else if(subject == 11) {
+            cursor = mDbAdapterStatic.makeAverage(11);
+            sum11 = cursor.getDouble(cursor.getColumnIndex("average"));
+            avg = new BigDecimal(sum11).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            return avg;
+        }
+
+        else if(subject == 12) {
+            cursor = mDbAdapterStatic.makeAverage(12);
+            sum12 = cursor.getDouble(cursor.getColumnIndex("average"));
+            avg = new BigDecimal(sum12).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            return avg;
+        }
+
+        else if(subject == 13) {
+            cursor = mDbAdapterStatic.makeAverage(13);
+            sum13 = cursor.getDouble(cursor.getColumnIndex("average"));
+            avg = new BigDecimal(sum13).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            return avg;
+        }
+
+        else if(subject == 14) {
+            cursor = mDbAdapterStatic.makeAverage(14);
+            sum14 = cursor.getDouble(cursor.getColumnIndex("average"));
+            avg = new BigDecimal(sum14).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            return avg;
+        }
+        else return 0;
     }
 }

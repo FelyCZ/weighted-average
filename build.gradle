@@ -46,5 +46,4 @@ dependencies {
     compile 'net.hockeyapp.android:HockeySDK:4.0.0'
     compile 'agency.tango.android:material-intro-screen:0.0.5'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.rarepebble:colorpicker:2.2.0'
 }

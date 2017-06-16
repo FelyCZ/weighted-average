@@ -1,6 +1,7 @@
 package cz.fely.weightedaverage;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,9 +17,11 @@ import android.preference.RingtonePreference;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.text.method.Touch;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import cz.fely.weightedaverage.utils.ThemeUtil;
 import cz.fely.weightedaverage.utils.WipeDataUtil;
@@ -27,6 +30,10 @@ import cz.fely.weightedaverage.utils.WipeDataUtil;
 public class SettingsActivity extends AppCompatPreferenceActivity {
     static final String prefTheme = "pref_key_general_theme";
     static final String prefWipe = "pref_key_general_wipe";
+    public static final String prefOkMark = "prefs_overview_okmark";
+    public static final String prefFfMark = "prefs_overview_ffmark";
+    static final String prefBadMark = "prefs_overview_badmark";
+    static EditTextPreference etpOkMark, etpFfMark;
     String et1S, et2S, et3S, et4S, et5S, et6S, et7S, et8S, et9S, et10S, et11S, et12S, et13S, et14S;
     EditTextPreference et1, et2, et3, et4, et5, et6, et7, et8, et9, et10, et11, et12, et13, et14;
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
@@ -265,12 +272,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         lp.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+             /*   SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
                 editor.putString("pref_key_general_theme", String.valueOf(newValue)).apply();
                 lp.setValue(String.valueOf(newValue));
-                lp.getEntry();
+                lp.getEntry();*/
                 ThemeUtil.reloadTheme(a);
-                return false;
+                return true;
             }
         });
 
@@ -297,6 +304,54 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 return false;
             }
         });
+
+        etpOkMark = (EditTextPreference) findPreference(prefOkMark);
+        etpFfMark = (EditTextPreference) findPreference(prefFfMark);
+        Preference etpBadMark = findPreference(prefBadMark);
+
+        etpOkMark.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                int newAvg =  Integer.parseInt(String.valueOf(newValue));
+                if(newAvg >= Integer.parseInt(etpFfMark.getText())){
+                    Toast.makeText(getApplicationContext(), R.string.toast_error_settings_bad_avg, Toast.LENGTH_SHORT).show();
+                }
+                else if(newAvg < 1){
+                    Toast.makeText(getApplicationContext(), R.string.toast_error_settings_zero_avg, Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        etpFfMark.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                int newAvg = Integer.parseInt(String.valueOf(newValue));
+                if(newAvg > 4){
+                    Toast.makeText(getApplicationContext(), R.string.toast_error_settings_big_avg, Toast.LENGTH_SHORT).show();
+                }
+                else if(newAvg <= Integer.parseInt(etpOkMark.getText())){
+                    Toast.makeText(getApplicationContext(), R.string.toast_error_settings_small_avg, Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    public static int getAvgFromPreference(String key) {
+        if (key.equals(prefOkMark)) {
+            return Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(MainActivity.context).getString(prefOkMark, "2"));
+        }
+        else if (key.equals(prefFfMark)){
+            return Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(MainActivity.context).getString(prefFfMark, "3"));
+        }
+        else return 0;
     }
 
     private void setSummariesEditText() {

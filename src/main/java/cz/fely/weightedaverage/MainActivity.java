@@ -26,7 +26,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
@@ -49,7 +48,6 @@ import java.util.List;
 import cz.fely.weightedaverage.db.Database;
 import cz.fely.weightedaverage.subjects.*;
 import cz.fely.weightedaverage.utils.*;
-import cz.fely.weightedaverage.utils.ExpandCollapseUtil.*;
 
 @SuppressWarnings("ALL")
 public class MainActivity extends AppCompatActivity {

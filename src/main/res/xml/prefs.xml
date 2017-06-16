@@ -52,29 +52,26 @@
     <PreferenceCategory
         android:title="@string/subjectPrefsCat">
 
-        <PreferenceScreen
-            android:title="@string/prefs_screen_overview_colors"
-            android:key="prefs_screen_overview_colors"
-            android:summary="@string/prefs_screen_overview_colors_summary"
-            android:persistent="false"
-            >
+        <EditTextPreference
+            android:title="@string/prefs_overview_okmark"
+            android:summary="@string/prefs_overview_okmark_summary"
+            android:key="prefs_overview_okmark"
+            android:defaultValue="2"
+            android:inputType="number"
+            android:maxLength="1"/>
 
-            <com.rarepebble.colorpicker.ColorPreference
-                android:key="myColor"
-                android:defaultValue="@color/okMark"
-                />
+        <EditTextPreference
+            android:title="@string/prefs_overview_ffmark"
+            android:summary="@string/prefs_overview_ffmark_summary"
+            android:key="prefs_overview_ffmark"
+            android:defaultValue="3"
+            android:inputType="number"
+            android:maxLength="1"/>
 
-            <com.rarepebble.colorpicker.ColorPreference
-                android:key="myColor"
-                android:defaultValue="@color/ffMark"
-                />
-
-            <com.rarepebble.colorpicker.ColorPreference
-                android:key="myColor"
-                android:defaultValue="@color/badMark"
-                />
-
-        </PreferenceScreen>
+        <Preference
+            android:title="@string/prefs_overview_badmark"
+            android:summary="@string/prefs_overview_badmark_summary"
+           />
 
         <PreferenceScreen
             android:key="prefs_screen_subjects"
