@@ -1,5 +1,7 @@
 package cz.fely.weightedaverage;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,7 +29,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
@@ -36,20 +37,40 @@ import android.widget.ListView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
-import net.hockeyapp.android.*;
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.FeedbackManager;
+import net.hockeyapp.android.LoginManager;
+import net.hockeyapp.android.UpdateManager;
+import net.hockeyapp.android.UpdateManagerListener;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import cz.fely.weightedaverage.db.Database;
-import cz.fely.weightedaverage.subjects.*;
-import cz.fely.weightedaverage.utils.*;
+import cz.fely.weightedaverage.subjects.OverviewFragment;
+import cz.fely.weightedaverage.subjects.SubjectEightFragment;
+import cz.fely.weightedaverage.subjects.SubjectElevenFragment;
+import cz.fely.weightedaverage.subjects.SubjectFiveFragment;
+import cz.fely.weightedaverage.subjects.SubjectFourFragment;
+import cz.fely.weightedaverage.subjects.SubjectFtFragment;
+import cz.fely.weightedaverage.subjects.SubjectNineFragment;
+import cz.fely.weightedaverage.subjects.SubjectOneFragment;
+import cz.fely.weightedaverage.subjects.SubjectSevenFragment;
+import cz.fely.weightedaverage.subjects.SubjectSixFragment;
+import cz.fely.weightedaverage.subjects.SubjectTenFragment;
+import cz.fely.weightedaverage.subjects.SubjectThreeFragment;
+import cz.fely.weightedaverage.subjects.SubjectTtFragment;
+import cz.fely.weightedaverage.subjects.SubjectTwelveFragment;
+import cz.fely.weightedaverage.subjects.SubjectTwoFragment;
+import cz.fely.weightedaverage.utils.ParseUtil;
+import cz.fely.weightedaverage.utils.ThemeUtil;
 
-@SuppressWarnings("ALL")
 public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     public static TabLayout tabLayout;
@@ -70,7 +91,11 @@ public class MainActivity extends AppCompatActivity {
     public static RelativeLayout rl;
     public static GestureDetectorCompat detector;
     public static RelativeLayout tabRl;
-
+    public static String date_time;
+    public static int mHour;
+    public static int mMinute;
+    public static EditText etMark;
+    public static String dateCompleted;
 
 
     @Override
@@ -100,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
         mDbAdapterStatic = new Database(this);
         hockeyAppSet();
+        refreshViews(this);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -107,9 +133,10 @@ public class MainActivity extends AppCompatActivity {
                 tabPosition = position;
                 View v;
                 if(tabPosition != 0){
-                        v = ParseUtil.getViewByTab();
-                        getViews(v);
-                        updateView(position, getApplicationContext());
+                    v = ParseUtil.getViewByTab();
+                    getViews(v);
+                    average(MainActivity.this, tabPosition);
+         //               updateView(position, getApplicationContext());
                 }
             }
 
@@ -134,9 +161,10 @@ public class MainActivity extends AppCompatActivity {
                 if (tabPosition != 0){
                     v = ParseUtil.getViewByTab();
                     getViews(v);
+                    average(MainActivity.this, tabPosition);
                 }
                 if(tabPosition != 0) {
-                    updateView(tabPosition, getApplicationContext());
+                 //   updateView(tabPosition, getApplicationContext());
                 }
             }
 
@@ -147,6 +175,15 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+                tabPosition = viewPager.getCurrentItem();
+                View v;
+                if (tabPosition == 0){
+                    OverviewFragment.ovf.onAttachFragment(ParseUtil.getSubjectFrag());
+                }
+                if (tabPosition != 0){
+                    v = ParseUtil.getViewByTab();
+                    getViews(v);
+                }
             }
         });
     }
@@ -219,8 +256,7 @@ public class MainActivity extends AppCompatActivity {
                     mDbAdapterStatic.deleteSubject(tabPosition);
                     View v;
                     v = ParseUtil.getViewByTab();
-                    getViews(v);
-                    updateView(tabPosition, getApplicationContext());
+                    refreshViews(this);
                 });
                 adb.show();
             }
@@ -250,19 +286,11 @@ public class MainActivity extends AppCompatActivity {
             lv = (ListView) v.findViewById(R.id.lvZnamky);
             etName = (AutoCompleteTextView) v.findViewById(R.id.etName);
             EditText etMark = (EditText) v.findViewById(R.id.etMark);
-            if(tabPosition != 0) {
+            if(tabPosition == 0) {
+                tabRl.setVisibility(View.INVISIBLE);
+            }
+            else{
                 tabRl.setVisibility(View.VISIBLE);
-                etName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                    @Override
-                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                        boolean isNext = false;
-                        if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                            etMark.requestFocus();
-                            isNext = true;
-                        }
-                        return isNext;
-                    }
-                });
             }
         }
     }
@@ -311,6 +339,25 @@ public class MainActivity extends AppCompatActivity {
         average(ctx, positionArg);
     }
 
+    public static void refreshViews (Context ctx){
+        Cursor c;
+        for (int i = 1; i < 15; i++){
+            c = mDbAdapterStatic.getAllEntries(i);
+            View v = ParseUtil.getViewByPos(i);
+            if(v != null) {
+                etMark = (EditText) v.findViewById(R.id.etMark);
+                lv = (ListView) v.findViewById(R.id.lvZnamky);
+                etName = (AutoCompleteTextView) v.findViewById(R.id.etName);
+                if(tabPosition != 0) {
+                    tabRl.setVisibility(View.VISIBLE);
+                }
+                lv.setAdapter(new ListAdapter(man, c, 0));
+            }
+        }
+
+        average(ctx, tabPosition);
+    }
+
     public static void average(Context ctx, int posArg){
         Cursor cursor;
         cursor = mDbAdapterStatic.makeAverage(posArg);
@@ -322,7 +369,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void addOrUpdateMark(View v, int posArg, Context ctx, String name, String m,
-                                       String w, long... id) {
+                                       String w,long... id) {
         EditText etName, etMark, etWeight;
         etName = (EditText) v.findViewById(R.id.etName);
         etMark = (EditText) v.findViewById(R.id.etMark);
@@ -358,7 +405,47 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 mDbAdapterStatic.updateMark(posArg, name, mark, weight, id[0]);
             }
-            updateView(posArg, context);
+            refreshViews(context);
+        } catch (IllegalArgumentException e) {
+            Snackbar.make(cl, e.getMessage(), Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
+    public static void addOrUpdateMark(View v, int posArg, Context ctx, String name, String m,
+                                       String w, String date, long... id) {
+        EditText etName, etMark, etWeight;
+        etName = (EditText) v.findViewById(R.id.etName);
+        etMark = (EditText) v.findViewById(R.id.etMark);
+        etWeight = (EditText) v.findViewById(R.id.etWeight);
+        try {
+            double weight;
+            double mark;
+            if (w.equals("")) {
+                weight = 1;
+            } else {
+                weight = Double.parseDouble(w);
+            }
+            if (TextUtils.isEmpty(name) || TextUtils.isEmpty(m) || m.equals("0")) {
+                throw new IllegalArgumentException(ctx.getResources().getString(R.string
+                        .illegalArgument));
+            }
+            else {
+                mark = Double.parseDouble(m);
+                if(mark > 5 || weight == 0 || mark < 1){
+                    throw new IllegalArgumentException(ctx.getResources().getString(R.string
+                            .invalidMarkWeight));
+                }
+            }
+            if (id.length == 0) {
+                mDbAdapterStatic.addMark(posArg, name, mark, weight, date);
+                etName.setText("");
+                etMark.setText("");
+                etWeight.setText("");
+                etName.requestFocus();
+            } else {
+                mDbAdapterStatic.updateMark(posArg, name, mark, weight, date, id[0]);
+            }
+            refreshViews(context);
         } catch (IllegalArgumentException e) {
             Snackbar.make(cl, e.getMessage(), Snackbar.LENGTH_SHORT).show();
         }
@@ -366,7 +453,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static void removeMark(int posArg, Context ctx, long id) {
         mDbAdapterStatic.deleteMark(id, posArg);
-        updateView(posArg, context);
+        refreshViews(context);
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -467,6 +554,7 @@ public class MainActivity extends AppCompatActivity {
                 case KeyEvent.ACTION_DOWN:
                     if(tabPosition != 0){
                         tabLayout.getTabAt(0).select();
+                        tabRl.setVisibility(View.INVISIBLE);
                     }
                     else {
                         if (event.getDownTime() - lastPressedTime < PERIOD) {
@@ -541,7 +629,7 @@ public class MainActivity extends AppCompatActivity {
         builder.create().show();
     }
 
-    public static void showEditDialog(String name, String mark, String weight,long id){
+    public static void showEditDialog(String name, String mark, String weight, long id){
         LayoutInflater inflater = LayoutInflater.from(man);
         View v = inflater.inflate(R.layout.edit_dialog, null);
         EditText etNameDialog, etMarkDialog,etWeightDialog;
@@ -557,6 +645,47 @@ public class MainActivity extends AppCompatActivity {
         Cursor c = mDbAdapterStatic.getDate(tabPosition, id);
         String date = c.getString(c.getColumnIndex("day"));
         vDateDialog.setText(date);
+        vDateDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int mYear;
+                int mMonth;
+                int mDay;
+
+                // Get Current Date
+                final Calendar c = Calendar.getInstance();
+                mYear = c.get(Calendar.YEAR);
+                mMonth = c.get(Calendar.MONTH);
+                mDay = c.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.context,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                date_time = dayOfMonth + "." + (monthOfYear + 1) + "." + year;
+
+                                //TIME SET
+                                final Calendar c = Calendar.getInstance();
+                                mHour = c.get(Calendar.HOUR_OF_DAY);
+                                mMinute = c.get(Calendar.MINUTE);
+
+                                // Launch Time Picker Dialog
+                                TimePickerDialog timePickerDialog = new TimePickerDialog(
+                                        context, new TimePickerDialog.OnTimeSetListener() {
+                                    @Override
+                                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                        mHour = hourOfDay;
+                                        mMinute = minute;
+                                        dateCompleted = date_time+" " + hourOfDay + ":" + minute;
+                                        vDateDialog.setText(date_time+" " + hourOfDay + ":" + minute);
+                                    }
+                                }, mHour, mMinute, true);
+                                timePickerDialog.show();
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+            }
+        });
         AlertDialog.Builder adb = new AlertDialog.Builder(context);
         adb.setTitle(R.string.editMark);
         adb.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
@@ -564,7 +693,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 MainActivity.addOrUpdateMark(ParseUtil.getViewByTab(), tabPosition, context, etNameDialog.getText()
                         .toString(), etMarkDialog.getText().toString(), etWeightDialog.getText()
-                        .toString(), id);
+                        .toString(), dateCompleted, id);
             }
         });
         adb.setNegativeButton(R.string.titleDelete, new DialogInterface.OnClickListener() {

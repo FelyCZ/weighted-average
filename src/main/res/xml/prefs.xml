@@ -52,6 +52,19 @@
     <PreferenceCategory
         android:title="@string/subjectPrefsCat">
 
+        <Preference
+            android:title="@string/prefs_subject_okmark_title"
+            android:summary="@string/prefs_subject_okmark_summary"
+            />
+        <Preference
+            android:title="@string/prefs_subject_ffmark_title"
+            android:summary="@string/prefs_subject_ffmark_summary"
+            />
+        <Preference
+            android:title="@string/prefs_subject_badmark_title"
+            android:summary="@string/prefs_subject_badmark_summary"
+            />
+
         <EditTextPreference
             android:title="@string/prefs_overview_okmark"
             android:summary="@string/prefs_overview_okmark_summary"

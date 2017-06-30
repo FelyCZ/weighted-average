@@ -230,6 +230,54 @@ public final class ParseUtil {
          }
     }
 
+    public static View getViewByPos(int pos){
+        if(pos == 1){
+            return SubjectOneFragment.view;
+        }
+        else if(pos == 2) {
+            return SubjectTwoFragment.view;
+        }
+        else if(pos == 3) {
+            return SubjectThreeFragment.view;
+        }
+        else if(pos == 4) {
+            return SubjectFourFragment.view;
+        }
+        else if(pos == 5) {
+            return SubjectFiveFragment.view;
+        }
+        else if(pos == 6) {
+            return SubjectSixFragment.view;
+        }
+        else if(pos == 7) {
+            return SubjectSevenFragment.view;
+        }
+        else if(pos == 8) {
+            return SubjectEightFragment.view;
+        }
+        else if(pos == 9) {
+            return SubjectNineFragment.view;
+        }
+        else if(pos == 10) {
+            return SubjectTenFragment.view;
+        }
+        else if(pos == 11) {
+            return SubjectElevenFragment.view;
+        }
+        else if(pos == 12) {
+            return SubjectTwelveFragment.view;
+        }
+        else if(pos == 13) {
+            return SubjectTtFragment.view;
+        }
+        else if(pos == 14) {
+            return SubjectFtFragment.view;
+        }
+        else {
+            return null;
+        }
+    }
+
     public static Fragment getSubjectFrag(){
         if(tabPosition == 1){
             return SubjectOneFragment.fragment;

@@ -1,23 +1,16 @@
 package cz.fely.weightedaverage.subjects;
 
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.AutoScrollHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import cz.fely.weightedaverage.MainActivity;
 import cz.fely.weightedaverage.R;
@@ -44,8 +37,7 @@ public class SubjectEightFragment extends Fragment {
         etWeight = (EditText) view.findViewById(R.id.etWeight);
         lv = (ListView) view.findViewById(R.id.lvZnamky);
         MainActivity.checkSettings(view);
-        MainActivity.getViews(view);
-        MainActivity.updateView(MainActivity.tabPosition, getContext());
+        MainActivity.refreshViews(getContext());
         fragment = SubjectEightFragment.this;
         MainActivity.autoCompleteAuth();
 
@@ -73,5 +65,11 @@ public class SubjectEightFragment extends Fragment {
         MainActivity.getViews(view);
         MainActivity.checkSettings(view);
         super.onResume();
+    }
+
+    @Override
+    public void onAttachFragment(Fragment childFragment) {
+        MainActivity.getViews(view);
+        super.onAttachFragment(childFragment);
     }
 }

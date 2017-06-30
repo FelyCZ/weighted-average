@@ -79,10 +79,14 @@ public class Database {
     }
 
     public Cursor makeAverage(int sub) {
-        mDb = helper.getWritableDatabase();
+        mDb = helper.getReadableDatabase();
         Cursor c = mDb.rawQuery("SELECT sum(mark*weight)/sum(weight) AS average FROM Marks WHERE subject = " + sub, null);
         if (c != null) {
-            c.moveToFirst();
+            if(c.isClosed() == false){
+                mDb = helper.getReadableDatabase();
+                c = (mDb.rawQuery("SELECT sum(mark*weight)/sum(weight) AS average FROM Marks WHERE subject = " + sub, null));
+                c.moveToFirst();
+            }
         }
         return c;
     }
@@ -108,6 +112,17 @@ public class Database {
     public void deleteSubject(int sub) {
         mDb = helper.getWritableDatabase();
         mDb.delete(TABLE_NAME, "subject="+sub, null);
+    }
+
+    public void updateMark(int sub, String name, double mark, double weight, String date, long id) {
+        mDb = helper.getWritableDatabase();
+        String subject = String.valueOf(sub);
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NAME, name);
+        values.put(COLUMN_MARK, mark);
+        values.put(COLUMN_WEIGHT, weight);
+        values.put(COLUMN_DATE, date);
+        mDb.update(TABLE_NAME, values, "_id=" + id + " AND subject=" + subject, null);
     }
 
     public void updateMark(int sub, String name, double mark, double weight, long id) {

@@ -82,7 +82,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                         .getString(preference.getKey(), ""));
     }
 
-
+    @SuppressWarnings("deprecation")
     private void initET(){
         final String et1S;
         et1S = "pref_key_subject_name_one";
@@ -354,6 +354,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         else return 0;
     }
 
+    @SuppressWarnings("deprecation")
     private void setSummariesEditText() {
         SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         EditTextPreference one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, tt, ft;

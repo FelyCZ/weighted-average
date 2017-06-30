@@ -1,5 +1,7 @@
 package cz.fely.weightedaverage.subjects;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,9 +10,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TimePicker;
+
+import java.util.Calendar;
 
 import cz.fely.weightedaverage.MainActivity;
 import cz.fely.weightedaverage.R;
@@ -37,8 +43,7 @@ public class SubjectOneFragment extends Fragment {
         etWeight = (EditText) view.findViewById(R.id.etWeight);
         lv = (ListView) view.findViewById(R.id.lvZnamky);
         MainActivity.checkSettings(view);
-        MainActivity.getViews(view);
-        MainActivity.updateView(MainActivity.tabPosition, getContext());
+        MainActivity.refreshViews(getContext());
         fragment = SubjectOneFragment.this;
         MainActivity.autoCompleteAuth();
 
@@ -48,7 +53,6 @@ public class SubjectOneFragment extends Fragment {
                 MainActivity.showEditDialog(((TextView) view.findViewById(R.id.name)).getText().toString(), (
                         (TextView) view.findViewById(R.id.mark)).getText().toString(), ((TextView)
                         view.findViewById(R.id.weight)).getText().toString(), id);
-
             }
         });
 
@@ -65,7 +69,12 @@ public class SubjectOneFragment extends Fragment {
     public void onResume() {
         MainActivity.getViews(view);
         MainActivity.checkSettings(view);
-        MainActivity.updateView(MainActivity.tabPosition, getContext());
         super.onResume();
+    }
+
+    @Override
+    public void onAttachFragment(Fragment childFragment) {
+        MainActivity.getViews(view);
+        super.onAttachFragment(childFragment);
     }
 }

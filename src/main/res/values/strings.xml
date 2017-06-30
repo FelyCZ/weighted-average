@@ -162,11 +162,11 @@
         Vybrané téma: %s
     </string>
 
-    <string name="prefs_overview_okmark">Zelený průměr</string>
-    <string name="prefs_overview_okmark_summary">Nastavení rozmezí zeleného průměru</string>
-    <string name="prefs_overview_ffmark">Oranžový průměr</string>
-    <string name="prefs_overview_ffmark_summary">Nastavení rozmezí oranžového průměru</string>
-    <string name="prefs_overview_badmark">Červený průměr</string>
+    <string name="prefs_overview_okmark">Nastavení zeleného průměru</string>
+    <string name="prefs_overview_okmark_summary">Kliknutím nastavit rozmezí zeleného průměru</string>
+    <string name="prefs_overview_ffmark">Nastavení oranžového průměru</string>
+    <string name="prefs_overview_ffmark_summary">Kliknutím nastavit rozmezí oranžového průměru</string>
+    <string name="prefs_overview_badmark">Nastavení červeného průměru</string>
     <string name="prefs_overview_badmark_summary">Automaticky se nastaví na horší průměry</string>
     <string name="pref_theme_title">Téma</string>
     <string name="aboutCategory">O aplikaci</string>
@@ -235,6 +235,12 @@
     <string name="toast_error_settings_big_avg">Hodnota nemůže být větší než 4!</string>
     <string name="toast_error_settings_small_avg">Hodnota nemůže být menší ani stejný než \"Zelený průměr\"!</string>
     <string name="toast_error_settings_zero_avg">Známka nemůže být menší než 1</string>
+    <string name="prefs_subject_okmark_title">Zelený průměr</string>
+    <string name="prefs_subject_okmark_summary">{[SettingsActivity.okMark.getText()]-[SettingsActivity.ffMark.getText()]}</string>
+    <string name="prefs_subject_ffmark_title">Oranžový průměr</string>
+    <string name="prefs_subject_ffmark_summary">{[SettingsActivity.ffMark.getText()]-[SettingsActivity.badMark.getText()]}</string>
+    <string name="prefs_subject_badmark_title">Červený průměr</string>
+    <string name="prefs_subject_badmark_summary">{[SettingsActivity.badMark.getText()]+}</string>
 
     <string-array name="order">
         <item>Sestupně</item>
