@@ -9,12 +9,13 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Looper;
 import android.os.Vibrator;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.ViewPager;
@@ -23,6 +24,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -38,6 +40,7 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.FeedbackManager;
@@ -50,28 +53,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import cz.fely.weightedaverage.db.Database;
 import cz.fely.weightedaverage.subjects.OverviewFragment;
-import cz.fely.weightedaverage.subjects.SubjectEightFragment;
-import cz.fely.weightedaverage.subjects.SubjectElevenFragment;
-import cz.fely.weightedaverage.subjects.SubjectFiveFragment;
-import cz.fely.weightedaverage.subjects.SubjectFourFragment;
-import cz.fely.weightedaverage.subjects.SubjectFtFragment;
-import cz.fely.weightedaverage.subjects.SubjectNineFragment;
-import cz.fely.weightedaverage.subjects.SubjectOneFragment;
-import cz.fely.weightedaverage.subjects.SubjectSevenFragment;
-import cz.fely.weightedaverage.subjects.SubjectSixFragment;
-import cz.fely.weightedaverage.subjects.SubjectTenFragment;
-import cz.fely.weightedaverage.subjects.SubjectThreeFragment;
-import cz.fely.weightedaverage.subjects.SubjectTtFragment;
-import cz.fely.weightedaverage.subjects.SubjectTwelveFragment;
-import cz.fely.weightedaverage.subjects.SubjectTwoFragment;
+import cz.fely.weightedaverage.subjects.SubjectTemplateFragment;
 import cz.fely.weightedaverage.utils.ParseUtil;
 import cz.fely.weightedaverage.utils.ThemeUtil;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     private Toolbar toolbar;
     public static TabLayout tabLayout;
     public static ViewPager viewPager;
@@ -96,118 +85,38 @@ public class MainActivity extends AppCompatActivity {
     public static int mMinute;
     public static EditText etMark;
     public static String dateCompleted;
+    private static ViewPagerAdapter viewPagerAdapter;
 
+    //MAIN ACTIVITY
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        context = this;
-        man = MainActivity.this;
+    public void onResume(){
         ThemeUtil.setTheme(this);
-        super.onCreate(savedInstanceState);
-        firstRun();
-        setContentView(R.layout.main_coordinator);
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
-
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-
-        tabPosition = tabLayout.getSelectedTabPosition();
-
-        cl = (CoordinatorLayout) findViewById(R.id.coordinator);
-        tvAverage = (TextView) findViewById(R.id.tvAverage);
-        tvCount = (TextView) findViewById(R.id.tvMarkCount);
-        tabRl = (RelativeLayout) findViewById(R.id.relativeTabInfo);
-
-        mDbAdapterStatic = new Database(this);
-        hockeyAppSet();
-        refreshViews(this);
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                tabPosition = position;
-                View v;
-                if(tabPosition != 0){
-                    v = ParseUtil.getViewByTab();
-                    getViews(v);
-                    average(MainActivity.this, tabPosition);
-         //               updateView(position, getApplicationContext());
-                }
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                tabPosition = viewPager.getCurrentItem();
-                View v;
-                if (tabPosition == 0){
-                   OverviewFragment.ovf.onAttachFragment(ParseUtil.getSubjectFrag());
-                }
-                if (tabPosition != 0){
-                    v = ParseUtil.getViewByTab();
-                    getViews(v);
-                    average(MainActivity.this, tabPosition);
-                }
-                if(tabPosition != 0) {
-                 //   updateView(tabPosition, getApplicationContext());
-                }
-            }
-
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                tabPosition = viewPager.getCurrentItem();
-                View v;
-                if (tabPosition == 0){
-                    OverviewFragment.ovf.onAttachFragment(ParseUtil.getSubjectFrag());
-                }
-                if (tabPosition != 0){
-                    v = ParseUtil.getViewByTab();
-                    getViews(v);
-                }
-            }
-        });
+       // viewPagerAdapter.changeTitles();
+        super.onResume();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        unregisterManagers();
+    }
 
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        ParseUtil.getTabNames(this);
-        adapter.addFrag(new OverviewFragment(), ParseUtil.overview);
-        adapter.addFrag(new SubjectOneFragment(), ParseUtil.one);
-        adapter.addFrag(new SubjectTwoFragment(), ParseUtil.two);
-        adapter.addFrag(new SubjectThreeFragment(), ParseUtil.three);
-        adapter.addFrag(new SubjectFourFragment(), ParseUtil.four);
-        adapter.addFrag(new SubjectFiveFragment(), ParseUtil.five);
-        adapter.addFrag(new SubjectSixFragment(), ParseUtil.six);
-        adapter.addFrag(new SubjectSevenFragment(), ParseUtil.seven);
-        adapter.addFrag(new SubjectEightFragment(), ParseUtil.eight);
-        adapter.addFrag(new SubjectNineFragment(), ParseUtil.nine);
-        adapter.addFrag(new SubjectTenFragment(), ParseUtil.ten);
-        adapter.addFrag(new SubjectElevenFragment(), ParseUtil.eleven);
-        adapter.addFrag(new SubjectTwelveFragment(), ParseUtil.twelve);
-        adapter.addFrag(new SubjectTtFragment(), ParseUtil.tt);
-        adapter.addFrag(new SubjectFtFragment(), ParseUtil.ft);
-        viewPager.setAdapter(adapter);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterManagers();
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if(tabPosition == 0){
+            menu.findItem(R.id.action_deletemarks).setVisible(false);
+        }
+        else {
+            menu.findItem(R.id.action_deletemarks).setVisible(true);
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -231,14 +140,7 @@ public class MainActivity extends AppCompatActivity {
             FeedbackManager.showFeedbackActivity(MainActivity.this);
         }
         if (id == R.id.action_deletemarks) {
-            if (tabPosition == 0) {
-                CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id
-                        .coordinator);
-                Snackbar.make(coordinatorLayout, R.string.errorSnackCannotDelete,
-                        Snackbar.LENGTH_LONG)
-                        .show();
-            }
-            else if(lv.getCount() == 0){
+            if(lv.getCount() == 0){
                 CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id
                         .coordinator);
                 Snackbar.make(coordinatorLayout, R.string.errorSnackListSizeZero,
@@ -252,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                 adb.setIcon(R.drawable.warning);
                 adb.setMessage(R.string.deleteAllMes);
                 adb.setNegativeButton(R.string.cancel, null);
-                adb.setPositiveButton(R.string.yes, (dialog, which) -> {
+                adb.setPositiveButton(android.R.string.yes, (dialog, which) -> {
                     mDbAdapterStatic.deleteSubject(tabPosition);
                     View v;
                     v = ParseUtil.getViewByTab();
@@ -269,6 +171,22 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public static void getViews(View v){
+        if(v != null) {
+            lv = (ListView) v.findViewById(R.id.lvZnamky);
+            etName = (AutoCompleteTextView) v.findViewById(R.id.etName);
+            EditText etMark = (EditText) v.findViewById(R.id.etMark);
+            autoCompleteAuth();
+            fillListView(tabPosition);
+        }
+        else {
+            Log.e("void getViews: ", "Null view");
+        }
+        if(tabPosition != 0)
+            tabRl.setVisibility(View.VISIBLE);
+        Log.i("getViews: ", "Position = " + String.valueOf(tabPosition));
+    }
+
     public static void checkSettings(View v){
         SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean weight = mPrefs.getBoolean("pref_key_general_weight", true);
@@ -281,22 +199,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static void getViews(View v){
-        if(v != null) {
-            lv = (ListView) v.findViewById(R.id.lvZnamky);
-            etName = (AutoCompleteTextView) v.findViewById(R.id.etName);
-            EditText etMark = (EditText) v.findViewById(R.id.etMark);
-            if(tabPosition == 0) {
-                tabRl.setVisibility(View.INVISIBLE);
-            }
-            else{
-                tabRl.setVisibility(View.VISIBLE);
-            }
-        }
+    private void unregisterManagers() {
+        UpdateManager.unregister();
     }
 
-    public static void autoCompleteAuth(){
-        if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("autoComplete", true)){
+    public static void autoCompleteAuth() {
+        if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("autoComplete", true)) {
             String[] array = helpList().toArray(new String[0]);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
                     android.R.layout.simple_dropdown_item_1line, array);
@@ -304,7 +212,6 @@ public class MainActivity extends AppCompatActivity {
             etName.setAdapter(adapter);
         }
     }
-
 
     public static ArrayList<String> helpList() {
         Cursor cursor = MainActivity.mDbAdapterStatic.getFromNameEntries();
@@ -331,201 +238,11 @@ public class MainActivity extends AppCompatActivity {
         return list;
     }
 
-    public static void updateView(int positionArg, Context ctx){
-        Cursor cursor;
-        getViews(ParseUtil.getViewByTab());
-        cursor = mDbAdapterStatic.getAllEntries(positionArg);
-        lv.setAdapter(new ListAdapter(man, cursor, 0));
-        average(ctx, positionArg);
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFrags();
+        viewPager.setAdapter(adapter);
     }
-
-    public static void refreshViews (Context ctx){
-        Cursor c;
-        for (int i = 1; i < 15; i++){
-            c = mDbAdapterStatic.getAllEntries(i);
-            View v = ParseUtil.getViewByPos(i);
-            if(v != null) {
-                etMark = (EditText) v.findViewById(R.id.etMark);
-                lv = (ListView) v.findViewById(R.id.lvZnamky);
-                etName = (AutoCompleteTextView) v.findViewById(R.id.etName);
-                if(tabPosition != 0) {
-                    tabRl.setVisibility(View.VISIBLE);
-                }
-                lv.setAdapter(new ListAdapter(man, c, 0));
-            }
-        }
-
-        average(ctx, tabPosition);
-    }
-
-    public static void average(Context ctx, int posArg){
-        Cursor cursor;
-        cursor = mDbAdapterStatic.makeAverage(posArg);
-        double sum = cursor.getDouble(cursor.getColumnIndex("average"));
-        DecimalFormat formater = new DecimalFormat("0.00");
-        String total = String.valueOf(formater.format(sum));
-        tvAverage.setText(total);
-        tvCount.setText(String.valueOf((mDbAdapterStatic.getAllEntries(posArg)).getCount()));
-    }
-
-    public static void addOrUpdateMark(View v, int posArg, Context ctx, String name, String m,
-                                       String w,long... id) {
-        EditText etName, etMark, etWeight;
-        etName = (EditText) v.findViewById(R.id.etName);
-        etMark = (EditText) v.findViewById(R.id.etMark);
-        etWeight = (EditText) v.findViewById(R.id.etWeight);
-        try {
-            double weight;
-            double mark;
-            if (w.equals("")) {
-                weight = 1;
-            } else {
-                weight = Double.parseDouble(w);
-            }
-            if (TextUtils.isEmpty(name) || TextUtils.isEmpty(m) || m.equals("0")) {
-                throw new IllegalArgumentException(ctx.getResources().getString(R.string
-                        .illegalArgument));
-            }
-            else {
-                mark = Double.parseDouble(m);
-                if(mark > 5 || weight == 0 || mark < 1){
-                    throw new IllegalArgumentException(ctx.getResources().getString(R.string
-                            .invalidMarkWeight));
-                }
-            }
-            if (id.length == 0) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-                Date notFormatedDate = new Date();
-                String date = dateFormat.format(notFormatedDate);
-                mDbAdapterStatic.addMark(posArg, name, mark, weight, date);
-                etName.setText("");
-                etMark.setText("");
-                etWeight.setText("");
-                etName.requestFocus();
-            } else {
-                mDbAdapterStatic.updateMark(posArg, name, mark, weight, id[0]);
-            }
-            refreshViews(context);
-        } catch (IllegalArgumentException e) {
-            Snackbar.make(cl, e.getMessage(), Snackbar.LENGTH_SHORT).show();
-        }
-    }
-
-    public static void addOrUpdateMark(View v, int posArg, Context ctx, String name, String m,
-                                       String w, String date, long... id) {
-        EditText etName, etMark, etWeight;
-        etName = (EditText) v.findViewById(R.id.etName);
-        etMark = (EditText) v.findViewById(R.id.etMark);
-        etWeight = (EditText) v.findViewById(R.id.etWeight);
-        try {
-            double weight;
-            double mark;
-            if (w.equals("")) {
-                weight = 1;
-            } else {
-                weight = Double.parseDouble(w);
-            }
-            if (TextUtils.isEmpty(name) || TextUtils.isEmpty(m) || m.equals("0")) {
-                throw new IllegalArgumentException(ctx.getResources().getString(R.string
-                        .illegalArgument));
-            }
-            else {
-                mark = Double.parseDouble(m);
-                if(mark > 5 || weight == 0 || mark < 1){
-                    throw new IllegalArgumentException(ctx.getResources().getString(R.string
-                            .invalidMarkWeight));
-                }
-            }
-            if (id.length == 0) {
-                mDbAdapterStatic.addMark(posArg, name, mark, weight, date);
-                etName.setText("");
-                etMark.setText("");
-                etWeight.setText("");
-                etName.requestFocus();
-            } else {
-                mDbAdapterStatic.updateMark(posArg, name, mark, weight, date, id[0]);
-            }
-            refreshViews(context);
-        } catch (IllegalArgumentException e) {
-            Snackbar.make(cl, e.getMessage(), Snackbar.LENGTH_SHORT).show();
-        }
-    }
-
-    public static void removeMark(int posArg, Context ctx, long id) {
-        mDbAdapterStatic.deleteMark(id, posArg);
-        refreshViews(context);
-    }
-
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFrag(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        public void changeTitles(){
-            ParseUtil.getTabNames(getApplicationContext());
-            tabLayout.getTabAt(1).setText(ParseUtil.one);
-            tabLayout.getTabAt(2).setText(ParseUtil.two);
-            tabLayout.getTabAt(3).setText(ParseUtil.three);
-            tabLayout.getTabAt(4).setText(ParseUtil.four);
-            tabLayout.getTabAt(5).setText(ParseUtil.five);
-            tabLayout.getTabAt(6).setText(ParseUtil.six);
-            tabLayout.getTabAt(7).setText(ParseUtil.seven);
-            tabLayout.getTabAt(8).setText(ParseUtil.eight);
-            tabLayout.getTabAt(9).setText(ParseUtil.nine);
-            tabLayout.getTabAt(10).setText(ParseUtil.ten);
-            tabLayout.getTabAt(11).setText(ParseUtil.eleven);
-            tabLayout.getTabAt(12).setText(ParseUtil.twelve);
-            tabLayout.getTabAt(13).setText(ParseUtil.tt);
-            tabLayout.getTabAt(14).setText(ParseUtil.ft);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
-    }
-
-    @Override
-    public void onResume(){
-        ThemeUtil.setTheme(this);
-        ViewPagerAdapter adapter = (ViewPagerAdapter) viewPager.getAdapter();
-        adapter.changeTitles();
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        unregisterManagers();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unregisterManagers();
-    }
-    private void unregisterManagers() {
-        UpdateManager.unregister();
-    }
-
 
     public void hockeyAppSet(){
         LoginManager.register(this, "2fccbcc477da9ab6b058daf97571ac77", LoginManager
@@ -623,10 +340,103 @@ public class MainActivity extends AppCompatActivity {
         builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                //TODO
+                dialog.dismiss();
             }
         });
         builder.create().show();
+    }
+
+    public static void refreshViews (Context ctx){
+        Cursor c;
+        View v;
+
+        FragmentPagerAdapter adapter = (FragmentPagerAdapter) viewPager.getAdapter();
+        for (int i = 1; i < 15; i++) {
+            c = mDbAdapterStatic.getAllEntries(i);
+            SubjectTemplateFragment viewPagerFragment = (SubjectTemplateFragment) adapter.getItem(i);
+            int page = viewPagerFragment.getArguments().getInt("page");
+            if(page == i) {
+                v = viewPagerFragment.getView();
+                if (v != null) {
+                    etMark = (EditText) v.findViewById(R.id.etMark);
+                    lv = (ListView) v.findViewById(R.id.lvZnamky);
+                    etName = (AutoCompleteTextView) v.findViewById(R.id.etName);
+                    if (tabPosition == 0) {
+                      tabRl.setVisibility(View.INVISIBLE);
+                    } else {
+                      tabRl.setVisibility(View.VISIBLE);
+                    }
+                    lv.setAdapter(new ListAdapter(man, c, 0));
+                }
+            }
+            else Log.e("Void refreshViews: ", "Error, invalid page");
+        }//end of for(;;)
+        Log.d("Void refreshViews: ", String.valueOf(15) + " tabs loaded");
+        average(ctx, tabPosition);
+    }//end of refreshViews()
+
+    public static void average(Context ctx, int posArg){
+        Cursor cursor;
+        cursor = mDbAdapterStatic.makeAverage(posArg);
+        double sum = cursor.getDouble(cursor.getColumnIndex("average"));
+        DecimalFormat formater = new DecimalFormat("0.00");
+        String total = String.valueOf(formater.format(sum));
+        tvAverage.setText(total);
+        tvCount.setText(String.valueOf((mDbAdapterStatic.getAllEntries(posArg)).getCount()));
+    }
+
+    public static void removeMark(int posArg, Context ctx, long id) {
+        mDbAdapterStatic.deleteMark(id, posArg);
+        refreshViews(context);
+    }
+
+    public static void addOrUpdateMark(View v, int posArg, Context ctx, String name, String m,
+                                       String w, @Nullable String date, long... id) {
+        EditText etName, etMark, etWeight;
+        etName = (EditText) v.findViewById(R.id.etName);
+        etMark = (EditText) v.findViewById(R.id.etMark);
+        etWeight = (EditText) v.findViewById(R.id.etWeight);
+        try {
+            double weight;
+            double mark;
+            if (w.equals("")) {
+                weight = 1;
+            } else {
+                weight = Double.parseDouble(w);
+            }
+            if (TextUtils.isEmpty(name) || TextUtils.isEmpty(m) || m.equals("0")) {
+                throw new IllegalArgumentException(ctx.getResources().getString(R.string
+                        .illegalArgument));
+            }
+            else {
+                mark = Double.parseDouble(m);
+                if(mark > 5 || weight == 0 || mark < 1){
+                    throw new IllegalArgumentException(ctx.getResources().getString(R.string
+                            .invalidMarkWeight));
+                }
+            }
+            if (id.length == 0) {
+                if(date == null){
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+                    Date notFormatedDate = new Date();
+                    String newDate = dateFormat.format(notFormatedDate);
+                    mDbAdapterStatic.addMark(posArg, name, mark, weight, newDate);
+                }
+                else{
+                    mDbAdapterStatic.addMark(posArg, name, mark, weight, date);
+                }
+                etName.setText("");
+                etMark.setText("");
+                etWeight.setText("");
+                etName.requestFocus();
+            } else {
+                mDbAdapterStatic.updateMark(posArg, name, mark, weight, date, id[0]);
+            }
+            refreshViews(context);
+        } catch (IllegalArgumentException e) {
+            Log.e("AddMark Exception: ", e.getMessage());
+            Snackbar.make(cl, e.getMessage(), Snackbar.LENGTH_SHORT).show();
+        }
     }
 
     public static void showEditDialog(String name, String mark, String weight, long id){
@@ -711,13 +521,114 @@ public class MainActivity extends AppCompatActivity {
         adb.show();
     }
 
-
-
-/*
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        LocaleUtils.updateConfig(getApplication(), newConfig);
+    protected static View tabView(int index){
+        View view;
+        view = viewPager.getFocusedChild();
+        return view;
     }
-    */
-}
+
+    private static void fillListView(int index){
+        Cursor cursor = mDbAdapterStatic.getAllEntries(index);
+        lv.setAdapter(new ListAdapter(man, cursor, 0));
+    }
+
+    private void setTabListeners (){
+
+    }
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        ThemeUtil.setTheme(this);
+        super.onCreate(savedInstanceState);
+        context = this;
+        man = MainActivity.this;
+        firstRun();
+        setContentView(R.layout.main_coordinator);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager, true);
+
+        tabLayout.setupWithViewPager(viewPager);
+
+        tabPosition = tabLayout.getSelectedTabPosition();
+
+        cl = (CoordinatorLayout) findViewById(R.id.coordinator);
+
+        tvAverage = (TextView) findViewById(R.id.tvAverage);
+
+        tvCount = (TextView) findViewById(R.id.tvMarkCount);
+
+        tabRl = (RelativeLayout) findViewById(R.id.relativeTabInfo);
+        tabRl.setVisibility(View.INVISIBLE);
+
+        mDbAdapterStatic = new Database(this);
+        hockeyAppSet();
+/*
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                View v;
+                tabPosition = tab.getPosition();
+                viewPager.setCurrentItem(tab.getPosition());
+                if (tab.getPosition() == 0) {
+                    OverviewFragment.ovf.onAttachFragment(ParseUtil.getSubjectFrag());
+                    tabRl.setVisibility(View.INVISIBLE);
+                } else {
+                    v = ParseUtil.getViewByTab();
+                    tabRl.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        */
+
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+                tabPosition = tab.getPosition();
+                if (tabPosition == 0) {
+                    OverviewFragment.ovf.onAttachFragment(ParseUtil.getSubjectFrag());
+                    tabRl.setVisibility(View.INVISIBLE);
+                    Log.i("OnTabSelected: ", "Position = " + String.valueOf(tabPosition));
+                } else {
+                    tabRl.setVisibility(View.VISIBLE);
+                    getViews(tabView(tabPosition));
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });//end of onTabSelectedListener
+
+
+        refreshViews(this);
+    }//end of onCreate
+}//end of MainActivity

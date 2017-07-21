@@ -24,13 +24,14 @@ public class OverviewFragment extends Fragment {
     static int badMark = ContextCompat.getColor(ctx, R.color.badMark);
     static int ffMark = ContextCompat.getColor(ctx, R.color.ffMark);
     static int okMark = ContextCompat.getColor(ctx, R.color.okMark);
+    public static View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState){
         ovf = OverviewFragment.this;
 
-        View view = inflater.inflate(R.layout.activity_overview, container, false);
+        view = inflater.inflate(R.layout.activity_overview, container, false);
         tv1Title = (TextView) view.findViewById(R.id.SubjectOneTitleOverview);
         tv2Title = (TextView) view.findViewById(R.id.SubjectTwoTitleOverview);
         tv3Title = (TextView) view.findViewById(R.id.SubjectThreeTitleOverview);
@@ -91,27 +92,15 @@ public class OverviewFragment extends Fragment {
         OverviewFragment.setTextMarks(OverviewFragment.tv12Mark, 12);
         OverviewFragment.setTextMarks(OverviewFragment.tv13Mark, 13);
         OverviewFragment.setTextMarks(OverviewFragment.tv14Mark, 14);
+        //MainActivity.tabRl.setVisibility(View.INVISIBLE);
 
-        MainActivity.tabRl.setVisibility(View.INVISIBLE);
         return view;
     }
 
     public static void setNames (Context ctx){
-        ParseUtil.getTabNames(ctx);
-        tv1Title.setText(ParseUtil.one);
-        tv2Title.setText(ParseUtil.two);
-        tv3Title.setText(ParseUtil.three);
-        tv4Title.setText(ParseUtil.four);
-        tv5Title.setText(ParseUtil.five);
-        tv6Title.setText(ParseUtil.six);
-        tv7Title.setText(ParseUtil.seven);
-        tv8Title.setText(ParseUtil.eight);
-        tv9Title.setText(ParseUtil.nine);
-        tv10Title.setText(ParseUtil.ten);
-        tv11Title.setText(ParseUtil.eleven);
-        tv12Title.setText(ParseUtil.twelve);
-        tv13Title.setText(ParseUtil.tt);
-        tv14Title.setText(ParseUtil.ft);
+        for(int i = 1; i < 15; i++){
+            ParseUtil.overviewTVs(i).setText(ParseUtil.getTabNames(ctx, i));
+        }
     }
 
     public static void setTextMarks (TextView v, int subject){
@@ -199,13 +188,14 @@ public class OverviewFragment extends Fragment {
     @Override
     public void onResume() {
         setNames(getContext());
+        //MainActivity.tabRl.setVisibility(View.INVISIBLE);
         super.onResume();
     }
 
     @Override
     public void onAttachFragment(Fragment childFragment) {
         setNames(getContext());
-        MainActivity.tabRl.setVisibility(View.INVISIBLE);
+        //MainActivity.tabRl.setVisibility(View.INVISIBLE);
         super.onAttachFragment(childFragment);
     }
 }

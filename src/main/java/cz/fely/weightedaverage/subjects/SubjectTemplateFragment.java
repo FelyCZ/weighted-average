@@ -2,6 +2,7 @@ package cz.fely.weightedaverage.subjects;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,21 +16,30 @@ import android.widget.TextView;
 import cz.fely.weightedaverage.MainActivity;
 import cz.fely.weightedaverage.R;
 
-public class SubjectSevenFragment extends Fragment {
+public class SubjectTemplateFragment extends Fragment {
 
     Button btnAdd;
     EditText etMark, etWeight;
     TextView tvAverage;
     ListView lv;
     public static View view;
-    public static SubjectSevenFragment fragment;
+    public static SubjectTemplateFragment fragment;
     AutoCompleteTextView etName;
 
-    public SubjectSevenFragment() {
+    public static SubjectTemplateFragment newInstance(int page) {
+        SubjectTemplateFragment frag = new SubjectTemplateFragment();
+        Bundle args = new Bundle();
+        args.putInt("page", page);
+        frag.setArguments(args);
+        return frag;
+    }
+
+    public SubjectTemplateFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.activity_main, container, false);
         btnAdd = (Button) view.findViewById(R.id.btnAdd);
         etName = (AutoCompleteTextView) view.findViewById(R.id.etName);
@@ -38,8 +48,9 @@ public class SubjectSevenFragment extends Fragment {
         lv = (ListView) view.findViewById(R.id.lvZnamky);
         MainActivity.checkSettings(view);
         MainActivity.refreshViews(getContext());
-        fragment = SubjectSevenFragment.this;
-        MainActivity.autoCompleteAuth();
+        fragment = SubjectTemplateFragment.this;
+        //MainActivity.getViews(view);
+
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -54,7 +65,7 @@ public class SubjectSevenFragment extends Fragment {
         btnAdd.setOnClickListener(v -> {
             MainActivity.getViews(view);
             MainActivity.addOrUpdateMark(view, MainActivity.tabPosition, getContext(), etName.getText().toString
-                    (), etMark.getText().toString(), etWeight.getText().toString(), new
+                    (), etMark.getText().toString(), etWeight.getText().toString(), null, new
                     long[0]);
         });
         return view;
@@ -62,14 +73,16 @@ public class SubjectSevenFragment extends Fragment {
 
     @Override
     public void onResume() {
-        MainActivity.getViews(view);
+        //MainActivity.getViews(view);
         MainActivity.checkSettings(view);
+        Log.i("SubjectFragment: ", "Fragment resumed");
         super.onResume();
     }
 
     @Override
     public void onAttachFragment(Fragment childFragment) {
-        MainActivity.getViews(view);
+        Log.i("SubjectFragment: ", "Fragment attached");
+        //MainActivity.getViews(view);
         super.onAttachFragment(childFragment);
     }
 }

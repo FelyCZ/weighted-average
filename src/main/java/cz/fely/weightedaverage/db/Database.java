@@ -26,7 +26,6 @@ public class Database {
     private SQLiteOpenHelper helper;
     SQLiteDatabase mDb;
 
-    @SuppressWarnings("InfiniteRecursion")
     static class DbHelper extends SQLiteOpenHelper {
                 public DbHelper(Context ctx) {
                     super(ctx, DB_NAME, null, DB_VER);
@@ -35,18 +34,19 @@ public class Database {
                 @Override
                 public void onCreate(SQLiteDatabase db) {
                     db.execSQL(SQL_TABLE_CREATE);
-                    Log.i("DB", "Marks Created");
+                    Log.i("DB: ", "Table Marks created");
                 }
 
                 @Override
                 public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
                     db.execSQL(SQL_TABLE_DELETE);
+                    Log.w("DB: ", "Table Marks dropped");
                     onCreate(db);
         }
     }
 
     public Database(Context ctx) {
-        helper = new DbHelper(ctx);
+        helper = new DbHelper(ctx);;
     }
 
     public Cursor getAllEntries(int sub) {

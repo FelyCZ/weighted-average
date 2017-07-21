@@ -13,9 +13,9 @@ import android.view.ViewGroup;
 
 import cz.fely.weightedaverage.utils.ThemeUtil;
 
+@SuppressWarnings("deprecation")
 public class AboutFragment extends AppCompatPreferenceActivity {
 
-    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ThemeUtil.setTheme(this);

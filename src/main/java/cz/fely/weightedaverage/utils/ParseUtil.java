@@ -3,26 +3,19 @@ package cz.fely.weightedaverage.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.preference.Preference;
-import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.preference.PreferenceManager;
 import android.view.View;
+import android.widget.TextView;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.text.FieldPosition;
-import java.text.NumberFormat;
-import java.text.ParsePosition;
-
-import javax.security.auth.SubjectDomainCombiner;
 
 import cz.fely.weightedaverage.R;
 import cz.fely.weightedaverage.subjects.*;
 
 import static cz.fely.weightedaverage.MainActivity.mDbAdapterStatic;
-import static cz.fely.weightedaverage.MainActivity.tabPosition;
 
 public final class ParseUtil {
     private static SharedPreferences mPrefs;
@@ -31,50 +24,24 @@ public final class ParseUtil {
     public static String oneAvg, twoAvg, threeAvg, fourAvg, fiveAvg, sixAvg, sevenAvg, eightAvg, nineAvg, tenAvg, elevenAvg, twelveAvg, ttAvg, ftAvg;
     public static double sum1, sum2, sum3, sum4, sum5, sum6, sum7, sum8, sum9, sum10, sum11, sum12, sum13, sum14;
 
+    public ParseUtil(Context ctx){
+
+    }
+
     public static void reloadPref(Context ctx) {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         //Weight
         boolean weight = mPrefs.getBoolean("pref_key_general_weight", true);
-        if(SubjectOneFragment.view != null | SubjectTwoFragment.view != null | SubjectThreeFragment
-                .view != null | SubjectFourFragment.view != null | SubjectFiveFragment.view !=
-                null | SubjectSixFragment.view != null | SubjectSevenFragment.view != null |
-                SubjectEightFragment.view != null | SubjectNineFragment.view != null |
-                SubjectTenFragment.view != null) {
+        if(SubjectTemplateFragment.view != null) {
             if (weight) {
-                SubjectOneFragment.view.findViewById(R.id.etWeight).setVisibility(View.VISIBLE);
-                SubjectTwoFragment.view.findViewById(R.id.etWeight).setVisibility(View.VISIBLE);
-                SubjectThreeFragment.view.findViewById(R.id.etWeight).setVisibility(View.VISIBLE);
-                SubjectFourFragment.view.findViewById(R.id.etWeight).setVisibility(View.VISIBLE);
-                SubjectFiveFragment.view.findViewById(R.id.etWeight).setVisibility(View.VISIBLE);
-                SubjectSixFragment.view.findViewById(R.id.etWeight).setVisibility(View.VISIBLE);
-                SubjectSevenFragment.view.findViewById(R.id.etWeight).setVisibility(View.VISIBLE);
-                SubjectEightFragment.view.findViewById(R.id.etWeight).setVisibility(View.VISIBLE);
-                SubjectNineFragment.view.findViewById(R.id.etWeight).setVisibility(View.VISIBLE);
-                SubjectTenFragment.view.findViewById(R.id.etWeight).setVisibility(View.VISIBLE);
-                SubjectElevenFragment.view.findViewById(R.id.etWeight).setVisibility(View.VISIBLE);
-                SubjectTwelveFragment.view.findViewById(R.id.etWeight).setVisibility(View.VISIBLE);
-                SubjectTtFragment.view.findViewById(R.id.etWeight).setVisibility(View.VISIBLE);
-                SubjectFtFragment.view.findViewById(R.id.etWeight).setVisibility(View.VISIBLE);
+                SubjectTemplateFragment.view.findViewById(R.id.etWeight).setVisibility(View.VISIBLE);
             } else {
-                SubjectOneFragment.view.findViewById(R.id.etWeight).setVisibility(View.INVISIBLE);
-                SubjectTwoFragment.view.findViewById(R.id.etWeight).setVisibility(View.INVISIBLE);
-                SubjectThreeFragment.view.findViewById(R.id.etWeight).setVisibility(View.INVISIBLE);
-                SubjectFourFragment.view.findViewById(R.id.etWeight).setVisibility(View.INVISIBLE);
-                SubjectFiveFragment.view.findViewById(R.id.etWeight).setVisibility(View.INVISIBLE);
-                SubjectSixFragment.view.findViewById(R.id.etWeight).setVisibility(View.INVISIBLE);
-                SubjectSevenFragment.view.findViewById(R.id.etWeight).setVisibility(View.INVISIBLE);
-                SubjectEightFragment.view.findViewById(R.id.etWeight).setVisibility(View.INVISIBLE);
-                SubjectNineFragment.view.findViewById(R.id.etWeight).setVisibility(View.INVISIBLE);
-                SubjectTenFragment.view.findViewById(R.id.etWeight).setVisibility(View.INVISIBLE);
-                SubjectElevenFragment.view.findViewById(R.id.etWeight).setVisibility(View.INVISIBLE);
-                SubjectTwelveFragment.view.findViewById(R.id.etWeight).setVisibility(View.INVISIBLE);
-                SubjectTtFragment.view.findViewById(R.id.etWeight).setVisibility(View.INVISIBLE);
-                SubjectFtFragment.view.findViewById(R.id.etWeight).setVisibility(View.INVISIBLE);
+                SubjectTemplateFragment.view.findViewById(R.id.etWeight).setVisibility(View.INVISIBLE);
             }
         }
     }
 
-    public static void getTabNames(Context ctx){
+    public static String getTabNames(Context ctx, int index){
         mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         //Names
         overview = ctx.getResources().getString(R.string.overView);
@@ -106,224 +73,179 @@ public final class ParseUtil {
                 .nameTtDefault));
         ft = mPrefs.getString("pref_key_subject_name_ft", ctx.getResources().getString(R.string
                 .nameFtDefault));
+        switch (index){
+            case 0:
+                return overview;
+            case 1:
+                return one;
+            case 2:
+                return two;
+            case 3:
+                return three;
+            case 4:
+                return four;
+            case 5:
+                return five;
+            case 6:
+                return six;
+            case 7:
+                return seven;
+            case 8:
+                return eight;
+            case 9:
+                return nine;
+            case 10:
+                return ten;
+            case 11:
+                return eleven;
+            case 12:
+                return twelve;
+            case 13:
+                return tt;
+            case 14:
+                return ft;
+            default:
+                return null;
+
+        }//end switch
+    }
+
+    public static TextView overviewTVs(int index){
+
+        OverviewFragment.tv1Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectOneTitleOverview);
+        OverviewFragment.tv2Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectTwoTitleOverview);
+        OverviewFragment.tv3Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectThreeTitleOverview);
+        OverviewFragment.tv4Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectFourTitleOverview);
+        OverviewFragment.tv5Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectFiveTitleOverview);
+        OverviewFragment.tv6Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectSixTitleOverview);
+        OverviewFragment.tv7Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectSevenTitleOverview);
+        OverviewFragment.tv8Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectEightTitleOverview);
+        OverviewFragment.tv9Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectNineTitleOverview);
+        OverviewFragment.tv10Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectTenTitleOverview);
+        OverviewFragment.tv11Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectElevenTitleOverview);
+        OverviewFragment.tv12Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectTwelveTitleOverview);
+        OverviewFragment.tv13Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectTtTitleOverview);
+        OverviewFragment.tv14Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectFtTitleOverview);
+        switch (index){
+            case 1:
+                return OverviewFragment.tv1Title;
+            case 2:
+                return OverviewFragment.tv2Title;
+            case 3:
+                return OverviewFragment.tv3Title;
+            case 4:
+                return OverviewFragment.tv4Title;
+            case 5:
+                return OverviewFragment.tv5Title;
+            case 6:
+                return OverviewFragment.tv6Title;
+            case 7:
+                return OverviewFragment.tv7Title;
+            case 8:
+                return OverviewFragment.tv8Title;
+            case 9:
+                return OverviewFragment.tv9Title;
+            case 10:
+                return OverviewFragment.tv10Title;
+            case 11:
+                return OverviewFragment.tv11Title;
+            case 12:
+                return OverviewFragment.tv12Title;
+            case 13:
+                return OverviewFragment.tv13Title;
+            case 14:
+                return OverviewFragment.tv14Title;
+            default:
+                return null;
+
+        }//end switch
     }
 
     public static void getTabAverages(){
         Cursor cursor;
-        DecimalFormat formater;
+        DecimalFormat formatter;
+
         cursor = mDbAdapterStatic.makeAverage(1);
         sum1 = cursor.getDouble(cursor.getColumnIndex("average"));
-        formater = new DecimalFormat("0.00");
-        oneAvg = String.valueOf(formater.format(sum1));
+        formatter = new DecimalFormat("0.00");
+        oneAvg = String.valueOf(formatter.format(sum1));
 
         cursor = mDbAdapterStatic.makeAverage(2);
         sum2 = cursor.getDouble(cursor.getColumnIndex("average"));
-        formater = new DecimalFormat("0.00");
-        twoAvg = String.valueOf(formater.format(sum2));
+        formatter = new DecimalFormat("0.00");
+        twoAvg = String.valueOf(formatter.format(sum2));
 
         cursor = mDbAdapterStatic.makeAverage(3);
         sum3 = cursor.getDouble(cursor.getColumnIndex("average"));
-        formater = new DecimalFormat("0.00");
-        threeAvg = String.valueOf(formater.format(sum3));
+        formatter = new DecimalFormat("0.00");
+        threeAvg = String.valueOf(formatter.format(sum3));
 
         cursor = mDbAdapterStatic.makeAverage(4);
         sum4 = cursor.getDouble(cursor.getColumnIndex("average"));
-        formater = new DecimalFormat("0.00");
-        fourAvg = String.valueOf(formater.format(sum4));
+        formatter = new DecimalFormat("0.00");
+        fourAvg = String.valueOf(formatter.format(sum4));
 
         cursor = mDbAdapterStatic.makeAverage(5);
         sum5 = cursor.getDouble(cursor.getColumnIndex("average"));
-        formater = new DecimalFormat("0.00");
-        fiveAvg = String.valueOf(formater.format(sum5));
+        formatter = new DecimalFormat("0.00");
+        fiveAvg = String.valueOf(formatter.format(sum5));
 
         cursor = mDbAdapterStatic.makeAverage(6);
         sum6 = cursor.getDouble(cursor.getColumnIndex("average"));
-        formater = new DecimalFormat("0.00");
-        sixAvg = String.valueOf(formater.format(sum6));
+        formatter = new DecimalFormat("0.00");
+        sixAvg = String.valueOf(formatter.format(sum6));
 
         cursor = mDbAdapterStatic.makeAverage(7);
         sum7 = cursor.getDouble(cursor.getColumnIndex("average"));
-        formater = new DecimalFormat("0.00");
-        sevenAvg = String.valueOf(formater.format(sum7));
+        formatter = new DecimalFormat("0.00");
+        sevenAvg = String.valueOf(formatter.format(sum7));
 
         cursor = mDbAdapterStatic.makeAverage(8);
         sum8 = cursor.getDouble(cursor.getColumnIndex("average"));
-        formater = new DecimalFormat("0.00");
-        eightAvg = String.valueOf(formater.format(sum8));
+        formatter = new DecimalFormat("0.00");
+        eightAvg = String.valueOf(formatter.format(sum8));
 
         cursor = mDbAdapterStatic.makeAverage(9);
         sum9 = cursor.getDouble(cursor.getColumnIndex("average"));
-        formater = new DecimalFormat("0.00");
-        nineAvg = String.valueOf(formater.format(sum9));
+        formatter = new DecimalFormat("0.00");
+        nineAvg = String.valueOf(formatter.format(sum9));
 
         cursor = mDbAdapterStatic.makeAverage(10);
         sum10 = cursor.getDouble(cursor.getColumnIndex("average"));
-        formater = new DecimalFormat("0.00");
-        tenAvg = String.valueOf(formater.format(sum10));
+        formatter = new DecimalFormat("0.00");
+        tenAvg = String.valueOf(formatter.format(sum10));
 
         cursor = mDbAdapterStatic.makeAverage(11);
         sum11 = cursor.getDouble(cursor.getColumnIndex("average"));
-        formater = new DecimalFormat("0.00");
-        elevenAvg = String.valueOf(formater.format(sum11));
+        formatter = new DecimalFormat("0.00");
+        elevenAvg = String.valueOf(formatter.format(sum11));
 
         cursor = mDbAdapterStatic.makeAverage(12);
         sum12 = cursor.getDouble(cursor.getColumnIndex("average"));
-        formater = new DecimalFormat("0.00");
-        twelveAvg = String.valueOf(formater.format(sum12));
+        formatter = new DecimalFormat("0.00");
+        twelveAvg = String.valueOf(formatter.format(sum12));
 
         cursor = mDbAdapterStatic.makeAverage(13);
         sum13 = cursor.getDouble(cursor.getColumnIndex("average"));
-        formater = new DecimalFormat("0.00");
-        ttAvg = String.valueOf(formater.format(sum13));
+        formatter = new DecimalFormat("0.00");
+        ttAvg = String.valueOf(formatter.format(sum13));
 
         cursor = mDbAdapterStatic.makeAverage(14);
         sum14 = cursor.getDouble(cursor.getColumnIndex("average"));
-        formater = new DecimalFormat("0.00");
-        ftAvg = String.valueOf(formater.format(sum14));
+        formatter = new DecimalFormat("0.00");
+        ftAvg = String.valueOf(formatter.format(sum14));
     }
 
     public static View getViewByTab(){
-         if(tabPosition == 1){
-             return SubjectOneFragment.view;
-         }
-        else if(tabPosition == 2) {
-             return SubjectTwoFragment.view;
-         }
-        else if(tabPosition == 3) {
-             return SubjectThreeFragment.view;
-         }
-        else if(tabPosition == 4) {
-             return SubjectFourFragment.view;
-         }
-        else if(tabPosition == 5) {
-             return SubjectFiveFragment.view;
-         }
-        else if(tabPosition == 6) {
-             return SubjectSixFragment.view;
-         }
-        else if(tabPosition == 7) {
-             return SubjectSevenFragment.view;
-         }
-        else if(tabPosition == 8) {
-             return SubjectEightFragment.view;
-         }
-         else if(tabPosition == 9) {
-             return SubjectNineFragment.view;
-         }
-         else if(tabPosition == 10) {
-             return SubjectTenFragment.view;
-         }
-         else if(tabPosition == 11) {
-             return SubjectElevenFragment.view;
-         }
-         else if(tabPosition == 12) {
-             return SubjectTwelveFragment.view;
-         }
-         else if(tabPosition == 13) {
-             return SubjectTtFragment.view;
-         }
-         else if(tabPosition == 14) {
-             return SubjectFtFragment.view;
-         }
-        else {
-             return null;
-         }
+        return SubjectTemplateFragment.view;
     }
 
     public static View getViewByPos(int pos){
-        if(pos == 1){
-            return SubjectOneFragment.view;
-        }
-        else if(pos == 2) {
-            return SubjectTwoFragment.view;
-        }
-        else if(pos == 3) {
-            return SubjectThreeFragment.view;
-        }
-        else if(pos == 4) {
-            return SubjectFourFragment.view;
-        }
-        else if(pos == 5) {
-            return SubjectFiveFragment.view;
-        }
-        else if(pos == 6) {
-            return SubjectSixFragment.view;
-        }
-        else if(pos == 7) {
-            return SubjectSevenFragment.view;
-        }
-        else if(pos == 8) {
-            return SubjectEightFragment.view;
-        }
-        else if(pos == 9) {
-            return SubjectNineFragment.view;
-        }
-        else if(pos == 10) {
-            return SubjectTenFragment.view;
-        }
-        else if(pos == 11) {
-            return SubjectElevenFragment.view;
-        }
-        else if(pos == 12) {
-            return SubjectTwelveFragment.view;
-        }
-        else if(pos == 13) {
-            return SubjectTtFragment.view;
-        }
-        else if(pos == 14) {
-            return SubjectFtFragment.view;
-        }
-        else {
-            return null;
-        }
+        return SubjectTemplateFragment.view;
     }
 
     public static Fragment getSubjectFrag(){
-        if(tabPosition == 1){
-            return SubjectOneFragment.fragment;
-        }
-        else if(tabPosition == 2) {
-            return SubjectTwoFragment.fragment;
-        }
-        else if(tabPosition == 3) {
-            return SubjectThreeFragment.fragment;
-        }
-        else if(tabPosition == 4) {
-            return SubjectFourFragment.fragment;
-        }
-        else if(tabPosition == 5) {
-            return SubjectFiveFragment.fragment;
-        }
-        else if(tabPosition == 6) {
-            return SubjectSixFragment.fragment;
-        }
-        else if(tabPosition == 7) {
-            return SubjectSevenFragment.fragment;
-        }
-        else if(tabPosition == 8) {
-            return SubjectEightFragment.fragment;
-        }
-        else if(tabPosition == 9) {
-            return SubjectNineFragment.fragment;
-        }
-        else if(tabPosition == 10) {
-            return SubjectTenFragment.fragment;
-        }
-        else if(tabPosition == 11) {
-            return SubjectElevenFragment.fragment;
-        }
-        else if(tabPosition == 12) {
-            return SubjectTwelveFragment.fragment;
-        }
-        else if(tabPosition == 13) {
-            return SubjectTtFragment.fragment;
-        }
-        else if(tabPosition == 14) {
-            return SubjectFtFragment.fragment;
-        }
-        else {
-            return null;
-        }
+        return SubjectTemplateFragment.fragment;
     }
 
     public static double avgByIntReturnDouble (int subject){
