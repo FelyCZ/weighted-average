@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">Průměr známek</string>
     <string name="hintET">Název (např. test)</string>
-    <string name="action_settings">Nastavení</string>
     <string name="vymazatZnamky">Vymazat známky</string>
     <string name="feedback">Odeslat názor</string>
     <string name="weight">Váha</string>
@@ -17,9 +16,18 @@
     <string name="close">Zavřít</string>
     <string name="illegalArgument">Název nebo známka je prázdná</string>
     <string name="markCountTemplate">Počet: </string>
-    <string name="prefs_screen_subjects">Názvy předmětů</string>
     <string name="restore">Obnovení</string>
     <string name="welcome_text">
+        <b>Verze 4.0.E.0.0 (Experimentální)</b>
+        \nZměna názvů předmětů je nyní možná po podržení dané záložky
+        \nOprava databáze
+        \nZměna pořadí předmětů a změna na výchozí názvy
+        \nUpravené nastavení a přidána možnost změnit barvy přehledu
+        \nJiž se nezobrazuje možnost vymazat známky pokud máte zvolenou záložku \"Přehled\"
+        \nUpravena načítací obrazovka
+        \nPrůměr a počet známek předmětu je nyní v dolní části obrazovky
+        \n<i><b>NALEZENÉ CHYBY MI ZAŠLETE POMOCÍ \"Odeslat názor\" V MENU. Děkuji</b></i>\n\n
+
          <b>Verze 3.5.B.5.55</b>
         \nNově se ukazují návrhy názvů známek podle již zadaných názvů
         \nOprava menších chyb
@@ -36,7 +44,7 @@
          \nU nově přidaných známek se ukládá i datum přidání (ve formátu: dd.MM.yyyy HH:mm)
          \nNová načítací obrazovka aplikace (změna pozadí + odebrání načítací lišty)\n\n
 
-         <b>Verze 3.4.E.0.1</b>
+         <b>Verze 3.4.E.0.1 (Experimentální)</b>
          \n(Developer Preview - informace nejsou k dispozici)\n\n
 
          <b>Verze 3.3.S.0.43</b>
@@ -95,7 +103,7 @@
          \nOprava databáze známek
          \nZaveden výběr designu aplikace\n\n
 
-         <b>Verze E.1.7</b>
+         <b>Verze E.1.7 (Experimentální)</b>
          \nPřidáno \"Nastavení\"
          \nVýsledek se nyní zaokrouhlí na 2 desetinná místa\n\n
 
@@ -131,7 +139,6 @@
     <!-- Strings related to Settings -->
 
     <string name="generalHeader">Hlavní</string>
-    <string name="generalHeaderSummary">Hlavní nastavení aplikace</string>
     <string name="weightedEnableSummary">Vážení známek je vypnuto</string>
     <string name="weightedDisableSummary">Vážení známek je zapnuto</string>
     <string name="weightedEnabled">Vážení známek</string>
@@ -139,8 +146,6 @@
     <string name="mainDeveloperTitle">Hlavní vývojář</string>
     <string name="mainDeveloperSummary">Jakub Ferenčík (Fely)</string>
     <string name="licence">Licence</string>
-    <string name="licenceSummary">Klikněte pro zobrazení licence</string>
-    <string name="action_licenses">Licenční ujednání</string>
     <string name="backToExit">Pro ukončení stiskni Zpět ještě jednou</string>
 
     <string-array name="themes">
@@ -170,59 +175,19 @@
     <string name="vibrateSwitchSummaryOff">Vibrace jsou vypnuty</string>
     <string name="vibrateSwitchSummaryOn">Vibrace jsou zapnuty</string>
     <string name="pref_sound_vibrate">Zvuky a vibrace</string>
-    <string name="pref_sound_vibrate_summary">Nastavení vibrací a zvuku</string>
-    <string name="illegalArgumentWeight">Váha nesmí být 0</string>
     <string name="editMark">Upravit známku</string>
     <string name="save">Uložit</string>
     <string name="invalidMarkWeight">Známka nebo váha je neplatná</string>
     <string name="show">Klikněte pro zobrazení</string>
-    <string name="showOnly">Zobrazit</string>
     <string name="subjectPrefsCat">Přehled a předměty</string>
-    <string name="changesAfterWhile">Změny se projeví na hlavní obrazovce</string>
-    <string name="subjectOneNamePrefs">Název prvního předmětu</string>
-    <string name="subjectTwoNamePrefs">Název druhého předmětu</string>
-    <string name="subjectThreeNamePrefs">Název třetího předmětu</string>
-    <string name="subjectFourNamePrefs">Název čtvrtého předmětu</string>
-    <string name="subjectFiveNamePrefs">Název pátého předmětu</string>
-    <string name="subjectSixNamePrefs">Název šestého předmětu</string>
-    <string name="subjectSevenNamePrefs">Název sedmého předmětu</string>
-    <string name="subjectEightNamePrefs">Název osmého předmětu</string>
-    <string name="subjectNineNamePrefs">Název devátého předmětu</string>
-    <string name="subjectTenNamePrefs">Název desátého předmětu</string>
-    <string name="subjectElevenNamePrefs">Název jedenáctého předmětu</string>
-    <string name="subjectTwelveNamePrefs">Název dvanáctého předmětu</string>
-    <string name="subjectTtNamePrefs">Název třináctého předmětu</string>
-    <string name="subjectFtNamePrefs">Název čtrnáctého předmětu</string>
-    <string name="nameOneDefault">Matematika</string>
-    <string name="nameThreeDefault">Čeština</string>
-    <string name="nameTwoDefault">Angličtina</string>
-    <string name="nameFourDefault">Dějepis</string>
-    <string name="nameFiveDefault">Fyzika</string>
-    <string name="nameSixDefault">Biologie</string>
-    <string name="nameSevenDefault">Chemie</string>
-    <string name="nameEightDefault">Zeměpis</string>
-    <string name="nameNineDefault">Občanská výchova</string>
-    <string name="nameTenDefault">Hudební výchova</string>
-    <string name="nameElevenDefault">Informatika</string>
-    <string name="nameTwelveDefault">Němčina</string>
-    <string name="nameTtDefault">Výtvarná výchova</string>
-    <string name="nameFtDefault">Tělesná výchova</string>
-    <string name="overView">Přehled</string>
-    <string name="errorSnackCannotDelete">Přehled není možné smazat!</string>
     <string name="wipeData">Vymazat všechna data</string>
     <string name="wipeDataSummary">Obnoví nastavení a data aplikace</string>
     <string name="titleWipeData">Vymazat data aplikace</string>
     <string name="processCannotBeUndone">Proces nelze vrátit zpět!</string>
     <string name="text">text</string>
-    <string name="updateAvailable">Aktualizace k dispozici</string>
-    <string name="updateAvailableMes">Nová verze je k dispozici ke stažění</string>
-    <string name="markAddedWhen">Známka byla přidána</string>
     <string name="dateTitle">Datum přidání</string>
     <string name="errorSnackListSizeZero">V tomto předmětu není žádná známka</string>
     <string name="listPrefOrder">Řazení známek</string>
-    <string name="nullDateException">NullPointerException\nDatum nenalezeno</string>
-    <string name="progressDialogMes">Probíhá přesun známek do nové databáze</string>
-    <string name="progressDialogTitle">Apliakce se aktualizuje</string>
     <string name="autoCompleteTitle">Návrhy názvů známek</string>
     <string name="autoCompleteSumOn">Zobrazování zapnuto</string>
     <string name="autoCompleteSumOff">Zobrazování vypnuto</string>
@@ -236,10 +201,9 @@
     <string name="prefs_subject_ffmark_summary">{[SettingsActivity.ffMark.getText()]-[SettingsActivity.badMark.getText()]}</string>
     <string name="prefs_subject_badmark_title">Červený průměr</string>
     <string name="prefs_subject_badmark_summary">{[SettingsActivity.badMark.getText()]+}</string>
-    <string name="tab_title_change_et">(př. Matematika)</string>
     <string name="tab_title_change_label">Název předmětu</string>
-    <string name="tab_title_change_dismiss_dialog">Neuloženo</string>
-    <string name="versionCodeFull">(%1$s)</string>
+    <string name="permission_desc">Umožňuje ostatním aplikacím zobrazit licenční ujednání a informace o aplikaci</string>
+    <string name="permission_label">Zobrazit licenční ujednání</string>
 
     <string-array name="order">
         <item>Sestupně</item>
@@ -249,4 +213,29 @@
         <item>desc</item>
         <item>asc</item>
     </string-array>
+
+    <!-- Default Tab Titles -->
+    <string name="overview">Přehled</string>
+    <string name="tab1">Matematika</string>
+    <string name="tab2">Čeština</string>
+    <string name="tab3">Angličtina</string>
+    <string name="tab4">Fyzika</string>
+    <string name="tab5">Biologie</string>
+    <string name="tab6">Dějepis</string>
+    <string name="tab7">Chemie</string>
+    <string name="tab8">Zeměpis</string>
+    <string name="tab9">Němčina</string>
+    <string name="tab10">Občanská výchova</string>
+    <string name="tab11">Informatika</string>
+    <string name="tab12">Hudební výchova</string>
+    <string name="tab13">Výtvarná výchova</string>
+    <string name="tab14">(Vlastní)</string>
+    <string name="change_tab_title">Změnit název</string>
+
+    <!-- MENU STRINGS -->
+    <string name="action_edit_title">Změnit název</string>
+    <string name="action_clean_subject">Vymazat známky v předmětu</string>
+    <string name="action_settings">Nastavení</string>
+    <string name="action_licenses">Licenční ujednání</string>
+
 </resources>

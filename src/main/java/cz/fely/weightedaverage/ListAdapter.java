@@ -13,7 +13,7 @@ import cz.fely.weightedaverage.db.Database;
 public class ListAdapter extends CursorAdapter {
     private LayoutInflater mLayoutInflater;
 
-    ListAdapter(MainActivity activity, Cursor cursor, int flags) {
+    public ListAdapter(MainActivity activity, Cursor cursor, int flags) {
         super(activity, cursor, flags);
         mLayoutInflater = LayoutInflater.from(activity);
     }

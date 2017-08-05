@@ -4,7 +4,6 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tab_title_change_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/tab_title_change_label" />
@@ -14,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/tab_title_change_et"
         android:inputType="text"
         android:maxLines="1" />
 </LinearLayout>

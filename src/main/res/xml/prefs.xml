@@ -52,7 +52,7 @@
     <PreferenceCategory
         android:title="@string/subjectPrefsCat">
 
-        <Preference
+    <!--    <Preference
             android:title="@string/prefs_subject_okmark_title"
             android:summary="@string/prefs_subject_okmark_summary"
             />
@@ -63,7 +63,7 @@
         <Preference
             android:title="@string/prefs_subject_badmark_title"
             android:summary="@string/prefs_subject_badmark_summary"
-            />
+            /> -->
 
         <EditTextPreference
             android:title="@string/prefs_overview_okmark"
@@ -84,9 +84,10 @@
         <Preference
             android:title="@string/prefs_overview_badmark"
             android:summary="@string/prefs_overview_badmark_summary"
+            android:enabled="false"
            />
 
-        <PreferenceScreen
+        <!--<PreferenceScreen
             android:key="prefs_screen_subjects"
             android:title="@string/prefs_screen_subjects"
             android:persistent="false"
@@ -204,9 +205,8 @@
                 android:maxLines="2"
                 android:maxLength="25"
                 />
+-->
 
-
-        </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -7,8 +7,7 @@
     <TextView
         android:text="@string/name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvNameDialog"/>
+        android:layout_height="wrap_content" />
 
     <EditText
         android:layout_width="match_parent"
@@ -24,8 +23,7 @@
     <TextView
         android:text="@string/mark"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvMarkDialog"/>
+        android:layout_height="wrap_content" />
 
     <EditText
         android:layout_width="match_parent"
@@ -40,8 +38,7 @@
     <TextView
         android:text="@string/weight"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvWeightDialog"/>
+        android:layout_height="wrap_content" />
 
     <EditText
         android:layout_width="match_parent"
@@ -56,8 +53,7 @@
     <TextView
         android:text="@string/dateTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvDateDialog" />
+        android:layout_height="wrap_content" />
 
     <TextView
         android:text="@string/dateTitle"

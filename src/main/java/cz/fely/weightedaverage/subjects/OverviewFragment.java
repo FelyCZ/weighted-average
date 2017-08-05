@@ -21,15 +21,19 @@ public class OverviewFragment extends Fragment {
             tv3Mark, tv4Mark, tv5Mark, tv6Mark, tv7Mark, tv8Mark, tv9Mark,
             tv10Mark, tv11Mark, tv12Mark, tv13Mark, tv14Mark;
     static Context ctx = MainActivity.context;
-    static int badMark = ContextCompat.getColor(ctx, R.color.badMark);
-    static int ffMark = ContextCompat.getColor(ctx, R.color.ffMark);
-    static int okMark = ContextCompat.getColor(ctx, R.color.okMark);
+    static int badMark;
+    static int ffMark;
+    static int okMark;
     public static View view;
+    public static boolean initCompleted = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState){
         ovf = OverviewFragment.this;
+        badMark = ContextCompat.getColor(ctx, R.color.badMark);
+        ffMark = ContextCompat.getColor(ctx, R.color.ffMark);
+        okMark = ContextCompat.getColor(ctx, R.color.okMark);
 
         view = inflater.inflate(R.layout.activity_overview, container, false);
         tv1Title = (TextView) view.findViewById(R.id.SubjectOneTitleOverview);
@@ -94,12 +98,16 @@ public class OverviewFragment extends Fragment {
         OverviewFragment.setTextMarks(OverviewFragment.tv14Mark, 14);
         //MainActivity.tabRl.setVisibility(View.INVISIBLE);
 
+        initCompleted = true;
+
         return view;
     }
 
     public static void setNames (Context ctx){
-        for(int i = 1; i < 15; i++){
-            ParseUtil.overviewTVs(i).setText(ParseUtil.getTabNames(ctx, i));
+        if(initCompleted) {
+            for (int i = 1; i < 15; i++) {
+                ParseUtil.overviewTVs(i).setText(ParseUtil.getTabNames(i));
+            }
         }
     }
 

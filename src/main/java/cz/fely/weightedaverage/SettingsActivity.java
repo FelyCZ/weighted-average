@@ -80,8 +80,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                         .getString(preference.getKey(), ""));
     }
 
-    private void initET(){
-        final String et1S;
+    /*private void initET(){
         et1S = "pref_key_subject_name_one";
         et2S = "pref_key_subject_name_two";
         et3S = "pref_key_subject_name_three";
@@ -252,7 +251,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 return false;
             }
         });
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -260,8 +259,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         super.onCreate(savedInstanceState);
         initToolbar();
         addPreferencesFromResource(R.xml.prefs);
-        setSummariesEditText();
-        initET();
         Activity a = this;
 
 
@@ -354,7 +351,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     @SuppressWarnings("deprecation")
     private void setSummariesEditText() {
         SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        EditTextPreference one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, tt, ft;
+     /*   EditTextPreference one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, tt, ft;
         String oneS, twoS, threeS, fourS, fiveS, sixS, sevenS, eightS, nineS, tenS, elevenS, twelveS, ttS, ftS;
         one = (EditTextPreference) findPreference("pref_key_subject_name_one");
         two = (EditTextPreference) findPreference("pref_key_subject_name_two");
@@ -413,7 +410,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         eleven.setSummary(elevenS);
         twelve.setSummary(twelveS);
         tt.setSummary(ttS);
-        ft.setSummary(ftS);
+        ft.setSummary(ftS);*/
     }
 
     private void initToolbar() {

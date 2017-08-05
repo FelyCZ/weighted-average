@@ -34,10 +34,11 @@ android:id="@+id/coordinator">
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    android:layout_marginBottom="10dp"/>
+    android:layout_marginBottom="10dp">
 
+</android.support.v4.view.ViewPager>
 
-<include
+    <include
     layout="@layout/info_tab"/>
 
 </android.support.design.widget.CoordinatorLayout>

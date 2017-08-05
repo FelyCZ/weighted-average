@@ -3,22 +3,27 @@ package cz.fely.weightedaverage;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import static cz.fely.weightedaverage.MainActivity.*;
+
+import cz.fely.weightedaverage.db.Database;
 import cz.fely.weightedaverage.utils.ThemeUtil;
 
-
-public class SplashScreen extends Activity {
+public class SplashScreen extends AppCompatActivity {
     static final int TIMER_RUNTIME = 2100;
     boolean mbActive;
     boolean one, two, three;
     ProgressBar pb;
     TextView tvInfo;
+    String loadingText;
+    StringBuilder b = new StringBuilder();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,10 +40,7 @@ public class SplashScreen extends Activity {
         pb = (ProgressBar) findViewById(R.id.pbSplash);
         pb.setMax(TIMER_RUNTIME);
         tvInfo = (TextView) findViewById(R.id.tvSplashInfo);
-
-        one = false;
-        two = false;
-        three = false;
+        tvInfo.setText("");
 
         final Thread thread = new Thread(){
             @Override
@@ -47,50 +49,32 @@ public class SplashScreen extends Activity {
                         try {
                             int waited = 0;
                             while(mbActive && (waited < TIMER_RUNTIME)){
-                                sleep(100);
-                                if(mbActive){
-                                    waited += 100;
-                                    updateProgress(waited);
+                                for(int i = 1; i < 3; i++){
+                                    sleep(100);
+                                    if(mbActive) {
+                                        waited += 100;
+                                        updateProgress(waited);
+                                    }
                                 }
                                 sleep(100);
                                 if(mbActive) {
                                     waited += 100;
                                     updateProgress(waited);
-                                    int finalWaited = waited;
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            if (one == false) {
-                                                tvInfo.setText("∙");
-                                                one = true;
-                                                Log.d("Splash Loading: ", "One Point");
-                                            } else if (one == true && two == false) {
-                                                tvInfo.setText("∙∙");
-                                                two = true;
-                                                Log.d("Splash Loading: ", "Two Point");
-                                            } else if (one == true && two == true && three == false) {
-                                                tvInfo.setText("∙∙∙");
-                                                three = true;
-                                                Log.d("Splash Loading: ", "Three Point");
-                                            } else {
-                                                tvInfo.setText("");
-                                                one = false;
-                                                two = false;
-                                                three = false;
-                                                Log.d("Splash Loading: ", "Zero Point");
-                                            }
-                                        }//end of void run()
-                                    });//end of runOnUiThread
-                                }//end of if(mbActive)
+                                            tvInfo.setText(loadingText);
+                                            loadingText = b.append("∙").toString();
+                                        }
+                                    });
+                                }
                             }//end of while()
                         }//end of try{]
                         catch (InterruptedException e){
                             Log.e("Splash: ", e.toString());
                         }
                         finally {
-                            Intent i = new Intent(SplashScreen.this, MainActivity.class);
-                            i.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                            startActivity(i);
+                            startActivity(new Intent(SplashScreen.this, MainActivity.class));
                             finish();
                         }
                     }
@@ -102,4 +86,5 @@ public class SplashScreen extends Activity {
         pb.setProgress(waited);
         pb.animate();
     }
+
 }

@@ -4,16 +4,7 @@
     <color name="badMark">#ff0000</color>
     <color name="okMark">#00dc00</color>
     <color name="ffMark">#ffae00</color>
-    <color name="neutralMark">?attr/android:textColorTertiary</color>
     <color name="tableGrey">#ffffb3</color>
-    <color name="slide1">#ffae22</color>
-    <color name="but1">#003cff</color>
-    <color name="slide2">#00bfff</color>
-    <color name="but2">#ffae22</color>
-    <color name="slide3">#e67c19</color>
-    <color name="but3">#d9ff00</color>
-    <color name="slide4">#00dc07</color>
-    <color name="but4">#00bfff</color>
 
     <!-- BASE Theme -->
     <color name="colorPrimary">#ffae22</color>
@@ -21,7 +12,6 @@
     <color name="colorAccent">#00bfff</color>
     <color name="app_background_black">#000000</color>
     <color name="foreground">#303030</color>
-    <color name="greyPopup">#30020105</color>
 
     <!-- DARK THEME -->
     <color name="colorPrimaryDT">#00bfff</color>

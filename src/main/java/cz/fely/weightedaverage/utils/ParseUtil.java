@@ -12,10 +12,12 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
+import cz.fely.weightedaverage.MainActivity;
 import cz.fely.weightedaverage.R;
 import cz.fely.weightedaverage.subjects.*;
 
 import static cz.fely.weightedaverage.MainActivity.mDbAdapterStatic;
+import static cz.fely.weightedaverage.MainActivity.tabPosition;
 
 public final class ParseUtil {
     private static SharedPreferences mPrefs;
@@ -32,89 +34,24 @@ public final class ParseUtil {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         //Weight
         boolean weight = mPrefs.getBoolean("pref_key_general_weight", true);
-        if(SubjectTemplateFragment.view != null) {
+        if(SubjectTemplateFragment.subjectView != null) {
             if (weight) {
-                SubjectTemplateFragment.view.findViewById(R.id.etWeight).setVisibility(View.VISIBLE);
+                SubjectTemplateFragment.subjectView.findViewById(R.id.etWeight).setVisibility(View.VISIBLE);
             } else {
-                SubjectTemplateFragment.view.findViewById(R.id.etWeight).setVisibility(View.INVISIBLE);
+                SubjectTemplateFragment.subjectView.findViewById(R.id.etWeight).setVisibility(View.INVISIBLE);
             }
         }
     }
 
-    public static String getTabNames(Context ctx, int index){
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        //Names
-        overview = ctx.getResources().getString(R.string.overView);
-        one = mPrefs.getString("pref_key_subject_name_one", ctx.getResources().getString(R.string
-                        .nameOneDefault));
-        two = mPrefs.getString("pref_key_subject_name_two", ctx.getResources().getString(R.string
-                        .nameTwoDefault));
-        three = mPrefs.getString("pref_key_subject_name_three", ctx.getResources().getString(R.string
-                        .nameThreeDefault));
-        four = mPrefs.getString("pref_key_subject_name_four", ctx.getResources().getString(R.string
-                        .nameFourDefault));
-        five = mPrefs.getString("pref_key_subject_name_five", ctx.getResources().getString(R.string
-                        .nameFiveDefault));
-        six = mPrefs.getString("pref_key_subject_name_six", ctx.getResources().getString(R.string
-                        .nameSixDefault));
-        seven = mPrefs.getString("pref_key_subject_name_seven", ctx.getResources().getString(R.string
-                .nameSevenDefault));
-        eight = mPrefs.getString("pref_key_subject_name_eight", ctx.getResources().getString(R.string
-                .nameEightDefault));
-        nine = mPrefs.getString("pref_key_subject_name_nine", ctx.getResources().getString(R.string
-                .nameNineDefault));
-        ten = mPrefs.getString("pref_key_subject_name_ten", ctx.getResources().getString(R.string
-                .nameTenDefault));
-        eleven = mPrefs.getString("pref_key_subject_name_eleven", ctx.getResources().getString(R.string
-                .nameElevenDefault));
-        twelve = mPrefs.getString("pref_key_subject_name_twelve", ctx.getResources().getString(R.string
-                .nameTwelveDefault));
-        tt = mPrefs.getString("pref_key_subject_name_tt", ctx.getResources().getString(R.string
-                .nameTtDefault));
-        ft = mPrefs.getString("pref_key_subject_name_ft", ctx.getResources().getString(R.string
-                .nameFtDefault));
-        switch (index){
-            case 0:
-                return overview;
-            case 1:
-                return one;
-            case 2:
-                return two;
-            case 3:
-                return three;
-            case 4:
-                return four;
-            case 5:
-                return five;
-            case 6:
-                return six;
-            case 7:
-                return seven;
-            case 8:
-                return eight;
-            case 9:
-                return nine;
-            case 10:
-                return ten;
-            case 11:
-                return eleven;
-            case 12:
-                return twelve;
-            case 13:
-                return tt;
-            case 14:
-                return ft;
-            default:
-                return null;
-
-        }//end switch
+    public static String getTabNames(int index){
+        return mDbAdapterStatic.getTabTitle(index);
     }
 
     public static TextView overviewTVs(int index){
 
         OverviewFragment.tv1Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectOneTitleOverview);
-        OverviewFragment.tv2Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectTwoTitleOverview);
-        OverviewFragment.tv3Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectThreeTitleOverview);
+        OverviewFragment.tv2Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectThreeTitleOverview);
+        OverviewFragment.tv3Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectTwoTitleOverview);
         OverviewFragment.tv4Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectFourTitleOverview);
         OverviewFragment.tv5Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectFiveTitleOverview);
         OverviewFragment.tv6Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectSixTitleOverview);
@@ -236,16 +173,12 @@ public final class ParseUtil {
         ftAvg = String.valueOf(formatter.format(sum14));
     }
 
-    public static View getViewByTab(){
-        return SubjectTemplateFragment.view;
-    }
-
-    public static View getViewByPos(int pos){
-        return SubjectTemplateFragment.view;
-    }
-
     public static Fragment getSubjectFrag(){
-        return SubjectTemplateFragment.fragment;
+        if(tabPosition == 0){
+            return OverviewFragment.ovf;
+        }
+        else
+            return SubjectTemplateFragment.fragment;
     }
 
     public static double avgByIntReturnDouble (int subject){

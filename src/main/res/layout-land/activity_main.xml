@@ -2,8 +2,7 @@
 <RelativeLayout
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:id="@+id/activity_main"
-                xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools"
                 xmlns:android="http://schemas.android.com/apk/res/android">
 
 
@@ -96,7 +95,6 @@
         android:layout_width="fill_parent"
         android:layout_toLeftOf="@+id/image1"
         android:layout_toStartOf="@+id/image1"
-        android:id="@+id/scrollView2"
         android:layout_above="@+id/space2">
 
         <RelativeLayout

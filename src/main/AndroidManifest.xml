@@ -6,6 +6,16 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="cz.fely.SHOW_LICENSES" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
+    <permission android:name="cz.fely.SHOW_LICENSES"
+        android:description="@string/permission_desc"
+        android:label="@string/permission_label">
+
+    </permission>
 
     <application
         android:allowBackup="true"
@@ -21,7 +31,8 @@
             android:label="@string/title_activity_settings" />
         <activity
             android:name=".LicenceActivity"
-            android:label="@string/action_licenses">
+            android:label="@string/action_licenses"
+            android:permission="cz.fely.SHOW_LICENSES">
             <intent-filter>
                 <action android:name="cz.fely.weightedaverage.SHOW_LICENSES" />
 
@@ -40,10 +51,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"/>
+     <!--   <receiver android:name=".UpdateReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.TIME_TICK" />
+            </intent-filter>
+        </receiver>
+        <service android:name=".services.UpdateService" /> -->
         <meta-data
             android:name="net.hockeyapp.android.appIdentifier"
             android:value="${HOCKEYAPP_APP_ID}" />
 
     </application>
-
 </manifest>
