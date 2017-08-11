@@ -13,6 +13,7 @@ import android.os.Vibrator;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -265,8 +266,6 @@ public class MainActivity extends AppCompatActivity{
                     Log.d("OnTabSelected: ", "Position = " + String.valueOf(tabPosition));
                 } else {
                     refreshViews(tabPosition);
-                    tabRl.setVisibility(View.VISIBLE);
-                    average(context, tabPosition);
                 }
                 invalidateOptionsMenu();
 
@@ -415,15 +414,15 @@ public class MainActivity extends AppCompatActivity{
                             || list.contains(cursor.getString(i).trim()) && cursor.getString(i).startsWith(",")
                             || list.contains(cursor.getString(i).trim()) && cursor.getString(i).endsWith("-")
                             || list.contains(cursor.getString(i).trim()) && cursor.getString(i).startsWith("-")){
-                    }
+                    }//end if(contains?)
                     else {
                         list.add(cursor.getString(i));
-                    }
-                }
+                    }//end else
+                }//end for()
             } while (cursor.moveToNext());
-        }
+        }//end if(boolean)
         return list;
-    }
+    }//end helpList()
 
  /*   public void refreshViews(){
         Cursor c;
@@ -449,9 +448,64 @@ public class MainActivity extends AppCompatActivity{
     }//end of refreshViews()
 */
 
+    @Deprecated
+    public static void getViews(View v){
+        if(v != null && v.findViewById(R.id.lvZnamky) != null) {
+            lv = (ListView) v.findViewById(R.id.lvZnamky);
+            EditText etMark = (EditText) v.findViewById(R.id.etMark);
+            //       autoCompleteAuth();
+            lv.setAdapter(new ListAdapter(man, mDbAdapterStatic.getAllEntries(tabPosition), 0));
+        }//end if()
+        else {
+            Log.e("void getViews: ", "Null view");
+        }//end else
+        if(tabPosition != 0)
+            tabRl.setVisibility(View.VISIBLE);
+        Log.i("getViews: ", "Position = " + String.valueOf(tabPosition));
+        average(context, tabPosition);
+    }//end of @Deprecated getViews(View)
+
+    public void changeColor(TextView tv, double avg) {
+        double okMarkNum = SettingsActivity.getAvgFromPreference(SettingsActivity.prefOkMark);
+        double okMarkNum2 = 0.49;
+        double sum = okMarkNum + okMarkNum2;
+        double ffMarkNum = SettingsActivity.getAvgFromPreference(SettingsActivity.prefFfMark);
+        double ffMarkNum2 = 0.49;
+        double sum2 = ffMarkNum + ffMarkNum2;
+        int okMark, ffMark, badMark;
+        okMark = ContextCompat.getColor(this, R.color.okMark);
+        ffMark = ContextCompat.getColor(this, R.color.ffMark);
+        badMark = ContextCompat.getColor(this, R.color.badMark);
+        if (avg == 0) {
+            tv.setTextColor(tv.getTextColors().getDefaultColor());
+        } else if (avg > 0 && avg < sum) {
+            tv.setTextColor(okMark);
+        } else if (avg >= sum && avg <= sum2) {
+            tv.setTextColor(ffMark);
+        } else {
+            tv.setTextColor(badMark);
+        }
+    }
+
+    private void infoTabUpdate(int pos){
+        if(tabPosition != 0)
+            tabRl.setVisibility(View.VISIBLE);
+
+        Cursor cursor;
+        cursor = mDbAdapterStatic.makeAverage(pos);
+        double sum = cursor.getDouble(cursor.getColumnIndex("average"));
+        DecimalFormat formater = new DecimalFormat("0.00");
+        String total = String.valueOf(formater.format(sum));
+        if(cursor.getCount() == 0)
+            tvAverage.setTextColor(tvAverage.getTextColors().getDefaultColor());
+        else
+            changeColor(tvAverage, sum);
+        tvAverage.setText(total);
+        tvCount.setText(String.valueOf((mDbAdapterStatic.getAllEntries(pos)).getCount()));
+    }
+
     public void refreshViews(int pos){
         boolean refreshed = tabRefreshed.get(pos);
-        if(!refreshed) {
             if (tabPosition != 0) {
                 SubjectTemplateFragment fragment = (SubjectTemplateFragment)
                         subjectsStatePagerAdapter.getRegisteredFragment(pos);
@@ -459,76 +513,51 @@ public class MainActivity extends AppCompatActivity{
                 if (v != null) {
                     EditText etMark, etWeight;
                     AutoCompleteTextView etName;
-                    ListView lv;
                     Cursor c = mDbAdapterStatic.getAllEntries(pos);
-                    if (v != null) {
-                        lv = (ListView) v.findViewById(R.id.lvZnamky);
-                        etName = (AutoCompleteTextView) v.findViewById(R.id.etName);
-                        etMark = (EditText) v.findViewById(R.id.etMark);
-                        autoCompleteAuth(etName, context);
+                    lv = (ListView) v.findViewById(R.id.lvZnamky);
+                    etName = (AutoCompleteTextView) v.findViewById(R.id.etName);
+                    etMark = (EditText) v.findViewById(R.id.etMark);
+                    autoCompleteAuth(etName, context);
+                    if(!refreshed) {
                         lv.setAdapter(new ListAdapter(man, c, 0));
+                        tabRefreshed.set(pos, true);
                     }
-                    average(context, pos);
-                }
-            }
-            tabRefreshed.set(pos, true);
-        }
-    }
+                }//end if(boolean)
+            }//end if(tabPostition != 0)
+        infoTabUpdate(pos);
+    }//end of refreshViews(int)
 
-    @Deprecated
-    public static void getViews(View v){
-        if(v != null && v.findViewById(R.id.lvZnamky) != null) {
-            lv = (ListView) v.findViewById(R.id.lvZnamky);
-            EditText etMark = (EditText) v.findViewById(R.id.etMark);
-     //       autoCompleteAuth();
-            lv.setAdapter(new ListAdapter(man, mDbAdapterStatic.getAllEntries(tabPosition), 0));
-        }
-        else {
-            Log.e("void getViews: ", "Null view");
-        }
-        if(tabPosition != 0)
-            tabRl.setVisibility(View.VISIBLE);
-        Log.i("getViews: ", "Position = " + String.valueOf(tabPosition));
-        average(context, tabPosition);
-    }
 
     private static void average(Context ctx, int posArg){
-        Cursor cursor;
-        cursor = mDbAdapterStatic.makeAverage(posArg);
-        double sum = cursor.getDouble(cursor.getColumnIndex("average"));
-        DecimalFormat formater = new DecimalFormat("0.00");
-        String total = String.valueOf(formater.format(sum));
-        tvAverage.setText(total);
-        tvCount.setText(String.valueOf((mDbAdapterStatic.getAllEntries(posArg)).getCount()));
-    }
+
+    }//end of average(Context, int)
 
     protected static boolean dbTableExist(String table){
         SQLiteDatabase mDatabase = context.openOrCreateDatabase("AppDB.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
         Cursor c = null;
         boolean tableExists = false;
 
-        try
-        {
+        try {
             c = mDatabase.query(table, null,
                     null, null, null, null, null);
             tableExists = true;
-        }
+        }//end try
         catch (Exception e) {
             Log.e("Check Db exist: ", e.getMessage());
-        }
+        }//end catch
 
         return tableExists;
-    }
+    }//end of dbTableExist(String)
 
     private void renameDb(){
         File database = getApplicationContext().getDatabasePath("MarksV2.db");
         if (database.exists()) {
             File newPath = getApplicationContext().getDatabasePath("AppDB.db");
             database.renameTo(newPath);
-        }
-    }
+        }//end if()
+    }//end of renameDb()
 
-    private void setTabListeners (){
+    private void setTabListeners() {
         LinearLayout tabStrip = (LinearLayout) tabLayout.getChildAt(0);
         for (int i = 1; i < tabStrip.getChildCount(); i++) {
             int position = i;
@@ -539,10 +568,10 @@ public class MainActivity extends AppCompatActivity{
                     longClickTabPos = position;
                     openContextMenu(v);
                     return true;
-                }
-            });
-        }
-    }
+                }//end onLongClick(View)
+            });//end setOnLongClickListener()
+        }//end for(;;)
+    }//end of setTabListeners()
 
     public static void newTabListTable(Context ctx){
         SQLiteDatabase mDatabase = ctx.openOrCreateDatabase("AppDB.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
@@ -554,13 +583,13 @@ public class MainActivity extends AppCompatActivity{
                 ctx.getResources().getString(R.string.tab12), ctx.getResources().getString(R.string.tab13), ctx.getResources().getString(R.string.tab14)};
         mDbAdapterStatic = new Database(ctx);
         mDbAdapterStatic.newTabListTable(titles);
-    }
+    }//end of newTabListTable
 
     private void initBooleansList(){
         this.tabRefreshed.add(0, null);
         for(int i = 1; i <= 14; i++){
             this.tabRefreshed.add(i, false);
-        }
+        }//end for(;;)
     }
 
     @Override
@@ -612,7 +641,6 @@ public class MainActivity extends AppCompatActivity{
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MainWakelockLog");
         wakeLock.acquire();
-        viewPager.setCurrentItem(0);
         //   registerReceiver(new UpdateReceiver(), new IntentFilter(Intent.ACTION_TIME_TICK));
     }//end of onCreate
 }//end of the Class

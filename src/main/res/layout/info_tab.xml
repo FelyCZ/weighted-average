@@ -17,51 +17,11 @@
             android:layout_height="5dp"
             android:background="@drawable/info_tab_template" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/shadowBox"
-            android:layout_toEndOf="@+id/fakeView"
-            android:layout_toRightOf="@+id/fakeView"
-            android:background="?attr/colorPrimary">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/fakeView3"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignRight="@+id/fakeView3"
-                android:gravity="center"
-                android:text="@string/markCountTemplate"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvMarkCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:gravity="left|center"
-                android:text="NULL"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:layout_toRightOf="@+id/fakeView3"
-                android:layout_toEndOf="@+id/fakeView3" />
-
-            <View
-                android:id="@+id/fakeView3"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_centerInParent="true" />
-        </RelativeLayout>
+        <View
+            android:id="@+id/fakeView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -69,7 +29,7 @@
             android:layout_alignEnd="@+id/fakeView"
             android:layout_alignRight="@+id/fakeView"
             android:layout_below="@+id/shadowBox"
-            android:background="?attr/colorPrimary">
+            android:background="@color/tableGrey">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -121,11 +81,51 @@
 
         </RelativeLayout>
 
-        <View
-            android:id="@+id/fakeView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_centerInParent="true" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/shadowBox"
+            android:layout_toEndOf="@+id/fakeView"
+            android:layout_toRightOf="@+id/fakeView"
+            android:background="@color/tableGrey">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/fakeView3"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignRight="@+id/fakeView3"
+                android:gravity="center"
+                android:text="@string/markCountTemplate"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvMarkCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/fakeView3"
+                android:layout_toRightOf="@+id/fakeView3"
+                android:gravity="left|center"
+                android:text="NULL"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/fakeView3"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
 
     </RelativeLayout>
 </RelativeLayout>
