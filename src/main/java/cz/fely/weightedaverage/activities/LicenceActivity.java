@@ -1,4 +1,4 @@
-package cz.fely.weightedaverage;
+package cz.fely.weightedaverage.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.webkit.WebView;
 
+import cz.fely.weightedaverage.R;
 import cz.fely.weightedaverage.utils.ThemeUtil;
 
 public class LicenceActivity extends Activity {

@@ -1,4 +1,4 @@
-package cz.fely.weightedaverage;
+package cz.fely.weightedaverage.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import cz.fely.weightedaverage.abstracts.AppCompatPreferenceActivity;
+import cz.fely.weightedaverage.R;
+import cz.fely.weightedaverage.activities.MainActivity;
 import cz.fely.weightedaverage.utils.ThemeUtil;
 
 @SuppressWarnings("deprecation")

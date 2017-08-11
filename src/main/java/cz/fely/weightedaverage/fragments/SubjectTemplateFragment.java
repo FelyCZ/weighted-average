@@ -1,4 +1,4 @@
-package cz.fely.weightedaverage.subjects;
+package cz.fely.weightedaverage.fragments;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -10,14 +10,12 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -26,40 +24,33 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import cz.fely.weightedaverage.ListAdapter;
-import cz.fely.weightedaverage.MainActivity;
 import cz.fely.weightedaverage.R;
+import cz.fely.weightedaverage.activities.MainActivity;
 
-import static cz.fely.weightedaverage.MainActivity.cl;
-import static cz.fely.weightedaverage.MainActivity.context;
-import static cz.fely.weightedaverage.MainActivity.mDbAdapterStatic;
-import static cz.fely.weightedaverage.MainActivity.man;
-import static cz.fely.weightedaverage.MainActivity.subjectsStatePagerAdapter;
-import static cz.fely.weightedaverage.MainActivity.tabLayout;
-import static cz.fely.weightedaverage.MainActivity.tabPosition;
-import static cz.fely.weightedaverage.MainActivity.tvAverage;
-import static cz.fely.weightedaverage.MainActivity.tvCount;
-import static cz.fely.weightedaverage.MainActivity.viewPager;
+import static cz.fely.weightedaverage.activities.MainActivity.cl;
+import static cz.fely.weightedaverage.activities.MainActivity.context;
+import static cz.fely.weightedaverage.activities.MainActivity.mDbAdapterStatic;
+import static cz.fely.weightedaverage.activities.MainActivity.man;
+import static cz.fely.weightedaverage.activities.MainActivity.tabPosition;
 
 public class SubjectTemplateFragment extends Fragment {
 
-    public static View subjectView;
     public static SubjectTemplateFragment fragment;
     private MainActivity mActivity;
-    private String subjectId;
     int mHour, mMinute;
+    int subjectId;
     String dateCompleted;
+    static String argumentsKey = "subject_id";
+    public static View view;
 
     public SubjectTemplateFragment newInstance(int page) {
         SubjectTemplateFragment frag = new SubjectTemplateFragment();
         Bundle args = new Bundle();
-        args.putInt("subject_id", page);
+        args.putInt(argumentsKey, page);
         frag.setArguments(args);
         return frag;
     }
@@ -69,62 +60,30 @@ public class SubjectTemplateFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle arguments = getArguments();
         if(arguments != null){
-            this.subjectId = arguments.getString("subject_id");
+            this.subjectId = getArguments() != null ? getArguments().getInt(argumentsKey) : 1;
         }
-    }
-
-    public void refreshViews(int position){
-        EditText etMark, etWeight;
-        AutoCompleteTextView etName;
-        ListView lv;
-        Cursor c = mDbAdapterStatic.getAllEntries(position);
-        View v = viewPager.getFocusedChild();
-        if(v != null) {
-            lv = (ListView) v.findViewById(R.id.lvZnamky);
-            etName = (AutoCompleteTextView) v.findViewById(R.id.etName);
-            etMark = (EditText) v.findViewById(R.id.etMark);
-            autoCompleteAuth(etName, context);
-            lv.setAdapter(new ListAdapter(man, c, 0));
-        }
-        average(getContext(), position);
-    }
-
-    public SubjectTemplateFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.activity_main, container, false);
+        view = inflater.inflate(R.layout.activity_main, container, false);
         MainActivity.checkSettings(view);
         fragment = SubjectTemplateFragment.this;
-        subjectView = view;
-        mActivity = man;
-        refreshViews(tabLayout.getSelectedTabPosition());
-        setClickListeners();
-        return view;
-    }
+        EditText etMark, etWeight;
+        AutoCompleteTextView etName;
+        Button btnAdd = (Button) view.findViewById(R.id.btnAdd);
+        etName = (AutoCompleteTextView) view.findViewById(R.id.etName);
+        etMark = (EditText) view.findViewById(R.id.etMark);
+        etWeight = (EditText) view.findViewById(R.id.etWeight);
+        ListView lv = (ListView) view.findViewById(R.id.lvZnamky);
 
-    private void setClickListeners() {
-        setListViewItemClickListener();
-        setBtnAddClickListener();
-    }
-
-    private void setBtnAddClickListener() {
-        EditText etName, etMark, etWeight;
-        etName = (EditText) subjectView.findViewById(R.id.etName);
-        etMark = (EditText) subjectView.findViewById(R.id.etMark);
-        etWeight = (EditText) subjectView.findViewById(R.id.etWeight);
-        Button btnAdd = (Button) subjectView.findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(v ->
-                addOrUpdateMark(subjectView, tabPosition, getContext(),
-                etName.getText().toString(), etMark.getText().toString(),
-                etWeight.getText().toString(), null, new long[0]));
-    }
+                addOrUpdateMark(view, tabPosition, getContext(),
+                        etName.getText().toString(), etMark.getText().toString(),
+                        etWeight.getText().toString(), null, new long[0]));
 
-    private void setListViewItemClickListener() {
-        ListView lvMarks = (ListView) subjectView.findViewById(R.id.lvZnamky);
-        lvMarks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 showEditDialog(((TextView) view.findViewById(R.id.name)).getText().toString(), (
@@ -132,56 +91,7 @@ public class SubjectTemplateFragment extends Fragment {
                         view.findViewById(R.id.weight)).getText().toString(), id);
             }
         });
-    }
-
-    private void autoCompleteAuth(AutoCompleteTextView etName, Context context) {
-        if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("autoComplete", true)) {
-            String[] array = helpList().toArray(new String[0]);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
-                    android.R.layout.simple_dropdown_item_1line, array);
-            etName.setThreshold(0);
-            etName.setAdapter(adapter);
-        }
-    }
-
-    public void fillListView(int sub){
-        ListView lv = (ListView) subjectView.findViewById(R.id.lvZnamky);
-        lv.setAdapter(new ListAdapter(man, mDbAdapterStatic.getAllEntries(sub), 0));
-    }
-
-    private ArrayList<String> helpList() {
-        Cursor cursor = MainActivity.mDbAdapterStatic.getFromNameEntries();
-        ArrayList<String> list = new ArrayList<>();
-        if (cursor.moveToFirst()) {
-            do {
-                for (int i = 0; i < cursor.getColumnCount(); i++) {
-                    if(list.contains(cursor.getString(i))
-                            || list.contains(cursor.getString(i).trim()) && cursor.getString(i).endsWith(" ")
-                            || list.contains(cursor.getString(i).trim()) && cursor.getString(i).startsWith(" ")
-                            || list.contains(cursor.getString(i).trim()) && cursor.getString(i).endsWith(".")
-                            || list.contains(cursor.getString(i).trim()) && cursor.getString(i).startsWith(".")
-                            || list.contains(cursor.getString(i).trim()) && cursor.getString(i).endsWith(",")
-                            || list.contains(cursor.getString(i).trim()) && cursor.getString(i).startsWith(",")
-                            || list.contains(cursor.getString(i).trim()) && cursor.getString(i).endsWith("-")
-                            || list.contains(cursor.getString(i).trim()) && cursor.getString(i).startsWith("-")){
-                    }
-                    else {
-                        list.add(cursor.getString(i));
-                    }
-                }
-            } while (cursor.moveToNext());
-        }
-        return list;
-    }
-
-    private void average(Context ctx, int posArg){
-        Cursor cursor;
-        cursor = mDbAdapterStatic.makeAverage(posArg);
-        double sum = cursor.getDouble(cursor.getColumnIndex("average"));
-        DecimalFormat formater = new DecimalFormat("0.00");
-        String total = String.valueOf(formater.format(sum));
-        tvAverage.setText(total);
-        tvCount.setText(String.valueOf((mDbAdapterStatic.getAllEntries(posArg)).getCount()));
+        return view;
     }
 
     public void showEditDialog(String name, String mark, String weight, long id){
@@ -246,7 +156,7 @@ public class SubjectTemplateFragment extends Fragment {
         adb.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                addOrUpdateMark(subjectView, tabPosition, context, etNameDialog.getText()
+                addOrUpdateMark(view, tabPosition, context, etNameDialog.getText()
                         .toString(), etMarkDialog.getText().toString(), etWeightDialog.getText()
                         .toString(), dateCompleted, id);
             }
@@ -254,22 +164,22 @@ public class SubjectTemplateFragment extends Fragment {
         adb.setNegativeButton(R.string.titleDelete, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                removeMark(tabPosition, context, id);
+                removeMark(tabPosition, id);
             }
         });
         adb.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
             }
         });
         adb.setView(v);
         adb.show();
     }
 
-    public void removeMark(int posArg, Context ctx, long id) {
+    public void removeMark(int posArg, long id) {
         mDbAdapterStatic.deleteMark(id, posArg);
-        SubjectTemplateFragment fragment = (SubjectTemplateFragment) subjectsStatePagerAdapter.getItem(posArg);
-        refreshViews(posArg);
+        man.refreshViews(posArg);
     }
 
     public void addOrUpdateMark(View v, int posArg, Context ctx, String name, String m,
@@ -311,7 +221,7 @@ public class SubjectTemplateFragment extends Fragment {
             } else {
                 mDbAdapterStatic.updateMark(posArg, name, mark, weight, date, id[0]);
             }
-            refreshViews(posArg);
+            man.refreshViews(posArg);
         } catch (IllegalArgumentException e) {
             Snackbar.make(cl, e.getMessage(), Snackbar.LENGTH_SHORT).show();
         }
@@ -320,7 +230,7 @@ public class SubjectTemplateFragment extends Fragment {
     @Override
     public void onResume() {
         //MainActivity.getViews(view);
-        MainActivity.checkSettings(subjectView);
+        MainActivity.checkSettings(view);
         Log.i("SubjectFragment: ", "Fragment resumed");
         super.onResume();
     }

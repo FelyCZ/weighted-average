@@ -235,7 +235,7 @@
     <!-- MENU STRINGS -->
     <string name="action_edit_title">Změnit název</string>
     <string name="action_clean_subject">Vymazat známky v předmětu</string>
-    <string name="action_settings">Nastavení</string>
+    <string name="action_settings">Nastavení</string>3šš
     <string name="action_licenses">Licenční ujednání</string>
 
 </resources>

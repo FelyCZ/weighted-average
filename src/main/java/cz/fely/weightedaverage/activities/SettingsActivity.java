@@ -1,4 +1,4 @@
-package cz.fely.weightedaverage;
+package cz.fely.weightedaverage.activities;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -21,6 +21,8 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import cz.fely.weightedaverage.abstracts.AppCompatPreferenceActivity;
+import cz.fely.weightedaverage.R;
 import cz.fely.weightedaverage.utils.ThemeUtil;
 import cz.fely.weightedaverage.utils.WipeDataUtil;
 

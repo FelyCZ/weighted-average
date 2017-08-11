@@ -1,4 +1,4 @@
-package cz.fely.weightedaverage;
+package cz.fely.weightedaverage.abstracts;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

@@ -27,10 +27,10 @@
         android:name=".utils.WipeDataUtil"
         android:theme="@style/Light">
         <activity
-            android:name=".SettingsActivity"
+            android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name=".LicenceActivity"
+            android:name=".activities.LicenceActivity"
             android:label="@string/action_licenses"
             android:permission="cz.fely.SHOW_LICENSES">
             <intent-filter>
@@ -40,24 +40,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AboutFragment"
+            android:name=".fragments.AboutFragment"
             android:label="@string/aboutAppMenuItem" />
         <activity
-            android:name=".SplashScreen">
+            android:name=".activities.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"/>
-     <!--   <receiver android:name=".UpdateReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.TIME_TICK" />
-            </intent-filter>
-        </receiver>
-        <service android:name=".services.UpdateService" /> -->
+        <activity android:name=".activities.MainActivity"/>
         <meta-data
             android:name="net.hockeyapp.android.appIdentifier"
             android:value="${HOCKEYAPP_APP_ID}" />

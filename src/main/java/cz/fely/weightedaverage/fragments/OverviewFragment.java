@@ -1,4 +1,4 @@
-package cz.fely.weightedaverage.subjects;
+package cz.fely.weightedaverage.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,9 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import cz.fely.weightedaverage.MainActivity;
+import cz.fely.weightedaverage.activities.MainActivity;
 import cz.fely.weightedaverage.R;
-import cz.fely.weightedaverage.SettingsActivity;
+import cz.fely.weightedaverage.activities.SettingsActivity;
 import cz.fely.weightedaverage.utils.ParseUtil;
 
 public class OverviewFragment extends Fragment {

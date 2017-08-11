@@ -1,4 +1,4 @@
-package cz.fely.weightedaverage;
+package cz.fely.weightedaverage.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,6 +27,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -41,10 +43,15 @@ import net.hockeyapp.android.UpdateManagerListener;
 
 import java.io.File;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
+import cz.fely.weightedaverage.fragments.AboutFragment;
+import cz.fely.weightedaverage.adapters.ListAdapter;
+import cz.fely.weightedaverage.R;
+import cz.fely.weightedaverage.adapters.SubjectsStatePagerAdapter;
 import cz.fely.weightedaverage.db.Database;
-import cz.fely.weightedaverage.subjects.OverviewFragment;
-import cz.fely.weightedaverage.subjects.SubjectTemplateFragment;
+import cz.fely.weightedaverage.fragments.OverviewFragment;
+import cz.fely.weightedaverage.fragments.SubjectTemplateFragment;
 import cz.fely.weightedaverage.utils.ParseUtil;
 import cz.fely.weightedaverage.utils.ThemeUtil;
 
@@ -71,15 +78,19 @@ public class MainActivity extends AppCompatActivity{
     public static SubjectsStatePagerAdapter subjectsStatePagerAdapter;
     private PowerManager.WakeLock wakeLock;
     int longClickTabPos;
-    static boolean refreshed = false;
+    public boolean pagerAdapterInitialized = false;
+    private ArrayList<Boolean> tabRefreshed = new ArrayList<>();
 
     //MAIN ACTIVITY
 
     @Override
     public void onResume(){
         ThemeUtil.setTheme(this);
-        subjectsStatePagerAdapter.changeTitles();
-        refreshViews(this);
+        if(pagerAdapterInitialized)
+            subjectsStatePagerAdapter.changeTitles();
+        tabPosition = tabLayout.getSelectedTabPosition();
+        tabRefreshed.set(tabPosition, false);
+        refreshViews(tabPosition);
         super.onResume();
     }
 
@@ -143,7 +154,8 @@ public class MainActivity extends AppCompatActivity{
                 adb.setNegativeButton(R.string.cancel, null);
                 adb.setPositiveButton(android.R.string.yes, (dialog, which) -> {
                     mDbAdapterStatic.deleteSubject(tabPosition);
-                    refreshViews(this);
+                    tabRefreshed.set(tabPosition, false);
+                    refreshViews(tabPosition);
                 });
                 adb.show();
             }
@@ -208,7 +220,8 @@ public class MainActivity extends AppCompatActivity{
                     adb.setNegativeButton(R.string.cancel, null);
                     adb.setPositiveButton(android.R.string.yes, (dialog, which) -> {
                         mDbAdapterStatic.deleteSubject(tabPosition);
-                        refreshViews(this);
+                        tabRefreshed.set(tabPosition, false);
+                        refreshViews(tabPosition);
                     });
                     adb.show();
                 }
@@ -235,40 +248,36 @@ public class MainActivity extends AppCompatActivity{
 
     public void setupViewPager(ViewPager viewPager) {
         subjectsStatePagerAdapter = new SubjectsStatePagerAdapter(this, getSupportFragmentManager());
-        subjectsStatePagerAdapter.addFrags();
         viewPager.setOffscreenPageLimit(subjectsStatePagerAdapter.getCount());
         viewPager.setAdapter(subjectsStatePagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setupWithViewPager(viewPager, true);
         tabLayout.addOnTabSelectedListener(TabSelectedListener);
     }
     TabLayout.OnTabSelectedListener TabSelectedListener = new TabLayout.OnTabSelectedListener() {
         @Override
         public void onTabSelected(TabLayout.Tab tab) {
-            tabPosition = tab.getPosition();
-            viewPager.setCurrentItem(tabPosition, true);
-            if (tabPosition == 0) {
-                OverviewFragment.setNames(context);
-                tabRl.setVisibility(View.INVISIBLE);
-                Log.d("OnTabSelected: ", "Position = " + String.valueOf(tabPosition));
-            } else {
-                tabRl.setVisibility(View.VISIBLE);
-                average(context, tabPosition);
-                SubjectTemplateFragment fragment = (SubjectTemplateFragment) subjectsStatePagerAdapter.getItem(tabPosition);
-                fragment.fillListView(tabPosition);
-            }
-            invalidateOptionsMenu();
+                tabPosition = tab.getPosition();
+                viewPager.setCurrentItem(tabPosition, true);
+                if (tabPosition == 0) {
+                    OverviewFragment.setNames(context);
+                    tabRl.setVisibility(View.INVISIBLE);
+                    Log.d("OnTabSelected: ", "Position = " + String.valueOf(tabPosition));
+                } else {
+                    refreshViews(tabPosition);
+                    tabRl.setVisibility(View.VISIBLE);
+                    average(context, tabPosition);
+                }
+                invalidateOptionsMenu();
+
         }
 
         @Override
         public void onTabUnselected(TabLayout.Tab tab) {
-
-
         }
 
         @Override
         public void onTabReselected(TabLayout.Tab tab) {
-
         }
     }; //end of onTabSelectedListener
 
@@ -382,28 +391,87 @@ public class MainActivity extends AppCompatActivity{
         builder.create().show();
     }
 
-    @Deprecated
-    public void refreshViews(){
-        Cursor c;
+    private void autoCompleteAuth(AutoCompleteTextView etName, Context context) {
+        if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("autoComplete", true)) {
+            String[] array = helpList().toArray(new String[0]);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+                    android.R.layout.simple_dropdown_item_1line, array);
+            etName.setThreshold(0);
+            etName.setAdapter(adapter);
+        }
+    }
+    ArrayList<String> helpList() {
+        Cursor cursor = MainActivity.mDbAdapterStatic.getFromNameEntries();
+        ArrayList<String> list = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                for (int i = 0; i < cursor.getColumnCount(); i++) {
+                    if(list.contains(cursor.getString(i))
+                            || list.contains(cursor.getString(i).trim()) && cursor.getString(i).endsWith(" ")
+                            || list.contains(cursor.getString(i).trim()) && cursor.getString(i).startsWith(" ")
+                            || list.contains(cursor.getString(i).trim()) && cursor.getString(i).endsWith(".")
+                            || list.contains(cursor.getString(i).trim()) && cursor.getString(i).startsWith(".")
+                            || list.contains(cursor.getString(i).trim()) && cursor.getString(i).endsWith(",")
+                            || list.contains(cursor.getString(i).trim()) && cursor.getString(i).startsWith(",")
+                            || list.contains(cursor.getString(i).trim()) && cursor.getString(i).endsWith("-")
+                            || list.contains(cursor.getString(i).trim()) && cursor.getString(i).startsWith("-")){
+                    }
+                    else {
+                        list.add(cursor.getString(i));
+                    }
+                }
+            } while (cursor.moveToNext());
+        }
+        return list;
+    }
 
-        for(int i = 1; i < 15; i++){
+ /*   public void refreshViews(){
+        Cursor c;
+        for(int i = 1; i <= 14; i++){
             viewPager.setCurrentItem(i);
             c = mDbAdapterStatic.getAllEntries(i);
             View v = viewPager.getFocusedChild();
-            getViews(v);
+            if (v != null) {
+                EditText etMark, etWeight;
+                AutoCompleteTextView etName;
+                ListView lv;
+                if (v != null) {
+                    lv = (ListView) v.findViewById(R.id.lvZnamky);
+                    etName = (AutoCompleteTextView) v.findViewById(R.id.etName);
+                    etMark = (EditText) v.findViewById(R.id.etMark);
+                    autoCompleteAuth(etName, context);
+                    lv.setAdapter(new ListAdapter(man, c, 0));
+                }
+                average(context, i);
+            }
         }
         viewPager.setCurrentItem(0);
-        c = mDbAdapterStatic.getAllEntries(0);
-        View v = viewPager.getFocusedChild();
-        getViews(v);
-        Log.d("Void refreshViews: ", String.valueOf(15) + " tabs loaded");
-        viewPager.setCurrentItem(0);
     }//end of refreshViews()
+*/
 
-    private void refreshViews(Context ctx){
-        if(tabLayout.getSelectedTabPosition() != 0) {
-            SubjectTemplateFragment fragment = (SubjectTemplateFragment) subjectsStatePagerAdapter.getItem(tabLayout.getSelectedTabPosition());
-            fragment.refreshViews(tabLayout.getSelectedTabPosition());
+    public void refreshViews(int pos){
+        boolean refreshed = tabRefreshed.get(pos);
+        if(!refreshed) {
+            if (tabPosition != 0) {
+                SubjectTemplateFragment fragment = (SubjectTemplateFragment)
+                        subjectsStatePagerAdapter.getRegisteredFragment(pos);
+                View v = fragment.getView();
+                if (v != null) {
+                    EditText etMark, etWeight;
+                    AutoCompleteTextView etName;
+                    ListView lv;
+                    Cursor c = mDbAdapterStatic.getAllEntries(pos);
+                    if (v != null) {
+                        lv = (ListView) v.findViewById(R.id.lvZnamky);
+                        etName = (AutoCompleteTextView) v.findViewById(R.id.etName);
+                        etMark = (EditText) v.findViewById(R.id.etMark);
+                        autoCompleteAuth(etName, context);
+                        lv.setAdapter(new ListAdapter(man, c, 0));
+                    }
+                    average(context, pos);
+                }
+            }
+            tabRefreshed.set(pos, true);
         }
     }
 
@@ -424,8 +492,7 @@ public class MainActivity extends AppCompatActivity{
         average(context, tabPosition);
     }
 
-    @Deprecated
-    public static void average(Context ctx, int posArg){
+    private static void average(Context ctx, int posArg){
         Cursor cursor;
         cursor = mDbAdapterStatic.makeAverage(posArg);
         double sum = cursor.getDouble(cursor.getColumnIndex("average"));
@@ -489,6 +556,13 @@ public class MainActivity extends AppCompatActivity{
         mDbAdapterStatic.newTabListTable(titles);
     }
 
+    private void initBooleansList(){
+        this.tabRefreshed.add(0, null);
+        for(int i = 1; i <= 14; i++){
+            this.tabRefreshed.add(i, false);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ThemeUtil.setTheme(this);
@@ -500,6 +574,7 @@ public class MainActivity extends AppCompatActivity{
 
         renameDb();
         setContentView(R.layout.main_coordinator);
+        initBooleansList();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -522,15 +597,13 @@ public class MainActivity extends AppCompatActivity{
 
         setupViewPager(viewPager);
 
-        tabPosition = tabLayout.getSelectedTabPosition();
+        tabPosition = 0;
 
         cl = (CoordinatorLayout) findViewById(R.id.coordinator);
 
         tabRl = (RelativeLayout) findViewById(R.id.relativeTabInfo);
 
         tabRl.setVisibility(View.INVISIBLE);
-
-        refreshViews(this);
 
         hockeyAppSet();
 
@@ -539,6 +612,7 @@ public class MainActivity extends AppCompatActivity{
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MainWakelockLog");
         wakeLock.acquire();
+        viewPager.setCurrentItem(0);
         //   registerReceiver(new UpdateReceiver(), new IntentFilter(Intent.ACTION_TIME_TICK));
     }//end of onCreate
 }//end of the Class

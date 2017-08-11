@@ -1,19 +1,14 @@
-package cz.fely.weightedaverage;
+package cz.fely.weightedaverage.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import static cz.fely.weightedaverage.MainActivity.*;
-
-import cz.fely.weightedaverage.db.Database;
+import cz.fely.weightedaverage.R;
 import cz.fely.weightedaverage.utils.ThemeUtil;
 
 public class SplashScreen extends AppCompatActivity {

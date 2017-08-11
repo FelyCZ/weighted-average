@@ -8,12 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
-import java.util.DoubleSummaryStatistics;
 
-import cz.fely.weightedaverage.MainActivity;
+import cz.fely.weightedaverage.activities.MainActivity;
 
 public class Database {
     public static final String DB_NAME = "AppDB.db";
