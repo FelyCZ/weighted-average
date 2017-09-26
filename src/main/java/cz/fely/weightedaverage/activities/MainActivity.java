@@ -1,5 +1,7 @@
 package cz.fely.weightedaverage.activities;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,43 +10,41 @@ import android.content.pm.PackageInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.PowerManager;
-import android.os.Vibrator;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextMenu;
-import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
-import net.hockeyapp.android.CrashManager;
-import net.hockeyapp.android.FeedbackManager;
-import net.hockeyapp.android.LoginManager;
-import net.hockeyapp.android.UpdateManager;
-import net.hockeyapp.android.UpdateManagerListener;
-
-import java.io.File;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import cz.fely.weightedaverage.fragments.AboutFragment;
 import cz.fely.weightedaverage.adapters.ListAdapter;
@@ -57,54 +57,54 @@ import cz.fely.weightedaverage.utils.ParseUtil;
 import cz.fely.weightedaverage.utils.ThemeUtil;
 
 public class MainActivity extends AppCompatActivity{
+    //GENERAL
+    public static MainActivity man;
+    public static Context context;
     private Toolbar toolbar;
     public static TabLayout tabLayout;
     public static ViewPager viewPager;
-    public static int tabPosition;
-    public static Database mDbAdapterStatic;
-    public static MainActivity man;
-    static ListView lv;
+    public static SubjectsStatePagerAdapter subjectsStatePagerAdapter;
+    private static ListView lv;
     public static TextView tvAverage;
     public static TextView tvCount;
+    public static CoordinatorLayout cl;
+    public static RelativeLayout tabRl;
+    //SUBJECTS
+    public static EditText etMark, etWeight;
+    public static AutoCompleteTextView etName;
+    //DATABASE
+    public static Database mDbAdapterStatic;
+    //INTs
+    public static int tabPosition;
     private static final int PERIOD = 2000;
     private long lastPressedTime;
-    final String welcomeScreenShownPref = "welcomeScreenShown";
-    public static Context context;
-    public static CoordinatorLayout cl;
-    public static GestureDetector gestureDetector;
-    public static RelativeLayout rl;
-    public static GestureDetectorCompat detector;
-    public static RelativeLayout tabRl;
-    public static EditText etMark;
-    public static SubjectsStatePagerAdapter subjectsStatePagerAdapter;
-    private PowerManager.WakeLock wakeLock;
+    private int mHour, mMinute;
     int longClickTabPos;
+
+    //BOOLEANs
     public boolean pagerAdapterInitialized = false;
     private ArrayList<Boolean> tabRefreshed = new ArrayList<>();
 
+    //STRIINGs
+    final String welcomeScreenShownPref = "welcomeScreenShown";
+    private String dateCompleted;
+    private final String TAB_POS = "TAB_POS";
+
+    /* END VARIABLES */
+// ------------------------------
     //MAIN ACTIVITY
 
     @Override
     public void onResume(){
         ThemeUtil.setTheme(this);
+        initMainVariables();
+        initBooleansList();
         if(pagerAdapterInitialized)
             subjectsStatePagerAdapter.changeTitles();
         tabPosition = tabLayout.getSelectedTabPosition();
-        tabRefreshed.set(tabPosition, false);
-        refreshViews(tabPosition);
+        setTabListeners();
+        tabLayout.getTabAt(0).select();
         super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        unregisterManagers();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unregisterManagers();
     }
 
     @Override
@@ -134,14 +134,10 @@ public class MainActivity extends AppCompatActivity{
             startActivity(settings);
             return true;
         }
-        if (id == R.id.action_feedback) {
-            FeedbackManager.register(this);
-            FeedbackManager.showFeedbackActivity(MainActivity.this);
-        }
         if (id == R.id.action_deletemarks) {
             if(lv.getCount() == 0){
-                CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id
-                        .coordinator);
+                CoordinatorLayout coordinatorLayout = findViewById(
+                        R.id.coordinator);
                 Snackbar.make(coordinatorLayout, R.string.errorSnackListSizeZero,
                         Snackbar.LENGTH_LONG)
                         .show();
@@ -156,6 +152,7 @@ public class MainActivity extends AppCompatActivity{
                 adb.setPositiveButton(android.R.string.yes, (dialog, which) -> {
                     mDbAdapterStatic.deleteSubject(tabPosition);
                     tabRefreshed.set(tabPosition, false);
+                    OverviewFragment.setAvgColor(tabPosition);
                     refreshViews(tabPosition);
                 });
                 adb.show();
@@ -184,15 +181,33 @@ public class MainActivity extends AppCompatActivity{
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
                 LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
                 View dialogView = inflater.inflate(R.layout.tab_title_change, null);
-                EditText etTitle = (EditText) dialogView.findViewById(R.id.tab_title_change_et);
+                EditText etTitle = dialogView.findViewById(R.id.tab_title_change_et);
                 etTitle.setHint(ParseUtil.getTabNames(pos));
                 dialogBuilder.setTitle(R.string.change_tab_title);
                 dialogBuilder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                      String newTitle = etTitle.getText().toString();
-                       mDbAdapterStatic.updateTabTitle(pos, newTitle);
-                       subjectsStatePagerAdapter.changeTitles();
+                    String newTitle = etTitle.getText().toString();
+                    mDbAdapterStatic.updateTabTitle(pos, newTitle);
+                    subjectsStatePagerAdapter.changeTitles();
+                    OverviewFragment.updateNameTexts(pos);
+                    new AlertDialog.Builder(context)
+                            .setTitle(R.string.clean)
+                            .setMessage(R.string.you_want_clean)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mDbAdapterStatic.deleteSubject(pos);
+                                    MainActivity.this.tabRefreshed.set(pos, false);
+                                    MainActivity.this.refreshViews(pos);
+                                }
+                            })
+                            .setNeutralButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
                    }
                 });
                 dialogBuilder.setNeutralButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -203,11 +218,13 @@ public class MainActivity extends AppCompatActivity{
                 });
                 dialogBuilder.setView(dialogView);
                 dialogBuilder.show();
+
+                setTabListeners();
                 break;
             case R.id.action_clean_subject:
                 if(lv.getCount() == 0){
-                    CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id
-                            .coordinator);
+                    CoordinatorLayout coordinatorLayout = findViewById(
+                            R.id.coordinator);
                     Snackbar.make(coordinatorLayout, R.string.errorSnackListSizeZero,
                             Snackbar.LENGTH_LONG)
                             .show();
@@ -220,12 +237,15 @@ public class MainActivity extends AppCompatActivity{
                     adb.setMessage(R.string.deleteAllMes);
                     adb.setNegativeButton(R.string.cancel, null);
                     adb.setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                        mDbAdapterStatic.deleteSubject(tabPosition);
-                        tabRefreshed.set(tabPosition, false);
-                        refreshViews(tabPosition);
+                        mDbAdapterStatic.deleteSubject(longClickTabPos);
+                        tabRefreshed.set(longClickTabPos, false);
+                        OverviewFragment.setAvgColor(longClickTabPos);
+                        refreshViews(longClickTabPos);
                     });
                     adb.show();
                 }
+
+                setTabListeners();
                 break;
         }
         return super.onContextItemSelected(item);
@@ -243,17 +263,14 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
-    private void unregisterManagers() {
-        UpdateManager.unregister();
-    }
-
     public void setupViewPager(ViewPager viewPager) {
-        subjectsStatePagerAdapter = new SubjectsStatePagerAdapter(this, getSupportFragmentManager());
+        subjectsStatePagerAdapter = new SubjectsStatePagerAdapter(getSupportFragmentManager());
         viewPager.setOffscreenPageLimit(subjectsStatePagerAdapter.getCount());
         viewPager.setAdapter(subjectsStatePagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(TabSelectedListener);
+        pagerAdapterInitialized = true;
     }
     TabLayout.OnTabSelectedListener TabSelectedListener = new TabLayout.OnTabSelectedListener() {
         @Override
@@ -261,14 +278,17 @@ public class MainActivity extends AppCompatActivity{
                 tabPosition = tab.getPosition();
                 viewPager.setCurrentItem(tabPosition, true);
                 if (tabPosition == 0) {
-                    OverviewFragment.setNames(context);
+                    View current = getCurrentFocus();
+                    if (current != null)
+                        current.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(current.getWindowToken(), 0);
                     tabRl.setVisibility(View.INVISIBLE);
-                    Log.d("OnTabSelected: ", "Position = " + String.valueOf(tabPosition));
+
                 } else {
                     refreshViews(tabPosition);
                 }
                 invalidateOptionsMenu();
-
         }
 
         @Override
@@ -278,28 +298,7 @@ public class MainActivity extends AppCompatActivity{
         @Override
         public void onTabReselected(TabLayout.Tab tab) {
         }
-    }; //end of onTabSelectedListener
-
-
-    public void hockeyAppSet(){
-        LoginManager.register(this, "2fccbcc477da9ab6b058daf97571ac77", LoginManager
-                .LOGIN_MODE_ANONYMOUS);
-        LoginManager.verifyLogin(this, getIntent());
-        CrashManager.register(this);
-        UpdateManager.register(this, "a6f2b12acd1a4e22a763dab9a356879f", new UpdateManagerListener() {
-            @Override
-            public void onUpdateAvailable() {
-                boolean vibrationsValue = android.preference.PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
-                        .getBoolean("pref_key_sound_vibrate",
-                                true);
-                if (vibrationsValue) {
-                    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                    v.vibrate(400);
-                }
-                super.onUpdateAvailable();
-            }
-        });
-    }
+    };
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -314,7 +313,7 @@ public class MainActivity extends AppCompatActivity{
                         if (event.getDownTime() - lastPressedTime < PERIOD) {
                             finish();
                         } else {
-                            CoordinatorLayout cl = (CoordinatorLayout) findViewById(R.id.coordinator);
+                            CoordinatorLayout cl = findViewById(R.id.coordinator);
                             Snackbar.make(cl, getResources().getString(R.string.backToExit), Snackbar.LENGTH_SHORT).show();
                             lastPressedTime = event.getEventTime();
                         }
@@ -342,14 +341,8 @@ public class MainActivity extends AppCompatActivity{
         } catch (Exception ignored) {}
 
         if (currentVersionNumber > savedVersionNumber) {
-            if(currentVersionNumber == 16){
-                mDbAdapterStatic.reChangeTabInt();
-                mPrefs.edit().putBoolean("pref_db_changed_titles", false).apply();
-            }
             showChangelog();
-
             SharedPreferences.Editor editor = mPrefs.edit();
-
             editor.putInt("version", currentVersionNumber);
             editor.apply();
         }
@@ -422,37 +415,13 @@ public class MainActivity extends AppCompatActivity{
             } while (cursor.moveToNext());
         }//end if(boolean)
         return list;
-    }//end helpList()
-
- /*   public void refreshViews(){
-        Cursor c;
-        for(int i = 1; i <= 14; i++){
-            viewPager.setCurrentItem(i);
-            c = mDbAdapterStatic.getAllEntries(i);
-            View v = viewPager.getFocusedChild();
-            if (v != null) {
-                EditText etMark, etWeight;
-                AutoCompleteTextView etName;
-                ListView lv;
-                if (v != null) {
-                    lv = (ListView) v.findViewById(R.id.lvZnamky);
-                    etName = (AutoCompleteTextView) v.findViewById(R.id.etName);
-                    etMark = (EditText) v.findViewById(R.id.etMark);
-                    autoCompleteAuth(etName, context);
-                    lv.setAdapter(new ListAdapter(man, c, 0));
-                }
-                average(context, i);
-            }
-        }
-        viewPager.setCurrentItem(0);
-    }//end of refreshViews()
-*/
+    }
 
     @Deprecated
     public static void getViews(View v){
         if(v != null && v.findViewById(R.id.lvZnamky) != null) {
-            lv = (ListView) v.findViewById(R.id.lvZnamky);
-            EditText etMark = (EditText) v.findViewById(R.id.etMark);
+            lv = v.findViewById(R.id.lvZnamky);
+            EditText etMark = v.findViewById(R.id.etMark);
             //       autoCompleteAuth();
             lv.setAdapter(new ListAdapter(man, mDbAdapterStatic.getAllEntries(tabPosition), 0));
         }//end if()
@@ -462,8 +431,8 @@ public class MainActivity extends AppCompatActivity{
         if(tabPosition != 0)
             tabRl.setVisibility(View.VISIBLE);
         Log.i("getViews: ", "Position = " + String.valueOf(tabPosition));
-        average(context, tabPosition);
-    }//end of @Deprecated getViews(View)
+        //average(context, tabPosition);
+    }
 
     public void changeColor(TextView tv, double avg) {
         double okMarkNum = SettingsActivity.getAvgFromPreference(SettingsActivity.prefOkMark);
@@ -477,7 +446,7 @@ public class MainActivity extends AppCompatActivity{
         ffMark = ContextCompat.getColor(this, R.color.ffMark);
         badMark = ContextCompat.getColor(this, R.color.badMark);
         if (avg == 0) {
-            tv.setTextColor(tv.getTextColors().getDefaultColor());
+            tv.setTextColor(getResources().getColor(android.R.color.tab_indicator_text));
         } else if (avg > 0 && avg < sum) {
             tv.setTextColor(okMark);
         } else if (avg >= sum && avg <= sum2) {
@@ -494,43 +463,54 @@ public class MainActivity extends AppCompatActivity{
         Cursor cursor;
         cursor = mDbAdapterStatic.makeAverage(pos);
         double sum = cursor.getDouble(cursor.getColumnIndex("average"));
-        DecimalFormat formater = new DecimalFormat("0.00");
-        String total = String.valueOf(formater.format(sum));
-        if(cursor.getCount() == 0)
-            tvAverage.setTextColor(tvAverage.getTextColors().getDefaultColor());
-        else
+        DecimalFormat formatter = new DecimalFormat("0.00");
+        String total = String.valueOf(formatter.format(sum));
+        if (lv.getCount() == 0) {
+            tvAverage.setTextColor(getResources().getColor(android.R.color.tab_indicator_text));
+            OverviewFragment.setAvgColor(pos);
+            tvAverage.setText(total);
+            tvCount.setText(String.valueOf(lv.getCount()));
+        }
+        else {
             changeColor(tvAverage, sum);
-        tvAverage.setText(total);
-        tvCount.setText(String.valueOf((mDbAdapterStatic.getAllEntries(pos)).getCount()));
+            tvAverage.setText(total);
+            tvCount.setText(String.valueOf(lv.getCount()));
+        }
     }
 
     public void refreshViews(int pos){
-        boolean refreshed = tabRefreshed.get(pos);
-            if (tabPosition != 0) {
-                SubjectTemplateFragment fragment = (SubjectTemplateFragment)
-                        subjectsStatePagerAdapter.getRegisteredFragment(pos);
+        if (pos != 0) {
+            boolean refreshed = tabRefreshed.get(pos);
+            SubjectTemplateFragment fragment = (SubjectTemplateFragment)
+                    subjectsStatePagerAdapter.getRegisteredFragment(pos);
+            if(fragment == null) {
+                tabRefreshed.set(pos, false);
+            }
+            else {
                 View v = fragment.getView();
                 if (v != null) {
-                    EditText etMark, etWeight;
-                    AutoCompleteTextView etName;
                     Cursor c = mDbAdapterStatic.getAllEntries(pos);
-                    lv = (ListView) v.findViewById(R.id.lvZnamky);
-                    etName = (AutoCompleteTextView) v.findViewById(R.id.etName);
-                    etMark = (EditText) v.findViewById(R.id.etMark);
+                    lv = v.findViewById(R.id.lvZnamky);
+                    etName = v.findViewById(R.id.etName);
+                    etMark = v.findViewById(R.id.etMark);
+                    etWeight = v.findViewById(R.id.etWeight);
+                    etName.requestFocus();
                     autoCompleteAuth(etName, context);
-                    if(!refreshed) {
+
+                    if (!refreshed) {
                         lv.setAdapter(new ListAdapter(man, c, 0));
                         tabRefreshed.set(pos, true);
+                        OverviewFragment.updateAverageTexts(pos);
                     }
-                }//end if(boolean)
-            }//end if(tabPostition != 0)
-        infoTabUpdate(pos);
-    }//end of refreshViews(int)
+                }
+                infoTabUpdate(pos);
+            }
+        }
+    }
 
+    private void initViewActions(){
 
-    private static void average(Context ctx, int posArg){
-
-    }//end of average(Context, int)
+    }
 
     protected static boolean dbTableExist(String table){
         SQLiteDatabase mDatabase = context.openOrCreateDatabase("AppDB.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
@@ -547,15 +527,7 @@ public class MainActivity extends AppCompatActivity{
         }//end catch
 
         return tableExists;
-    }//end of dbTableExist(String)
-
-    private void renameDb(){
-        File database = getApplicationContext().getDatabasePath("MarksV2.db");
-        if (database.exists()) {
-            File newPath = getApplicationContext().getDatabasePath("AppDB.db");
-            database.renameTo(newPath);
-        }//end if()
-    }//end of renameDb()
+    }
 
     private void setTabListeners() {
         LinearLayout tabStrip = (LinearLayout) tabLayout.getChildAt(0);
@@ -571,7 +543,7 @@ public class MainActivity extends AppCompatActivity{
                 }//end onLongClick(View)
             });//end setOnLongClickListener()
         }//end for(;;)
-    }//end of setTabListeners()
+    }
 
     public static void newTabListTable(Context ctx){
         SQLiteDatabase mDatabase = ctx.openOrCreateDatabase("AppDB.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
@@ -583,13 +555,165 @@ public class MainActivity extends AppCompatActivity{
                 ctx.getResources().getString(R.string.tab12), ctx.getResources().getString(R.string.tab13), ctx.getResources().getString(R.string.tab14)};
         mDbAdapterStatic = new Database(ctx);
         mDbAdapterStatic.newTabListTable(titles);
-    }//end of newTabListTable
+    }
 
     private void initBooleansList(){
+        this.tabRefreshed.clear();
         this.tabRefreshed.add(0, null);
         for(int i = 1; i <= 14; i++){
             this.tabRefreshed.add(i, false);
         }//end for(;;)
+    }
+
+    public void removeMark(int posArg, long id) {
+        mDbAdapterStatic.deleteMark(id, posArg);
+        this.tabRefreshed.set(posArg, false);
+        man.refreshViews(posArg);
+    }
+
+    public void showEditDialog(View fragView, String name, String mark, String weight, long id){
+        LayoutInflater inflater = LayoutInflater.from(man);
+        View v = inflater.inflate(R.layout.edit_dialog, null);
+        EditText etNameDialog, etMarkDialog,etWeightDialog;
+        TextView vDateDialog;
+        etNameDialog = v.findViewById(R.id.etNameDialog);
+        etMarkDialog = v.findViewById(R.id.etMarkDialog);
+        etWeightDialog = v.findViewById(R.id.etWeightDialog);
+       // vDateDialog = v.findViewById(R.id.viewDateDialog);  //TODO: DATE CHANGE DIALOG
+        DatePicker dp = new DatePicker(context);
+        etNameDialog.setText(name);
+        etMarkDialog.setText(mark);
+        etWeightDialog.setText(weight);
+        /*Cursor c = mDbAdapterStatic.getDate(tabPosition, id);
+        //String date = c.getString(c.getColumnIndex("day"));
+        String date = c.getString(c.getColumnIndex("day"));
+        vDateDialog.setText(date);
+        vDateDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int mYear;
+                int mMonth;
+                int mDay;
+
+                // Get Current Date
+                final Calendar c = Calendar.getInstance();
+                mYear = c.get(Calendar.YEAR);
+                mMonth = c.get(Calendar.MONTH);
+                mDay = c.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(context,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                String date_time = dayOfMonth + "." + (monthOfYear + 1) + "." + year;
+
+                                //TIME SET
+                                final Calendar c = Calendar.getInstance();
+                                mHour = c.get(Calendar.HOUR_OF_DAY);
+                                mMinute = c.get(Calendar.MINUTE);
+
+                                // Launch Time Picker Dialog
+                                TimePickerDialog timePickerDialog = new TimePickerDialog(
+                                        context, new TimePickerDialog.OnTimeSetListener() {
+                                    @Override
+                                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                        mHour = hourOfDay;
+                                        mMinute = minute;
+                                        dateCompleted = date_time+" " + hourOfDay + ":" + minute;
+                                        vDateDialog.setText(date_time+" " + hourOfDay + ":" + minute);
+                                    }
+                                }, mHour, mMinute, true);
+                                timePickerDialog.show();
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+            }
+        });*/
+        AlertDialog.Builder adb = new AlertDialog.Builder(context);
+        adb.setTitle(R.string.editMark);
+        adb.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                addOrUpdateMark(fragView, tabLayout.getSelectedTabPosition(), context, etNameDialog.getText()
+                        .toString(), etMarkDialog.getText().toString(), etWeightDialog.getText()
+                        .toString(), dateCompleted, id);
+            }
+        });
+        adb.setNegativeButton(R.string.titleDelete, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                removeMark(tabPosition, id);
+            }
+        });
+        adb.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        adb.setView(v);
+        adb.show();
+    }
+
+    public void addOrUpdateMark(View v, int posArg, Context ctx, String name, String m,
+                                String w, @Nullable String date, long... id) {
+        try {
+            double weight;
+            double mark;
+            if (w.equals("")) {
+                weight = 1;
+            } else {
+                weight = Double.parseDouble(w);
+            }
+            if (TextUtils.isEmpty(name) || TextUtils.isEmpty(m) || m.equals("0")) {
+                throw new IllegalArgumentException(ctx.getResources().getString(R.string
+                        .illegalArgument));
+            }
+            else {
+                mark = Double.parseDouble(m);
+                if(mark > 5 || weight == 0 || mark < 1){
+                    throw new IllegalArgumentException(ctx.getResources().getString(R.string
+                            .invalidMarkWeight));
+                }
+            }
+            if (id.length == 0) {
+                if(date == null){
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+                    Date notFormatedDate = new Date();
+                    date = dateFormat.format(notFormatedDate);
+                }
+                mDbAdapterStatic.addMark(posArg, name, mark, weight, date);
+                etName.requestFocus();
+                etName.setText("");
+                etMark.setText("");
+                etWeight.setText("");
+            }else
+                mDbAdapterStatic.updateMark(posArg, name, mark, weight, date, id[0]);
+            this.tabRefreshed.set(posArg, false);
+            man.refreshViews(posArg);
+        } catch (IllegalArgumentException e) {
+            Snackbar.make(cl, e.getMessage(), Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
+    public static void showToast(String text, boolean isLong){
+        if (isLong)
+            Toast.makeText(context, text, Toast.LENGTH_LONG).show();
+        else
+            showToast(text);
+    }
+    public static void showToast(String text){
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+    }
+
+    private void initMainVariables(){
+        viewPager = findViewById(R.id.viewpager);
+        tvAverage = findViewById(R.id.tvAverage);
+        tvCount = findViewById(R.id.tvMarkCount);
+        tabLayout = findViewById(R.id.tabs);
+        tabRl = findViewById(R.id.relativeTabInfo);
+        cl = findViewById(R.id.coordinator);
+        toolbar = findViewById(R.id.toolbar);
     }
 
     @Override
@@ -598,49 +722,20 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         context = this;
         man = MainActivity.this;
-
-        //startActivity(new Intent(this, SplashScreen.class));
-
-        renameDb();
         setContentView(R.layout.main_coordinator);
+
+        initMainVariables();
         initBooleansList();
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         if(MainActivity.dbTableExist(Database.TABLE2_NAME) == false){
             MainActivity.newTabListTable(this);
-        }//end of if()
+        }
         else
             mDbAdapterStatic = new Database(this);
-
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-
         firstRun();
-
-        tvAverage = (TextView) findViewById(R.id.tvAverage);
-
-        tvCount = (TextView) findViewById(R.id.tvMarkCount);
-
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-
         setupViewPager(viewPager);
-
         tabPosition = 0;
-
-        cl = (CoordinatorLayout) findViewById(R.id.coordinator);
-
-        tabRl = (RelativeLayout) findViewById(R.id.relativeTabInfo);
-
         tabRl.setVisibility(View.INVISIBLE);
-
-        hockeyAppSet();
-
         setTabListeners();
-
-        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MainWakelockLog");
-        wakeLock.acquire();
-        //   registerReceiver(new UpdateReceiver(), new IntentFilter(Intent.ACTION_TIME_TICK));
-    }//end of onCreate
-}//end of the Class
+    }
+}

@@ -2,13 +2,16 @@
 <resources>
     <!-- OTHER -->
     <color name="badMark">#ff0000</color>
-    <color name="okMark">#00dc00</color>
+    <color name="okMark">#00a000</color>
     <color name="ffMark">#ffae00</color>
-    <color name="tableGrey">#ffffb3</color>
+    <color name="infotab_background">#b6edff</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="infotab_text">@android:color/tertiary_text_dark</color>
 
-    <!-- BASE Theme -->
-    <color name="colorPrimary">#ffae22</color>
-    <color name="colorPrimaryDark">#e67c19</color>
+    <!-- LIGHT Theme -->
+    <color name="colorPrimary">#ffae00</color>
+    <color name="colorPrimaryDark">#e67c00</color>
     <color name="colorAccent">#00bfff</color>
     <color name="app_background_black">#000000</color>
     <color name="foreground">#303030</color>
@@ -19,7 +22,7 @@
     <color name="colorAccentDT">#d9ff00</color>
 
     <!-- BLACK THEME -->
-    <color name="colorPrimaryBT">#00dc07</color>
+    <color name="colorPrimaryBT">#00dc00</color>
     <color name="colorPrimaryDarkBT">#00a000</color>
     <color name="colorAccentBT">#ff0000</color>
 </resources>

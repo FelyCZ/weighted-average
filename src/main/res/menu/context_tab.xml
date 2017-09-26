@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/action_edit_title"
@@ -8,6 +9,6 @@
 
     <item
         android:id="@+id/action_clean_subject"
-        android:title="@string/action_clean_subject"
-        android:orderInCategory="1" />
+        android:orderInCategory="1"
+        android:title="@string/action_clean_subject"/>
 </menu>

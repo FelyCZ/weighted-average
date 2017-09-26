@@ -3,30 +3,27 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="105"
-        android:title="@string/action_settings"
-        android:icon="@drawable/ic_settings_black_24dp"
+        android:id="@+id/action_deletemarks"
+        android:orderInCategory="100"
+        android:title="@string/vymazatZnamky"
+        android:icon="@drawable/remove"
+        android:titleCondensed="@string/vymazatZnamky"
         app:showAsAction="always|withText" />
 
     <item
-        android:id="@+id/action_feedback"
-        android:orderInCategory="107"
-        android:title="@string/feedback"/>
+        android:id="@+id/action_settings"
+        android:orderInCategory="101"
+        android:title="@string/action_settings"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:titleCondensed="@string/action_settings"
+        app:showAsAction="always|withText" />
 
     <item
         android:title="@string/aboutAppMenuItem"
         android:id="@+id/action_about"
-        android:orderInCategory="108" />
-    <item
-        android:id="@+id/action_deletemarks"
-        android:orderInCategory="103"
-        android:title="@string/vymazatZnamky"
-        android:numericShortcut="@string/vymazatZnamky"
-        android:icon="@drawable/remove"
-        tools:ignore="AppCompatResource"
-        android:titleCondensed="@string/vymazatZnamky"
-        app:showAsAction="always|withText" />
+        android:titleCondensed="@string/aboutAppMenuItem"
+        android:orderInCategory="102" />
 
 </menu>

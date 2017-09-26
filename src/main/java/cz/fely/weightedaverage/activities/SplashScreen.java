@@ -1,11 +1,12 @@
 package cz.fely.weightedaverage.activities;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import cz.fely.weightedaverage.R;
@@ -14,11 +15,8 @@ import cz.fely.weightedaverage.utils.ThemeUtil;
 public class SplashScreen extends AppCompatActivity {
     static final int TIMER_RUNTIME = 2100;
     boolean mbActive;
-    boolean one, two, three;
-    ProgressBar pb;
-    TextView tvInfo;
-    String loadingText;
     StringBuilder b = new StringBuilder();
+    int versionCode;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,10 +30,16 @@ public class SplashScreen extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
-        pb = (ProgressBar) findViewById(R.id.pbSplash);
-        pb.setMax(TIMER_RUNTIME);
-        tvInfo = (TextView) findViewById(R.id.tvSplashInfo);
-        tvInfo.setText("");
+
+        try {
+            PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+            versionCode = pi.versionCode;
+            TextView tvCode = findViewById(R.id.tv_code);
+            tvCode.setText("("+String.valueOf(versionCode)+")");
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
 
         final Thread thread = new Thread(){
             @Override
@@ -44,25 +48,8 @@ public class SplashScreen extends AppCompatActivity {
                         try {
                             int waited = 0;
                             while(mbActive && (waited < TIMER_RUNTIME)){
-                                for(int i = 1; i < 3; i++){
-                                    sleep(100);
-                                    if(mbActive) {
-                                        waited += 100;
-                                        updateProgress(waited);
-                                    }
-                                }
-                                sleep(100);
-                                if(mbActive) {
-                                    waited += 100;
-                                    updateProgress(waited);
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            tvInfo.setText(loadingText);
-                                            loadingText = b.append("∙").toString();
-                                        }
-                                    });
-                                }
+                                sleep(TIMER_RUNTIME);
+                                waited = TIMER_RUNTIME;
                             }//end of while()
                         }//end of try{]
                         catch (InterruptedException e){
@@ -76,10 +63,4 @@ public class SplashScreen extends AppCompatActivity {
         }; thread.start(); //end of Thread
 
     }
-
-    public void updateProgress(int waited) {
-        pb.setProgress(waited);
-        pb.animate();
-    }
-
 }

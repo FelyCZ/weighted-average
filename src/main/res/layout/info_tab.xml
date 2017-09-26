@@ -29,7 +29,7 @@
             android:layout_alignEnd="@+id/fakeView"
             android:layout_alignRight="@+id/fakeView"
             android:layout_below="@+id/shadowBox"
-            android:background="@color/tableGrey">
+            android:background="@color/infotab_background">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -42,6 +42,7 @@
                 android:layout_toStartOf="@+id/fakeView2"
                 android:gravity="center"
                 android:text="@string/prumer"
+                android:textColor="@color/infotab_text"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -57,6 +58,7 @@
                 android:layout_toRightOf="@+id/fakeView2"
                 android:gravity="left|center"
                 android:text="SYNTAX ERROR"
+                android:textColor="@color/infotab_text"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -89,7 +91,7 @@
             android:layout_below="@+id/shadowBox"
             android:layout_toEndOf="@+id/fakeView"
             android:layout_toRightOf="@+id/fakeView"
-            android:background="@color/tableGrey">
+            android:background="@color/infotab_background">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -102,6 +104,7 @@
                 android:layout_alignRight="@+id/fakeView3"
                 android:gravity="center"
                 android:text="@string/markCountTemplate"
+                android:textColor="@color/infotab_text"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -118,6 +121,7 @@
                 android:gravity="left|center"
                 android:text="NULL"
                 android:textSize="15sp"
+                android:textColor="@color/infotab_text"
                 android:textStyle="bold" />
 
             <View

@@ -2,12 +2,10 @@ package cz.fely.weightedaverage.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.SparseArray;
 
 import java.util.ArrayList;
 
 import cz.fely.weightedaverage.abstracts.SmartFragmentStatePagerAdapter;
-import cz.fely.weightedaverage.activities.MainActivity;
 import cz.fely.weightedaverage.fragments.OverviewFragment;
 import cz.fely.weightedaverage.fragments.SubjectTemplateFragment;
 import cz.fely.weightedaverage.utils.ParseUtil;
@@ -15,16 +13,12 @@ import cz.fely.weightedaverage.utils.ParseUtil;
 import static cz.fely.weightedaverage.activities.MainActivity.tabLayout;
 
 public class SubjectsStatePagerAdapter extends SmartFragmentStatePagerAdapter {
-    private final MainActivity mActivity;
-    private int nubmerOfSubjects;
-    private SparseArray<Fragment> mFragList = new SparseArray<Fragment>();
 
     ArrayList<String> mTitleList = new ArrayList<>();
 
-    public SubjectsStatePagerAdapter(MainActivity activity, FragmentManager fragmentManager){
+    public SubjectsStatePagerAdapter(FragmentManager fragmentManager){
         super(fragmentManager);
         addTitles();
-        this.mActivity = activity;
     }
 
     @Override

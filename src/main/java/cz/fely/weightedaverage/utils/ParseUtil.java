@@ -17,6 +17,20 @@ import cz.fely.weightedaverage.fragments.*;
 
 import static cz.fely.weightedaverage.activities.MainActivity.mDbAdapterStatic;
 import static cz.fely.weightedaverage.activities.MainActivity.tabPosition;
+import static cz.fely.weightedaverage.fragments.OverviewFragment.tv10Mark;
+import static cz.fely.weightedaverage.fragments.OverviewFragment.tv11Mark;
+import static cz.fely.weightedaverage.fragments.OverviewFragment.tv12Mark;
+import static cz.fely.weightedaverage.fragments.OverviewFragment.tv13Mark;
+import static cz.fely.weightedaverage.fragments.OverviewFragment.tv14Mark;
+import static cz.fely.weightedaverage.fragments.OverviewFragment.tv1Mark;
+import static cz.fely.weightedaverage.fragments.OverviewFragment.tv2Mark;
+import static cz.fely.weightedaverage.fragments.OverviewFragment.tv3Mark;
+import static cz.fely.weightedaverage.fragments.OverviewFragment.tv4Mark;
+import static cz.fely.weightedaverage.fragments.OverviewFragment.tv5Mark;
+import static cz.fely.weightedaverage.fragments.OverviewFragment.tv6Mark;
+import static cz.fely.weightedaverage.fragments.OverviewFragment.tv7Mark;
+import static cz.fely.weightedaverage.fragments.OverviewFragment.tv8Mark;
+import static cz.fely.weightedaverage.fragments.OverviewFragment.tv9Mark;
 
 public final class ParseUtil {
     private static SharedPreferences mPrefs;
@@ -26,7 +40,6 @@ public final class ParseUtil {
     public static double sum1, sum2, sum3, sum4, sum5, sum6, sum7, sum8, sum9, sum10, sum11, sum12, sum13, sum14;
 
     public ParseUtil(Context ctx){
-
     }
 
     public static void reloadPref(Context ctx) {
@@ -47,21 +60,20 @@ public final class ParseUtil {
     }
 
     public static TextView overviewTVs(int index){
-
-        OverviewFragment.tv1Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectOneTitleOverview);
-        OverviewFragment.tv2Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectThreeTitleOverview);
-        OverviewFragment.tv3Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectTwoTitleOverview);
-        OverviewFragment.tv4Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectFourTitleOverview);
-        OverviewFragment.tv5Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectFiveTitleOverview);
-        OverviewFragment.tv6Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectSixTitleOverview);
-        OverviewFragment.tv7Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectSevenTitleOverview);
-        OverviewFragment.tv8Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectEightTitleOverview);
-        OverviewFragment.tv9Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectNineTitleOverview);
-        OverviewFragment.tv10Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectTenTitleOverview);
-        OverviewFragment.tv11Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectElevenTitleOverview);
-        OverviewFragment.tv12Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectTwelveTitleOverview);
-        OverviewFragment.tv13Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectTtTitleOverview);
-        OverviewFragment.tv14Title = (TextView) OverviewFragment.view.findViewById(R.id.SubjectFtTitleOverview);
+        OverviewFragment.tv1Title = OverviewFragment.view.findViewById(R.id.SubjectOneTitleOverview);
+        OverviewFragment.tv2Title = OverviewFragment.view.findViewById(R.id.SubjectThreeTitleOverview);
+        OverviewFragment.tv3Title = OverviewFragment.view.findViewById(R.id.SubjectTwoTitleOverview);
+        OverviewFragment.tv4Title = OverviewFragment.view.findViewById(R.id.SubjectFourTitleOverview);
+        OverviewFragment.tv5Title = OverviewFragment.view.findViewById(R.id.SubjectFiveTitleOverview);
+        OverviewFragment.tv6Title = OverviewFragment.view.findViewById(R.id.SubjectSixTitleOverview);
+        OverviewFragment.tv7Title = OverviewFragment.view.findViewById(R.id.SubjectSevenTitleOverview);
+        OverviewFragment.tv8Title = OverviewFragment.view.findViewById(R.id.SubjectEightTitleOverview);
+        OverviewFragment.tv9Title = OverviewFragment.view.findViewById(R.id.SubjectNineTitleOverview);
+        OverviewFragment.tv10Title = OverviewFragment.view.findViewById(R.id.SubjectTenTitleOverview);
+        OverviewFragment.tv11Title = OverviewFragment.view.findViewById(R.id.SubjectElevenTitleOverview);
+        OverviewFragment.tv12Title = OverviewFragment.view.findViewById(R.id.SubjectTwelveTitleOverview);
+        OverviewFragment.tv13Title = OverviewFragment.view.findViewById(R.id.SubjectTtTitleOverview);
+        OverviewFragment.tv14Title = OverviewFragment.view.findViewById(R.id.SubjectFtTitleOverview);
         switch (index){
             case 1:
                 return OverviewFragment.tv1Title;
@@ -93,8 +105,56 @@ public final class ParseUtil {
                 return OverviewFragment.tv14Title;
             default:
                 return null;
-
         }//end switch
+    }
+
+    public static TextView overviewTVsAvgs(int index){
+        OverviewFragment.tv1Mark = OverviewFragment.view.findViewById(R.id.SubjectOneMarkOverview);
+        OverviewFragment.tv2Mark = OverviewFragment.view.findViewById(R.id.SubjectThreeMarkOverview);
+        OverviewFragment.tv3Mark = OverviewFragment.view.findViewById(R.id.SubjectTwoMarkOverview);
+        OverviewFragment.tv4Mark = OverviewFragment.view.findViewById(R.id.SubjectFourMarkOverview);
+        OverviewFragment.tv5Mark = OverviewFragment.view.findViewById(R.id.SubjectFiveMarkOverview);
+        OverviewFragment.tv6Mark = OverviewFragment.view.findViewById(R.id.SubjectSixMarkOverview);
+        OverviewFragment.tv7Mark = OverviewFragment.view.findViewById(R.id.SubjectSevenMarkOverview);
+        OverviewFragment.tv8Mark = OverviewFragment.view.findViewById(R.id.SubjectEightMarkOverview);
+        OverviewFragment.tv9Mark = OverviewFragment.view.findViewById(R.id.SubjectNineMarkOverview);
+        OverviewFragment.tv10Mark = OverviewFragment.view.findViewById(R.id.SubjectTenMarkOverview);
+        OverviewFragment.tv11Mark = OverviewFragment.view.findViewById(R.id.SubjectElevenMarkOverview);
+        OverviewFragment.tv12Mark = OverviewFragment.view.findViewById(R.id.SubjectTwelveMarkOverview);
+        OverviewFragment.tv13Mark = OverviewFragment.view.findViewById(R.id.SubjectTtMarkOverview);
+        OverviewFragment.tv14Mark = OverviewFragment.view.findViewById(R.id.SubjectFtMarkOverview);
+        switch (index) {
+            case 1:
+                return tv1Mark;
+            case 2:
+                return tv2Mark;
+            case 3:
+                return tv3Mark;
+            case 4:
+                return tv4Mark;
+            case 5:
+                return tv5Mark;
+            case 6:
+                return tv6Mark;
+            case 7:
+                return tv7Mark;
+            case 8:
+                return tv8Mark;
+            case 9:
+                return tv9Mark;
+            case 10:
+                return tv10Mark;
+            case 11:
+                return tv11Mark;
+            case 12:
+                return tv12Mark;
+            case 13:
+                return tv13Mark;
+            case 14:
+                return tv14Mark;
+            default:
+                return null;
+        }
     }
 
     public static void getTabAverages(){
@@ -170,6 +230,7 @@ public final class ParseUtil {
         sum14 = cursor.getDouble(cursor.getColumnIndex("average"));
         formatter = new DecimalFormat("0.00");
         ftAvg = String.valueOf(formatter.format(sum14));
+        cursor.close();
     }
 
     public static Fragment getSubjectFrag(){

@@ -4,6 +4,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowDisablePreview">true</item>
+        <item name="divider">@color/app_background_black</item>
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
     </style>
 
     <style name="Dark" parent="Theme.AppCompat.NoActionBar">
@@ -14,6 +16,8 @@
         <item name="android:windowBackground">@color/foreground</item>
         <item name="android:colorBackground">@color/foreground</item>
         <item name="android:windowDisablePreview">true</item>
+        <item name="divider">@color/white</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDT</item>
     </style>
 
     <style name="Dark.Black" parent="Theme.AppCompat.NoActionBar">
@@ -24,16 +28,13 @@
         <item name="colorAccent">@color/colorAccentBT</item>
         <item name="android:colorForeground">@color/app_background_black</item>
         <item name="android:windowDisablePreview">true</item>
+        <item name="divider">@color/white</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryBT</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>
-    </style>
-
-    <style name="ProgressBarSplash" parent="Widget.AppCompat.ProgressBar.Horizontal">
-        <item name="android:progressTint">@color/colorPrimary</item>
-        <item name="android:progressBackgroundTint">@color/colorPrimaryDark</item>
     </style>
 </resources>

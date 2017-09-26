@@ -1,15 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.3'
+    compileSdkVersion 26
     defaultConfig {
         applicationId 'cz.fely.weightedaverage'
+        buildToolsVersion '26.0.0'
         minSdkVersion 15
-        targetSdkVersion 25
-        versionCode 16
-        versionName '4.0.E.0.0'
-        manifestPlaceholders = [HOCKEYAPP_APP_ID: "a6f2b12acd1a4e22a763dab9a356879f"]
+        targetSdkVersion 26
+        versionCode 20
+        versionName '4.3.B.0.10'
         jackOptions {
             enabled true
         }
@@ -33,18 +32,23 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:25.3.1'
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
-        exclude group: 'com.google.code.findbugs'
-    }
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.android.support:support-vector-drawable:25.3.1'
-    compile 'com.android.support:design:25.3.1'
-    testCompile 'junit:junit:4.12'
-    androidTestCompile 'com.android.support:support-annotations:25.3.1'
-    compile 'com.android.support:preference-v7:25.3.1'
-    compile 'net.hockeyapp.android:HockeySDK:4.0.0'
-    compile 'agency.tango.android:material-intro-screen:0.0.5'
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:26.0.0'
+    compile 'com.android.support:recyclerview-v7:26.0.0'
+    compile 'com.android.support:support-vector-drawable:26.0.0'
+    compile 'com.android.support:design:26.0.0'
+    compile 'com.android.support:support-v4:26.0.0'
+    compile 'com.android.support:preference-v7:26.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+}
+
+repositories {
+    maven {
+        url 'https://maven.google.com'
+        // Alternative URL is 'https://dl.google.com/dl/android/maven2/'
+    }
 }

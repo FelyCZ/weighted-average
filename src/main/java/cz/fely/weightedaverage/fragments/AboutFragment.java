@@ -28,7 +28,7 @@ public class AboutFragment extends AppCompatPreferenceActivity {
         addPreferencesFromResource(R.xml.about_pref);
 
         String prefChangelog = "changelog";
-        Preference changelog = (Preference) findPreference(prefChangelog);
+        Preference changelog = findPreference(prefChangelog);
         changelog.setOnPreferenceClickListener(preference -> {
             LayoutInflater inflater = LayoutInflater.from(AboutFragment.this);
             View view = inflater.inflate(R.layout.changelog, null);

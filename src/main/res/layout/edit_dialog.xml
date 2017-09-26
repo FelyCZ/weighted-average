@@ -16,7 +16,7 @@
         android:id="@+id/etNameDialog"
         android:hint="@string/name"
         android:imeOptions="actionNext"
-        android:maxLength="20"
+        android:maxLength="100"
         android:inputType="text"
         android:maxLines="1"/>
 
@@ -50,7 +50,7 @@
         android:imeOptions="actionDone"
         android:maxLength="3"/>
 
-    <TextView
+  <!--  <TextView
         android:text="@string/dateTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -62,5 +62,5 @@
         android:id="@+id/viewDateDialog"
         android:clickable="true"
         android:textSize="18sp" />
-
+-->
 </LinearLayout>

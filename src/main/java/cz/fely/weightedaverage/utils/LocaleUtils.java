@@ -27,6 +27,7 @@ public final class LocaleUtils {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public static void updateConfig(Application app, Configuration configuration) {
         if(sLocale != null && Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
             //Wrapping the configuration to avoid Activity endless loop

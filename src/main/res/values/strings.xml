@@ -18,6 +18,17 @@
     <string name="markCountTemplate">Počet: </string>
     <string name="restore">Obnovení</string>
     <string name="welcome_text">
+        <b>Verze 4.3.B.0.10</b>
+        \nKompabilita s Androidem 8.0 (Android O)
+        \nOprava chyb
+        \nAplikace připravena k publikaci na Google Play
+        \nVyčištění nepotřebných souborů
+        \nZměna ikony
+        \nUpravena barva dolního panelu s průměrem a počtem
+        \nZměna licence (Menu > O aplikaci)
+        \nOpimalizace předmětů
+        \n<b>UPOZORNĚNÍ!<i> Nápověda k použítí všech funkcí aplikace již brzy.</i></b>\n\n
+
         <b>Verze 4.0.E.0.0 (Experimentální)</b>
         \nZměna názvů předmětů je nyní možná po podržení dané záložky
         \nOprava databáze
@@ -25,8 +36,7 @@
         \nUpravené nastavení a přidána možnost změnit barvy přehledu
         \nJiž se nezobrazuje možnost vymazat známky pokud máte zvolenou záložku \"Přehled\"
         \nUpravena načítací obrazovka
-        \nPrůměr a počet známek předmětu je nyní v dolní části obrazovky
-        \n<i><b>NALEZENÉ CHYBY MI ZAŠLETE POMOCÍ \"Odeslat názor\" V MENU. Děkuji</b></i>\n\n
+        \nPrůměr a počet známek předmětu je nyní v dolní části obrazovky\n\n
 
          <b>Verze 3.5.B.5.55</b>
         \nNově se ukazují návrhy názvů známek podle již zadaných názvů
@@ -84,7 +94,7 @@
          <b>Verze 2.2.S.1.4</b>
          \nZjenodušené nastavení
          \nOprava chyb
-         \nZměna barev témat\n\n
+         \nZměna barev schémat\n\n
 
          <b>Verze 2.0.S.5.1</b>
          \nNová položka v nastavení
@@ -159,7 +169,7 @@
         <item>2</item>
     </string-array>
     <string name="themeSummary">
-        Vybrané téma: %s
+        Vybrané schéma: %s
     </string>
 
     <string name="prefs_overview_okmark">Nastavení zeleného průměru</string>
@@ -168,7 +178,7 @@
     <string name="prefs_overview_ffmark_summary">Kliknutím nastavit rozmezí oranžového průměru</string>
     <string name="prefs_overview_badmark">Nastavení červeného průměru</string>
     <string name="prefs_overview_badmark_summary">Automaticky se nastaví na horší průměry</string>
-    <string name="pref_theme_title">Téma</string>
+    <string name="pref_theme_title">Schéma</string>
     <string name="aboutCategory">O aplikaci</string>
     <string name="versionTitle">Nainstalovaná verze aplikace</string>
     <string name="vibrateSwitchTitle">Vibrace</string>
@@ -204,6 +214,8 @@
     <string name="tab_title_change_label">Název předmětu</string>
     <string name="permission_desc">Umožňuje ostatním aplikacím zobrazit licenční ujednání a informace o aplikaci</string>
     <string name="permission_label">Zobrazit licenční ujednání</string>
+    <string name="clean">Vyčistit</string>
+    <string name="you_want_clean">Přeješ si vyčistit předmět, vymazáním všech známek?</string>
 
     <string-array name="order">
         <item>Sestupně</item>
@@ -234,8 +246,9 @@
 
     <!-- MENU STRINGS -->
     <string name="action_edit_title">Změnit název</string>
-    <string name="action_clean_subject">Vymazat známky v předmětu</string>
+    <string name="action_clean_subject">Vymazat známky</string>
     <string name="action_settings">Nastavení</string>3šš
     <string name="action_licenses">Licenční ujednání</string>
+    <string name="no_export">Záloha ještě nebyla provedena</string>
 
 </resources>

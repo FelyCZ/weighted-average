@@ -31,84 +31,74 @@ public class OverviewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState){
         ovf = OverviewFragment.this;
-        badMark = ContextCompat.getColor(ctx, R.color.badMark);
-        ffMark = ContextCompat.getColor(ctx, R.color.ffMark);
-        okMark = ContextCompat.getColor(ctx, R.color.okMark);
+        badMark = getResources().getColor(R.color.badMark);
+        ffMark = getResources().getColor(R.color.ffMark);
+        okMark = getResources().getColor(R.color.okMark);
 
         view = inflater.inflate(R.layout.activity_overview, container, false);
-        tv1Title = (TextView) view.findViewById(R.id.SubjectOneTitleOverview);
-        tv2Title = (TextView) view.findViewById(R.id.SubjectTwoTitleOverview);
-        tv3Title = (TextView) view.findViewById(R.id.SubjectThreeTitleOverview);
-        tv4Title = (TextView) view.findViewById(R.id.SubjectFourTitleOverview);
-        tv5Title = (TextView) view.findViewById(R.id.SubjectFiveTitleOverview);
-        tv6Title = (TextView) view.findViewById(R.id.SubjectSixTitleOverview);
-        tv7Title = (TextView) view.findViewById(R.id.SubjectSevenTitleOverview);
-        tv8Title = (TextView) view.findViewById(R.id.SubjectEightTitleOverview);
-        tv9Title = (TextView) view.findViewById(R.id.SubjectNineTitleOverview);
-        tv10Title = (TextView) view.findViewById(R.id.SubjectTenTitleOverview);
-        tv11Title = (TextView) view.findViewById(R.id.SubjectElevenTitleOverview);
-        tv12Title = (TextView) view.findViewById(R.id.SubjectTwelveTitleOverview);
-        tv13Title = (TextView) view.findViewById(R.id.SubjectTtTitleOverview);
-        tv14Title = (TextView) view.findViewById(R.id.SubjectFtTitleOverview);
+        tv1Title = view.findViewById(R.id.SubjectOneTitleOverview);
+        tv2Title = view.findViewById(R.id.SubjectTwoTitleOverview);
+        tv3Title = view.findViewById(R.id.SubjectThreeTitleOverview);
+        tv4Title = view.findViewById(R.id.SubjectFourTitleOverview);
+        tv5Title = view.findViewById(R.id.SubjectFiveTitleOverview);
+        tv6Title = view.findViewById(R.id.SubjectSixTitleOverview);
+        tv7Title = view.findViewById(R.id.SubjectSevenTitleOverview);
+        tv8Title = view.findViewById(R.id.SubjectEightTitleOverview);
+        tv9Title = view.findViewById(R.id.SubjectNineTitleOverview);
+        tv10Title = view.findViewById(R.id.SubjectTenTitleOverview);
+        tv11Title = view.findViewById(R.id.SubjectElevenTitleOverview);
+        tv12Title = view.findViewById(R.id.SubjectTwelveTitleOverview);
+        tv13Title = view.findViewById(R.id.SubjectTtTitleOverview);
+        tv14Title = view.findViewById(R.id.SubjectFtTitleOverview);
 
-        tv1Mark = (TextView) view.findViewById(R.id.SubjectOneMarkOverview);
-        tv2Mark = (TextView) view.findViewById(R.id.SubjectTwoMarkOverview);
-        tv3Mark = (TextView) view.findViewById(R.id.SubjectThreeMarkOverview);
-        tv4Mark = (TextView) view.findViewById(R.id.SubjectFourMarkOverview);
-        tv5Mark = (TextView) view.findViewById(R.id.SubjectFiveMarkOverview);
-        tv6Mark = (TextView) view.findViewById(R.id.SubjectSixMarkOverview);
-        tv7Mark = (TextView) view.findViewById(R.id.SubjectSevenMarkOverview);
-        tv8Mark = (TextView) view.findViewById(R.id.SubjectEightMarkOverview);
-        tv9Mark = (TextView) view.findViewById(R.id.SubjectNineMarkOverview);
-        tv10Mark = (TextView) view.findViewById(R.id.SubjectTenMarkOverview);
-        tv11Mark = (TextView) view.findViewById(R.id.SubjectElevenMarkOverview);
-        tv12Mark = (TextView) view.findViewById(R.id.SubjectTwelveMarkOverview);
-        tv13Mark = (TextView) view.findViewById(R.id.SubjectTtMarkOverview);
-        tv14Mark = (TextView) view.findViewById(R.id.SubjectFtMarkOverview);
-        setNames(getContext());
-
-        OverviewFragment.changeColor(OverviewFragment.tv1Mark, 1);
-        OverviewFragment.changeColor(OverviewFragment.tv2Mark, 2);
-        OverviewFragment.changeColor(OverviewFragment.tv3Mark, 3);
-        OverviewFragment.changeColor(OverviewFragment.tv4Mark, 4);
-        OverviewFragment.changeColor(OverviewFragment.tv5Mark, 5);
-        OverviewFragment.changeColor(OverviewFragment.tv6Mark, 6);
-        OverviewFragment.changeColor(OverviewFragment.tv7Mark, 7);
-        OverviewFragment.changeColor(OverviewFragment.tv8Mark, 8);
-        OverviewFragment.changeColor(OverviewFragment.tv9Mark, 9);
-        OverviewFragment.changeColor(OverviewFragment.tv10Mark, 10);
-        OverviewFragment.changeColor(OverviewFragment.tv11Mark, 11);
-        OverviewFragment.changeColor(OverviewFragment.tv12Mark, 12);
-        OverviewFragment.changeColor(OverviewFragment.tv13Mark, 13);
-        OverviewFragment.changeColor(OverviewFragment.tv14Mark, 14);
-
-        OverviewFragment.setTextMarks(OverviewFragment.tv1Mark, 1);
-        OverviewFragment.setTextMarks(OverviewFragment.tv2Mark, 2);
-        OverviewFragment.setTextMarks(OverviewFragment.tv3Mark, 3);
-        OverviewFragment.setTextMarks(OverviewFragment.tv4Mark, 4);
-        OverviewFragment.setTextMarks(OverviewFragment.tv5Mark, 5);
-        OverviewFragment.setTextMarks(OverviewFragment.tv6Mark, 6);
-        OverviewFragment.setTextMarks(OverviewFragment.tv7Mark, 7);
-        OverviewFragment.setTextMarks(OverviewFragment.tv8Mark, 8);
-        OverviewFragment.setTextMarks(OverviewFragment.tv9Mark, 9);
-        OverviewFragment.setTextMarks(OverviewFragment.tv10Mark, 10);
-        OverviewFragment.setTextMarks(OverviewFragment.tv11Mark, 11);
-        OverviewFragment.setTextMarks(OverviewFragment.tv12Mark, 12);
-        OverviewFragment.setTextMarks(OverviewFragment.tv13Mark, 13);
-        OverviewFragment.setTextMarks(OverviewFragment.tv14Mark, 14);
-        //MainActivity.tabRl.setVisibility(View.INVISIBLE);
-
+        tv1Mark = view.findViewById(R.id.SubjectOneMarkOverview);
+        tv2Mark = view.findViewById(R.id.SubjectTwoMarkOverview);
+        tv3Mark = view.findViewById(R.id.SubjectThreeMarkOverview);
+        tv4Mark = view.findViewById(R.id.SubjectFourMarkOverview);
+        tv5Mark = view.findViewById(R.id.SubjectFiveMarkOverview);
+        tv6Mark = view.findViewById(R.id.SubjectSixMarkOverview);
+        tv7Mark = view.findViewById(R.id.SubjectSevenMarkOverview);
+        tv8Mark = view.findViewById(R.id.SubjectEightMarkOverview);
+        tv9Mark = view.findViewById(R.id.SubjectNineMarkOverview);
+        tv10Mark = view.findViewById(R.id.SubjectTenMarkOverview);
+        tv11Mark = view.findViewById(R.id.SubjectElevenMarkOverview);
+        tv12Mark = view.findViewById(R.id.SubjectTwelveMarkOverview);
+        tv13Mark = view.findViewById(R.id.SubjectTtMarkOverview);
+        tv14Mark = view.findViewById(R.id.SubjectFtMarkOverview);
         initCompleted = true;
+        setNames();
+        setAverages();
 
         return view;
     }
 
-    public static void setNames (Context ctx){
+    public static void setNames(){
         if(initCompleted) {
             for (int i = 1; i < 15; i++) {
-                ParseUtil.overviewTVs(i).setText(ParseUtil.getTabNames(i));
+                updateNameTexts(i);
             }
         }
+    }
+
+    public static void setAverages() {
+        if(initCompleted){
+            for (int i = 1; i < 15; i++){
+                updateAverageTexts(i);
+            }
+        }
+    }
+
+    public static void updateNameTexts (int pos){
+        ParseUtil.overviewTVs(pos).setText(ParseUtil.getTabNames(pos));
+    }
+
+    public static void updateAverageTexts(int pos){
+        OverviewFragment.setTextMarks(ParseUtil.overviewTVsAvgs(pos), pos);
+        OverviewFragment.changeColor(ParseUtil.overviewTVsAvgs(pos), pos);
+    }
+
+    public static void setAvgColor(int pos){
+        ParseUtil.overviewTVsAvgs(pos).setTextColor(MainActivity.context.getResources().getColor(android.R.color.tab_indicator_text));
     }
 
     public static void setTextMarks (TextView v, int subject){
@@ -195,15 +185,11 @@ public class OverviewFragment extends Fragment {
 
     @Override
     public void onResume() {
-        setNames(getContext());
-        //MainActivity.tabRl.setVisibility(View.INVISIBLE);
         super.onResume();
     }
 
     @Override
     public void onAttachFragment(Fragment childFragment) {
-        setNames(getContext());
-        //MainActivity.tabRl.setVisibility(View.INVISIBLE);
         super.onAttachFragment(childFragment);
     }
 }
