@@ -1,6 +1,7 @@
 package cz.fely.weightedaverage.activities;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +14,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.preference.SwitchPreference;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -28,6 +30,7 @@ import cz.fely.weightedaverage.utils.WipeDataUtil;
 
 @SuppressWarnings("deprecation")
 public class SettingsActivity extends AppCompatPreferenceActivity {
+    private boolean recreate = false;
     static final String prefTheme = "pref_key_general_theme";
     static final String prefWipe = "pref_key_general_wipe";
     public static final String prefOkMark = "prefs_overview_okmark";
@@ -87,7 +90,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         addPreferencesFromResource(R.xml.prefs);
         Activity a = this;
 
-
         ListPreference lp = (ListPreference) findPreference(prefTheme);
         lp.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -128,6 +130,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         etpOkMark = (EditTextPreference) findPreference(prefOkMark);
         etpFfMark = (EditTextPreference) findPreference(prefFfMark);
         Preference etpBadMark = findPreference(prefBadMark);
+        Preference prefRestoreDefault = findPreference("prefs_key_general_restore");
 
         etpOkMark.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -162,6 +165,25 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 return false;
             }
         });
+
+        prefRestoreDefault.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+                editor.putString("pref_key_general_order", "desc");
+                editor.putString("prefs_overview_okmark", "2");
+                editor.putString("prefs_overview_ffmark", "3");
+                editor.putBoolean("pref_key_general_weight", true);
+                editor.putBoolean("autoComplete", true);
+                editor.putString("pref_key_general_theme", "0");
+                editor.apply();
+                Toast.makeText(getApplicationContext(), R.string.restored, Toast.LENGTH_SHORT).show();
+                finish();
+                startActivity(new Intent(SettingsActivity.this, MainActivity.class).addFlags(
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                return true;
+            }
+        });
     }
 
     public static int getAvgFromPreference(String key) {
@@ -191,8 +213,13 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            startActivity(new Intent(this, MainActivity.class).addFlags(
-                    Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+            if(recreate){
+                startActivity(new Intent(this, MainActivity.class).addFlags(
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                finish();
+            }
+            else
+                finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -205,8 +232,13 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
-        MainActivity.man.recreate();
+        if(recreate) {
+            finish();
+            startActivity(new Intent(this, MainActivity.class).addFlags(
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+        }
+        else
+            finish();
         super.onBackPressed();
     }
 }

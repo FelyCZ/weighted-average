@@ -18,6 +18,12 @@
     <string name="markCountTemplate">Počet: </string>
     <string name="restore">Obnovení</string>
     <string name="welcome_text">
+        <b>Verze 4.4.S.0.2</b>
+        \nNyní se již při opuštění a znovu-otevření aplikace nezobrazí \"Přehled\"
+        \nPřidána nápověda pro jednoduší začátek používání (viz. menu)
+        \nOprava chyb\n\n
+
+
         <b>Verze 4.3.B.0.10</b>
         \nKompabilita s Androidem 8.0 (Android O)
         \nOprava chyb
@@ -26,8 +32,7 @@
         \nZměna ikony
         \nUpravena barva dolního panelu s průměrem a počtem
         \nZměna licence (Menu > O aplikaci)
-        \nOpimalizace předmětů
-        \n<b>UPOZORNĚNÍ!<i> Nápověda k použítí všech funkcí aplikace již brzy.</i></b>\n\n
+        \nOpimalizace předmětů\n\n
 
         <b>Verze 4.0.E.0.0 (Experimentální)</b>
         \nZměna názvů předmětů je nyní možná po podržení dané záložky
@@ -206,9 +211,7 @@
     <string name="toast_error_settings_small_avg">Hodnota nemůže být menší ani stejný než \"Zelený průměr\"!</string>
     <string name="toast_error_settings_zero_avg">Známka nemůže být menší než 1</string>
     <string name="prefs_subject_okmark_title">Zelený průměr</string>
-    <string name="prefs_subject_okmark_summary">{[SettingsActivity.okMark.getText()]-[SettingsActivity.ffMark.getText()]}</string>
     <string name="prefs_subject_ffmark_title">Oranžový průměr</string>
-    <string name="prefs_subject_ffmark_summary">{[SettingsActivity.ffMark.getText()]-[SettingsActivity.badMark.getText()]}</string>
     <string name="prefs_subject_badmark_title">Červený průměr</string>
     <string name="prefs_subject_badmark_summary">{[SettingsActivity.badMark.getText()]+}</string>
     <string name="tab_title_change_label">Název předmětu</string>
@@ -216,6 +219,8 @@
     <string name="permission_label">Zobrazit licenční ujednání</string>
     <string name="clean">Vyčistit</string>
     <string name="you_want_clean">Přeješ si vyčistit předmět, vymazáním všech známek?</string>
+    <string name="restore_default">Obnovit výchozí</string>
+    <string name="restore_default_settings_without_deleting_marks">Obnoví výchozí nastavení aplikace bez mazání známek</string>
 
     <string-array name="order">
         <item>Sestupně</item>
@@ -251,4 +256,10 @@
     <string name="action_licenses">Licenční ujednání</string>
     <string name="no_export">Záloha ještě nebyla provedena</string>
 
+    <!-- HELP DIALOGS -->
+    <string name="action_help">Nápověda</string>
+    <string name="help">Nápověda</string>
+    <string name="assets_path">file:///android_asset/cs/</string>
+    <string name="do_not_show_again">Znovu již nezobrazovat</string>
+    <string name="restored">Obnoveno</string>
 </resources>

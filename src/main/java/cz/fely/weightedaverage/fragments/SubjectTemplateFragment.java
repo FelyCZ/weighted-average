@@ -16,6 +16,7 @@ import android.widget.TextView;
 import cz.fely.weightedaverage.R;
 import cz.fely.weightedaverage.activities.MainActivity;
 
+import static cz.fely.weightedaverage.activities.MainActivity.checkSettings;
 import static cz.fely.weightedaverage.activities.MainActivity.tabPosition;
 
 public class SubjectTemplateFragment extends Fragment {
@@ -59,6 +60,7 @@ public class SubjectTemplateFragment extends Fragment {
         etWeight = view.findViewById(R.id.etWeight);
         ListView lv = view.findViewById(R.id.lvZnamky);
         mActivity = (MainActivity) getActivity();
+        checkSettings(view);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override

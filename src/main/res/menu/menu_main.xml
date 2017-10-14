@@ -21,9 +21,16 @@
         app:showAsAction="always|withText" />
 
     <item
+        android:id="@+id/action_help"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:orderInCategory="102"
+        android:title="@string/action_help"
+        android:titleCondensed="@string/action_help" />
+
+    <item
         android:title="@string/aboutAppMenuItem"
         android:id="@+id/action_about"
         android:titleCondensed="@string/aboutAppMenuItem"
-        android:orderInCategory="102" />
+        android:orderInCategory="103" />
 
 </menu>

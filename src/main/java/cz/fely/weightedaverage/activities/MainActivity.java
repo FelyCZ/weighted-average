@@ -1,12 +1,12 @@
 package cz.fely.weightedaverage.activities;
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -37,13 +37,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import cz.fely.weightedaverage.fragments.AboutFragment;
@@ -90,9 +88,13 @@ public class MainActivity extends AppCompatActivity{
     private String dateCompleted;
     private final String TAB_POS = "TAB_POS";
 
+    //******************
     /* END VARIABLES */
-// ------------------------------
+    //******************
+    /* ------------------ */
+    //******************
     //MAIN ACTIVITY
+    //******************
 
     @Override
     public void onResume(){
@@ -101,9 +103,9 @@ public class MainActivity extends AppCompatActivity{
         initBooleansList();
         if(pagerAdapterInitialized)
             subjectsStatePagerAdapter.changeTitles();
-        tabPosition = tabLayout.getSelectedTabPosition();
         setTabListeners();
-        tabLayout.getTabAt(0).select();
+        viewPager.invalidate();
+        refreshViews(viewPager.getCurrentItem());
         super.onResume();
     }
 
@@ -162,6 +164,19 @@ public class MainActivity extends AppCompatActivity{
         if (id == R.id.action_about){
             Intent i = new Intent(this, AboutFragment.class);
             startActivity(i);
+        }
+
+        if(id == R.id.action_help){
+            int index = viewPager.getCurrentItem();
+            PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("help_main", false).apply();
+            PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("help_overview", false).apply();
+            PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("help_subject", false).apply();
+            if (index == 0){
+                new HelpDialogOverview().show(getSupportFragmentManager(), "help_overview");
+            }
+            else {
+                new HelpDialogSubject().show(getSupportFragmentManager(), "help_subject");
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -254,7 +269,6 @@ public class MainActivity extends AppCompatActivity{
     public static void checkSettings(View v){
         SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean weight = mPrefs.getBoolean("pref_key_general_weight", true);
-        String order = mPrefs.getString("pref_key_general_order", "0");
         if (weight) {
             v.findViewById(R.id.etWeight).setVisibility(View.VISIBLE);
         }
@@ -284,9 +298,11 @@ public class MainActivity extends AppCompatActivity{
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(current.getWindowToken(), 0);
                     tabRl.setVisibility(View.INVISIBLE);
+                    showHelpIfPrefs("help_overview");
 
                 } else {
                     refreshViews(tabPosition);
+                    showHelpIfPrefs("help_subject");
                 }
                 invalidateOptionsMenu();
         }
@@ -345,6 +361,12 @@ public class MainActivity extends AppCompatActivity{
             SharedPreferences.Editor editor = mPrefs.edit();
             editor.putInt("version", currentVersionNumber);
             editor.apply();
+
+            if(currentVersionNumber == 22){
+                mPrefs.edit().putBoolean("help_overview", false).apply();
+                mPrefs.edit().putBoolean("help_main", false).apply();
+                mPrefs.edit().putBoolean("help_subject", false).apply();
+            }
         }
 
         //Settings
@@ -354,11 +376,35 @@ public class MainActivity extends AppCompatActivity{
                     true).apply();
             mPrefs.edit().putBoolean
                     ("pref_key_general_weight", true).apply();
-            mPrefs.edit().putBoolean
-                    ("pref_key_sound_vibrate", true).apply();
             mPrefs.edit().putString
                     ("pref_key_general_theme", "0").apply();
 
+        }
+
+        showHelpIfPrefs("help_main");
+    }
+
+    private void showHelp(boolean updatePrefs, String key){
+        if(updatePrefs){
+            PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(key, false).apply();
+        }
+        switch (key){
+            case "help_overview":
+                new HelpDialogOverview().show(getSupportFragmentManager(), key);
+                break;
+            case "help_subject":
+                new HelpDialogSubject().show(getSupportFragmentManager(), key);
+                break;
+            case "help_main":
+                new HelpDialogMain().show(getSupportFragmentManager(), key);
+        }
+    }
+
+    private void showHelpIfPrefs(String key){
+        boolean showed =
+                PreferenceManager.getDefaultSharedPreferences(this).getBoolean(key, false);
+        if(showed == false){
+            showHelp(false, key);
         }
     }
 
@@ -496,6 +542,7 @@ public class MainActivity extends AppCompatActivity{
                     etWeight = v.findViewById(R.id.etWeight);
                     etName.requestFocus();
                     autoCompleteAuth(etName, context);
+                    checkSettings(v);
 
                     if (!refreshed) {
                         lv.setAdapter(new ListAdapter(man, c, 0));

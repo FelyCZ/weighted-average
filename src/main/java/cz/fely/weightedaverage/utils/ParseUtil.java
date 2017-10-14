@@ -42,19 +42,6 @@ public final class ParseUtil {
     public ParseUtil(Context ctx){
     }
 
-    public static void reloadPref(Context ctx) {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        //Weight
-        boolean weight = mPrefs.getBoolean("pref_key_general_weight", true);
-        if(SubjectTemplateFragment.view != null) {
-            if (weight) {
-                SubjectTemplateFragment.view.findViewById(R.id.etWeight).setVisibility(View.VISIBLE);
-            } else {
-                SubjectTemplateFragment.view.findViewById(R.id.etWeight).setVisibility(View.INVISIBLE);
-            }
-        }
-    }
-
     public static String getTabNames(int index){
         return mDbAdapterStatic.getTabTitle(index);
     }

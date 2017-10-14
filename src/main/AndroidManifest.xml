@@ -17,6 +17,7 @@
         <activity
             android:name=".activities.LicenceActivity"
             android:label="@string/action_licenses"
+            android:screenOrientation="portrait"
             android:permission="cz.fely.SHOW_LICENSES">
             <intent-filter>
                 <action android:name="cz.fely.weightedaverage.SHOW_LICENSES" />
@@ -35,6 +36,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MainActivity"/>
+        <activity android:name=".activities.MainActivity" />
     </application>
 </manifest>

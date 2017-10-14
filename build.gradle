@@ -4,11 +4,11 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId 'cz.fely.weightedaverage'
-        buildToolsVersion '26.0.0'
+        buildToolsVersion '26.0.2'
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 20
-        versionName '4.3.B.0.10'
+        versionCode 22
+        versionName '4.4.S.0.2'
         jackOptions {
             enabled true
         }
