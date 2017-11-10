@@ -67,7 +67,7 @@ Changes in all versions
 
 # License
 ## Version 2.0, January 2004
-Copyright (C) 2007 The Android Open Source Project
+Copyright 2017 Jakub Ferenčík (Fely)
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
